@@ -571,8 +571,8 @@ svg.wires path.plain { marker-end: none; }
 .layout-levelset p { margin-top: 56px; max-width: 1180px; font-size: 40px; color: color-mix(in srgb, var(--text) 82%, transparent); }
 
 /* ── Layout: staircase (steps rising left to right) ── */
-.stair { position: relative; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; align-items: end; margin: 30px 0 70px 90px; }
-.stair .box { margin-bottom: calc(var(--n) * 100px); min-height: 150px; padding: 20px 22px 24px; }
+.stair { position: relative; flex: 1; display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; align-items: end; margin: 30px 0 70px 90px; }
+.stair .box { margin-bottom: calc(var(--n) * 80px); min-height: 150px; padding: 20px 22px 24px; }
 .stair .box figure.media { margin: 0 0 14px; }
 .stair .box figure.media img { width: 100%; border-radius: 10px; box-shadow: none; }
 /* Product marks are single-colour SVGs, black as published: light on the dark theme. */
