@@ -603,7 +603,6 @@ svg.wires path.plain { marker-end: none; }
 .funnel .band b { font-weight: 600; }
 .funnel .band { background: color-mix(in srgb, var(--mid) calc(40% + var(--fill) * 2), var(--bg)); }
 .funnel .band.hi { background: var(--mid-on); color: var(--accent); }
-.funnel .here { position: absolute; color: var(--accent); }
 
 /* ── Layout: close ── */
 .layout-close { align-items: center; justify-content: center; text-align: center; }
