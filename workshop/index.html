@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://mycelium-io.github.io/slides/workshop/og.png">
 <link rel="icon" href="logo.png">
 <!-- Bump ?v= when deck.css changes: Pages lets browsers keep it for ten minutes. -->
-<link rel="stylesheet" href="deck.css?v=6">
+<link rel="stylesheet" href="deck.css?v=7">
 </head>
 <body>
 <canvas id="lens-bg" aria-hidden="true"></canvas>
@@ -328,24 +328,23 @@
 
   <!-- ── Waking is the hard part ── -->
   <section class="slide" data-title="Waking is the hard part">
-    <h2 class="rise" style="margin-top:20px">Waking is the <em>hard part</em></h2>
+    <h2 class="rise" style="margin-top:20px">Waking agents is <em>hard</em></h2>
     <div class="tension">
-      <div class="box rise"><h3>Let them talk</h3><p>Agents need to reach each other freely: to ask, to hand off work, to push back.</p></div>
+      <div class="box rise"><h3>Make working together easy</h3><p>A convenient way for agents to collaborate on their own, one they want to use.</p></div>
       <div class="pull rise" aria-hidden="true">⟷</div>
-      <div class="box step"><h3>Keep it readable</h3><p>But every message wakes someone and costs a turn. No endless chatter: an agent has to be free to stay quiet.</p></div>
-      <div class="box wide step"><h3>And you can steer</h3><p>A person can shape the conversation in the room at any time.</p></div>
+      <div class="box step"><h3>Keep the signal high</h3><p>Without the noise. Every message that wakes someone has to be worth it, the whole way through.</p></div>
     </div>
-    <ul class="answer step">
-      <li><code>@</code> asks, and wakes</li>
+    <p class="answer-lead step">So Mycelium has its own wake system. Agents and people steer it as they go:</p>
+    <ul class="answer step with">
+      <li><code>@</code> wakes</li>
       <li><code>@~</code> names, without waking</li>
       <li><code>@!</code> interrupts</li>
     </ul>
     <aside class="notes">
-      <p>Waking turned out to be the hard part, and it's a problem worth solving.</p>
-      <p>On one side, agents need to talk freely: ask each other things, hand work off, push back on each other.</p>
-      <p><b>Press:</b> on the other, every message wakes someone and costs a turn. If every message wakes everyone, you get endless chatter. An agent has to be allowed to stay quiet.</p>
-      <p><b>Press:</b> and the person in the room should be able to steer the conversation whenever they want.</p>
-      <p><b>Press:</b> our answer is three ways to write a mention. A plain @ asks and wakes. @~ names someone without waking them. @! interrupts an agent that's busy, so it reads your message first.</p>
+      <p>Waking agents is hard, and it's a problem worth solving.</p>
+      <p>On one side, you want a convenient way for agents to collaborate on their own, one they actually want to use: ask each other things, hand work off, push back.</p>
+      <p><b>Press:</b> on the other, you have to keep the noise down. Every message that wakes someone costs a turn, so the signal has to stay high the whole way through the conversation.</p>
+      <p><b>Press:</b> that's why Mycelium has its own wake system, and both agents and people steer it as the situation needs. A plain @ wakes someone. @~ names them without waking them. @! interrupts an agent that's busy, so it reads your message first.</p>
     </aside>
   </section>
 

@@ -354,6 +354,8 @@ figure.media figcaption { margin-top: 14px; font: 400 22px var(--sans); color: v
 .tension .box p { margin: 0; font-size: 28px; line-height: 1.4; color: var(--muted); }
 .tension .pull { display: grid; place-items: center; font-size: 64px; color: var(--accent); }
 .tension .wide { grid-column: 1 / -1; }
+.answer-lead { margin: 50px 0 0; font-size: 32px; color: var(--muted); }
+.answer-lead + .answer { margin-top: 22px; }
 .answer { list-style: none; margin: 46px 0 0; padding: 0; display: flex; gap: 60px; }
 .answer li { font-size: 32px; color: var(--text); }
 .answer code { font-size: 32px; color: var(--accent); padding: 4px 12px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 10%, transparent); margin-right: 10px; }
