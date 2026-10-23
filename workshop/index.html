@@ -415,42 +415,6 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── Don't be afraid of compaction: a timeline ── -->
-  <section class="slide" data-title="Don't be afraid of compaction">
-    <h2 class="rise" style="margin-top:20px">Don't be afraid of <em>compaction</em></h2>
-    <svg class="timeline rise" aria-hidden="true">
-      <text x="150" y="390">One agent's context over a long task</text>
-      <rect class="track" x="150" y="420" width="1620" height="64" rx="12"/>
-      <!-- It fills, compacts, and fills again. -->
-      <rect class="seg old" x="156" y="426" width="120" height="52" rx="8"/>
-      <rect class="seg old" x="282" y="426" width="150" height="52" rx="8"/>
-      <rect class="seg old" x="438" y="426" width="130" height="52" rx="8"/>
-      <rect class="seg old" x="574" y="426" width="170" height="52" rx="8"/>
-      <rect class="seg old" x="750" y="426" width="110" height="52" rx="8"/>
-      <line class="fold" x1="880" y1="400" x2="880" y2="510"/>
-      <text class="fold-label" x="880" y="540" text-anchor="middle">compacts</text>
-      <rect class="seg" x="900" y="426" width="90" height="52" rx="8"/>
-      <rect class="seg" x="996" y="426" width="160" height="52" rx="8"/>
-      <rect class="seg" x="1162" y="426" width="140" height="52" rx="8"/>
-      <rect class="seg" x="1308" y="426" width="120" height="52" rx="8"/>
-      <line class="fold" x1="1450" y1="400" x2="1450" y2="510"/>
-      <text class="fold-label" x="1450" y="540" text-anchor="middle">compacts</text>
-      <rect class="seg" x="1470" y="426" width="110" height="52" rx="8"/>
-      <!-- After each compaction, the agent reads the room back in. -->
-      <path class="track" d="M940 620 C 940 570, 905 560, 905 500" stroke-width="3" style="stroke: var(--accent)"/>
-      <path class="track" d="M980 620 C 1100 560, 1470 580, 1475 500" stroke-width="3" style="stroke: var(--accent)"/>
-      <text class="hi" x="1180" y="600">reads it back in</text>
-    </svg>
-    <div class="box hi memory-box rise"><b>The room's memory</b><small>the board, decisions, context</small></div>
-    <p class="flat-caption rise">A task can run for a month, because <em>the room remembers.</em></p>
-    <p class="honest rise">It costs tokens. We think having the agents always at hand is worth it.</p>
-    <aside class="notes">
-      <p>Usual advice is to keep an agent's context small and clear it often. For this, we don't. An agent that has been in the room for weeks knows the room.</p>
-      <p>When its context fills up, it compacts. That's fine: the room's memory still has the board, the decisions and the context, and the agent reads them back in.</p>
-      <p>To be honest, it costs tokens, and you lose the cache sometimes. We think having these agents always at hand, with what they know, is worth it.</p>
-    </aside>
-  </section>
-
 
   <!-- ════ The workshop ════ -->
 
