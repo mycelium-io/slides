@@ -307,9 +307,6 @@ p code, li code { font-size: 0.82em; padding: 0.08em 0.36em; border-radius: 8px;
 .source { display: flex; align-items: center; justify-content: space-between; gap: 40px; max-width: 1500px; margin-top: 26px; }
 .source .credit { margin: 0; max-width: 900px; }
 .source .qr { width: 150px; height: 150px; padding: 10px; background: #fff; border-radius: 12px; flex-shrink: 0; }
-.source cite { display: block; margin-top: 10px; font-style: italic; color: var(--faint); }
-/* A measured result under a card's text, set apart from the claim above it. */
-.box .evidence { margin-top: 18px; padding-top: 16px; border-top: 1px solid color-mix(in srgb, var(--muted) 30%, transparent); color: var(--accent); font-size: 26px; }
 
 /* ── Media: an image or clip from media/, or a placeholder naming it ── */
 figure.media { margin: 0; text-shadow: none; }
