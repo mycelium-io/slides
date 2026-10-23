@@ -420,32 +420,17 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── The building blocks ── -->
-  <section class="slide" data-title="The building blocks">
-    <h2 class="rise" style="margin-top:20px">The building <em>blocks</em></h2>
-    <div class="blocks">
-      <div class="panel rise">
-        <h3>Every agent product will have</h3>
-        <div class="grid">
-          <span>Durable workflows</span><span>Can use a computer</span>
-          <span>Memory and skills</span><span>Triggers and scheduled jobs</span>
-          <span>Connectors and auth</span><span>Text and voice channels</span>
-          <span>Payments and identity</span><span>Evals and observability</span>
-        </div>
-      </div>
-      <div class="panel ours step">
-        <h3>A team of agents also needs</h3>
-        <div class="grid">
-          <span>Rooms</span><span>Tasks with their own threads</span>
-          <span>Mentions and wakes</span><span>Turns</span>
-          <span>Shared memory</span><span>Coordination flows</span>
-        </div>
-      </div>
+  <!-- ── Accord and Concord: an overview ── -->
+  <section class="slide" data-title="Accord and Concord" data-lens="960 780 330">
+    <h2 class="rise" style="margin-top:34px">Accord and <em>Concord</em></h2>
+    <div class="cards" style="grid-template-columns: repeat(2, 1fr); max-width: 1500px">
+      <article class="card pane rise"><span class="glyph"></span><h3>Accord</h3><p>Agree on the problem. Before work starts, everyone writes down what the task is, what's out of scope and what done means.</p><span class="foot">saves one shared summary</span></article>
+      <article class="card pane rise"><span class="glyph"></span><h3>Concord</h3><p>Agree on an answer. When there are real options, everyone rates every one, and the pick leaves the least happy member best off.</p><span class="foot">saves one decision</span></article>
     </div>
-    <p class="credit rise">Left: from Lee Robinson's "How always-on agents work", Stanford CS146S, October 2026</p>
+    <p class="credit rise">Two L9 protocols from the Internet of Cognition team, run by the conductor inside a task</p>
     <aside class="notes">
-      <p>Lee Robinson listed the building blocks every agent product will have: durable workflows, using a computer, memory and skills, triggers, connectors, channels, payments, evals.</p>
-      <p><b>Press:</b> when agents work as a team, you need a few more: rooms to work in, tasks with their own threads, mentions and wakes, turns, a memory they share, and flows for when they need to agree.</p>
+      <p>Most of the time agents sort things out by talking. When they need to agree on purpose, there are two flows for it, both lighter versions of L9 protocols from the Internet of Cognition team.</p>
+      <p>Accord is about agreeing on the problem: before the work, everyone writes down what the task is, and code merges it into one shared summary. Concord is about agreeing on an answer: everyone rates every option, and the pick is the one that leaves the least happy member best off, so nobody gets steamrolled. You'll run both in the workshop.</p>
     </aside>
   </section>
 
@@ -622,18 +607,6 @@ Next:    1. <span class="k">mycelium await</span>
       <p>In a room of your own agents, you break every tie, and fast. You'd never need a protocol for that. These flows earn their keep when nobody in the room can just decide.</p>
       <p>So put one agent from another company in the room: the payment provider's agent. It has a rate limit, it only lets changes go live in its certification window, Tuesday to Thursday, and a new integration has to be re-certified. You can't overrule it, and its limits aren't up for negotiation.</p>
       <p>This isn't a story. An agent running on another company's machine has already joined one of our rooms with a join code, the same one Add member hands out.</p>
-    </aside>
-  </section>
-
-  <!-- ── 05 · Accord and Concord ── -->
-  <section class="slide" data-title="05 · Accord and Concord" data-lens="960 780 330">
-    <h2 class="rise" style="margin-top:34px">Accord and Concord</h2>
-    <div class="cards" style="grid-template-columns: repeat(2, 1fr); max-width: 1500px">
-      <article class="card pane rise"><span class="glyph"></span><h3>Accord</h3><p>Get on the same page before work starts: what the task is, what's out of scope, what done means.</p><span class="foot">saves one shared summary</span></article>
-      <article class="card pane rise"><span class="glyph"></span><h3>Concord</h3><p>When there are real options: everyone suggests one and rates them all. The pick is the option that leaves the least happy member best off.</p><span class="foot">saves one decision</span></article>
-    </div>
-    <aside class="notes">
-      <p>Two L9 protocols, run as flows by the conductor inside a task. Accord is about agreeing on the problem. Concord is about agreeing on an answer. Here's each one in turn.</p>
     </aside>
   </section>
 
