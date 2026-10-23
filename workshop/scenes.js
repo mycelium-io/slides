@@ -568,13 +568,13 @@
     };
   };
 
-  // ── Outcomes, and the pane behind them ──
-  // A swarm works behind frosted glass (the slide's .veil); finished work
-  // comes out the side as outcomes. Stage 1 clears the glass (CSS) to show
-  // what was going on all along.
+  // ── Getting out of the way ──
+  // Stage 0: the swarm, all of it, messages crossing everywhere. Stage 1: it
+  // frosts over, and only the finished work comes out, in the middle.
   defs.trust = () => {
     const rnd = seeded(47);
-    const N = 22, box = { x: 180, y: 340, w: 920, h: 560 };
+    const N = 40, box = { x: 160, y: 330, w: 1600, h: 640 };
+    let stage = 0, frost = 0;
     const agents = [];
     for (let tries = 0; agents.length < N && tries < 3000; tries++) {
       const p = { x: box.x + 60 + rnd() * (box.w - 120), y: box.y + 60 + rnd() * (box.h - 120) };
@@ -584,30 +584,42 @@
     for (let i = 0; i < agents.length; i++) for (let j = i + 1; j < agents.length; j++) if (dist(agents[i], agents[j]) < 190) edges.push([i, j]);
     // The demo's checkout room, so the deck and the demo tell one story.
     const TASKS = ['refund double charges', 'Apple Pay behind a switch', 'test orders on a real iPhone', 'alert when payments fail', 'move card payments to Stripe', 'review the double-charge fix', 'remove the old card form', 'Apple Pay for everyone'];
-    let pulses = [], next = 3, since = 0;
-    let outcomes = TASKS.slice(0, 3).reverse().map(text => ({ text, a: 1 }));
+    let pulses = [], next = 0, since = 0, outcomes = [];
     return {
+      stage(s) { stage = s; if (s === 0) { outcomes = []; next = 0; since = 0; } },
       frame(d, dt) {
-        if (rnd() < dt * 7 && edges.length) { const [i, j] = edges[Math.floor(rnd() * edges.length)]; pulses.push(rnd() < 0.5 ? { a: agents[i], b: agents[j], u: 0 } : { a: agents[j], b: agents[i], u: 0 }); }
-        since += dt;
-        if (since > 2.2) {
-          since = 0;
-          outcomes.unshift({ text: TASKS[next++ % TASKS.length], a: 0 });
-          outcomes = outcomes.slice(0, 6);
-          const a = agents[Math.floor(rnd() * agents.length)]; a.flash = 1;
-        }
-        edges.forEach(([i, j]) => d.edge(agents[i], agents[j], 0.35, C.muted, 0.1));
-        pulses.forEach(p => { p.u += dt * 1.4; if (p.u >= 1) p.b.flash = 1; d.pulse(p.a, p.b, Math.min(1, p.u), C.accent, 0.1, 5); });
+        // Busy: many messages at once, crossing every way.
+        if (rnd() < dt * 22 && edges.length) { const [i, j] = edges[Math.floor(rnd() * edges.length)]; pulses.push(rnd() < 0.5 ? { a: agents[i], b: agents[j], u: 0 } : { a: agents[j], b: agents[i], u: 0 }); }
+        edges.forEach(([i, j]) => d.edge(agents[i], agents[j], 0.35, C.muted, 0.12));
+        pulses.forEach(p => { p.u += dt * 1.4; if (p.u >= 1) p.b.flash = 1; d.pulse(p.a, p.b, Math.min(1, p.u), C.accent, 0.12, 5); });
         pulses = pulses.filter(p => p.u < 1);
         agents.forEach(n => { n.flash = Math.max(0, n.flash - dt * 2); d.bead(n.x, n.y, n.r * (1 + n.flash * 0.25), n.flash > 0.3 ? C.green : C.accent, 1); });
-        // The outcomes, newest on top.
-        d.label('outcomes', 1275, 340, 1, C.muted, 19, 'left');
+
+        // Stage 1: frost over all of it.
+        frost = approach(frost, stage >= 1 ? 1 : 0, 3, dt);
+        if (frost > 0.01) {
+          const ctx = d.ctx;
+          ctx.save(); ctx.globalAlpha = 0.93 * frost; ctx.fillStyle = C.bg;
+          ctx.beginPath(); ctx.roundRect(box.x - 20, box.y - 20, box.w + 40, box.h + 40, 24); ctx.fill(); ctx.restore();
+        }
+        // Then only the finished work comes out, newest on top, a few at a time.
+        if (stage >= 1) {
+          since += dt;
+          if (since > (outcomes.length ? 1.8 : 0.6)) {
+            since = 0;
+            outcomes.unshift({ text: TASKS[next++ % TASKS.length], a: 0 });
+            outcomes = outcomes.slice(0, 4);
+          }
+        }
+        const cx = box.x + box.w / 2, top = box.y + box.h / 2 - 1.5 * 96;
         outcomes.forEach((o, i) => {
-          o.a = approach(o.a, 1 - i * 0.14, 5, dt);
-          const y = 400 + i * 86;
-          d.bead(1290, y, 13, C.green, o.a);
-          d.ctx.save(); d.ctx.globalAlpha = o.a; d.ctx.fillStyle = C.text; d.ctx.textBaseline = 'middle';
-          d.ctx.font = '400 30px "IBM Plex Sans", system-ui, sans-serif'; d.ctx.fillText(o.text, 1330, y); d.ctx.restore();
+          o.a = approach(o.a, frost * (1 - i * 0.22), 4, dt);
+          const y = top + i * 96;
+          // One left edge for every line, so the dots stack in a column.
+          const ctx = d.ctx, x = cx - 300;
+          d.bead(x + 14, y, 14, C.green, o.a);
+          ctx.save(); ctx.globalAlpha = o.a; ctx.fillStyle = C.text; ctx.textBaseline = 'middle';
+          ctx.font = '400 38px "IBM Plex Sans", system-ui, sans-serif'; ctx.fillText(o.text, x + 52, y); ctx.restore();
         });
       },
     };
