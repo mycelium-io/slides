@@ -499,7 +499,7 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <section class="slide layout-exercise" data-title="02 · Your first agent" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Add your first agent</h2>
     <ol class="steps">
-      <li class="rise"><span>Click Add member. Pick your coding agent and a folder on your laptop.</span></li>
+      <li class="rise"><span>Click Add member. Pick your coding agent and the sample project's folder.</span></li>
       <li class="rise"><span>Watch its terminal come up live as it starts.</span></li>
       <li class="rise"><span>@ it in the room. It answers there.</span></li>
     </ol>
@@ -515,15 +515,16 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <section class="slide layout-exercise" data-title="03 · Give it teammates" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Give it teammates</h2>
     <ol class="steps">
-      <li class="rise"><span>Add a builder and a reviewer. Give each one line about its job.</span></li>
-      <li class="rise"><span>Try all three mentions: <code>@builder</code> wakes it, <code>@~reviewer</code> names it without waking it, and <code>@!builder</code> cuts in while it works.</span></li>
-      <li class="rise"><span>Ask something that needs all three, and watch who answers.</span></li>
+      <li class="rise"><span>Add a builder and a reviewer in the sample project's folder. Give each one line about its job.</span></li>
+      <li class="rise"><span>File <code>/task Fix the failing tests</code> and post in its thread: <code>@builder the tests fail, please fix them. @reviewer block it until it also handles zero people.</code></span></li>
+      <li class="rise"><span>Watch the reviewer block it, the builder answer, and the block lift.</span></li>
     </ol>
     <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
     <aside class="notes">
-      <p>The one line you give each agent becomes its notes: who it is and what it does in this room. It keeps that across every wake.</p>
-      <p>This is the wake system from the talk, in your hands. A plain mention wakes one agent. The tilde names one without waking it, and it'll see it when it next looks. The bang interrupts one that's busy. Watch how much quieter the room is when you only wake who you need.</p>
-      <p>These agents stay. They keep their context and pick up where they left off the next time they're woken.</p>
+      <p>The one line you give each agent becomes its notes, and it keeps them across every wake. For example: "You write and fix code in this project." and "You review changes before they're done. Don't pass anything you haven't tried to break."</p>
+      <p>The sample project has a planted bug, so the tests fail. The reviewer sets out what it needs before it passes the fix. The builder works to that, and the reviewer tests it again before lifting the block. It takes about five minutes.</p>
+      <p>At the end, they'll ask you how to land it, on a branch or straight to main. That's your call, so answer them in the thread.</p>
+      <p>This is the wake system from the talk, in your hands. Each mention wakes one agent. Name one with a tilde to mention it without waking it, or use a bang to cut in on one that's busy.</p>
     </aside>
   </section>
 
@@ -531,12 +532,16 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <section class="slide layout-exercise" data-title="04 · Hand them a task" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Hand them a task</h2>
     <ol class="steps">
-      <li class="rise"><span>File something small and real from your folder: <code>/task Add a README for this project</code>. No code with you? Try <code>/task Plan a team lunch</code>.</span></li>
-      <li class="rise"><span>Open its thread and @ your agents in it.</span></li>
-      <li class="rise"><span>Watch it get claimed, worked in its thread and resolved on the board.</span></li>
+      <li class="rise"><span>Add a designer: "You decide what output looks like for the people using this tool."</span></li>
+      <li class="rise"><span>File <code>/task Add a --json output</code> and post in its thread: <code>@designer decide the --json output format and save it to memory. @builder build to that decision and check your work against it.</code></span></li>
+      <li class="rise"><span>Open the decision in Memory, then watch the builder check its work against it.</span></li>
     </ol>
     <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
-    <aside class="notes"><p>Pick something small enough to finish in ten minutes. The point is to watch them coordinate: who claims it, whether they split it, and how the conversation stays in the task's thread while the room's chat stays readable. Click the timer to start it.</p></aside>
+    <aside class="notes">
+      <p>Each agent gets its own part, so neither has to claim the other's work. The builder waits until the decision is in memory. The designer saves it under <code>decisions/</code> with checks the output has to pass. The builder builds to it, and the designer signs off against the same memory. It takes about five minutes.</p>
+      <p>Done early? Add a researcher ("You investigate and report facts. You don't change code."), then try: <code>@researcher list every input that crashes tipcalc first. @builder wait for that list, then fix the top one.</code></p>
+      <p>Click the timer to start it.</p>
+    </aside>
   </section>
 
   <!-- ── 05 · Another company's agent ── -->
