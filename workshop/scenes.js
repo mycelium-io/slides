@@ -615,91 +615,99 @@
   };
 
   // ── Waking agents is hard ──
-  // Stage 0: every message wakes everyone, and each one answers, so the room
-  // fills with turns nobody needed. Stage 1: nothing wakes anyone, and the
-  // question sits there. Stage 2: each message says who it's for, shown one
-  // mention at a time: @ wakes one agent, @~ names one without waking it,
-  // @! cuts in on one that's busy.
+  // A room of agents and one person, all members alike. Stage 0: every
+  // message wakes everyone, and the woken answer, so the room fills with turns
+  // nobody needed. Stage 1: nothing wakes anyone, and an agent's question
+  // sits there. Stage 2: each message says who it wakes, written by agents to
+  // each other as much as by the person: @ wakes one, @~ names one without
+  // waking it, @! cuts in on one that's busy.
   defs.wake = () => {
     const rnd = seeded(23);
-    const you = node(420, 690);
-    const agents = [['builder', 1050, 480], ['reviewer', 1330, 450], ['design', 1600, 560], ['desktop', 1050, 880], ['research', 1330, 910], ['voice', 1600, 800]]
-      .map(([name, x, y]) => Object.assign(node(x, y, 26, 1), { name, tint: null, named: 0, spin: 0 }));
-    const by = name => agents.find(a => a.name === name);
+    const NAMES = ['builder', 'reviewer', 'design', 'voice', 'research', 'you', 'desktop'];
+    const cx = 960, cy = 700, rx = 520, ry = 245;
+    const members = NAMES.map((name, i) => {
+      const ang = -Math.PI / 2 + i * (2 * Math.PI / NAMES.length);
+      return Object.assign(node(cx + Math.cos(ang) * rx, cy + Math.sin(ang) * ry, 26, 1), { name, person: name === 'you', tint: null, named: 0, spin: 0 });
+    });
+    const by = name => members.find(m => m.name === name);
     const MODES = [
-      { code: '@reviewer', says: 'wakes one agent', to: 'reviewer', tint: () => C.green, speed: 1.2 },
-      { code: '@~design', says: 'names one, without waking it', to: 'design', quiet: true, speed: 1.2 },
-      { code: '@!builder', says: 'cuts in on one that\'s busy', to: 'builder', tint: () => C.yellow, speed: 2.4 },
+      { from: 'builder', code: '@reviewer', says: 'wakes one', to: 'reviewer', tint: () => C.green, speed: 1.1 },
+      { from: 'reviewer', code: '@~design', says: 'names one, without waking it', to: 'design', quiet: true },
+      { from: 'you', code: '@!builder', says: "cuts in on one that's busy", to: 'builder', tint: () => C.yellow, speed: 2.2, busy: true },
+      { from: 'design', code: '@desktop', says: 'wakes one', to: 'desktop', tint: () => C.green, speed: 1.1 },
     ];
     let stage = 0, pulses = [], clock = 0, mode = 0, modeT = 0, dim = 1, ask = 0, codeA = 0, noise = 1;
     const send = (a, b, o = {}) => pulses.push({ a, b, u: 0, speed: o.speed || 1.3, color: o.color || C.accent, onArrive: o.onArrive });
+    const reset = () => { pulses = []; clock = 0; mode = 0; modeT = 0; MODES.forEach(m => { m.sent = false; }); members.forEach(m => { m.flash = 0; m.named = 0; }); };
     return {
-      stage(s) { stage = s; pulses = []; clock = 0; mode = 0; modeT = 0; MODES.forEach(m => { m.sent = false; }); agents.forEach(a => { a.flash = 0; a.named = 0; }); },
+      stage(s) { stage = s; reset(); },
       frame(d, dt) {
         clock += dt;
-        // Stage 0: you post, everyone wakes, and each wakes two more.
-        if (stage === 0 && clock > 2.4) {
+        // Stage 0: anyone posts, everyone wakes, and the woken answer.
+        if (stage === 0 && clock > 1.6) {
           clock = 0;
-          agents.forEach(a => send(you, a, { onArrive: () => {
-            a.flash = 1; a.tint = C.accent;
-            for (let k = 0; k < 3; k++) { const b = agents[Math.floor(rnd() * agents.length)]; if (b !== a) send(a, b, { speed: 1.6, onArrive: () => { b.flash = 1; } }); }
+          const from = members[Math.floor(rnd() * members.length)];
+          members.filter(m => m !== from).forEach(m => send(from, m, { onArrive: () => {
+            m.flash = 1; m.tint = C.accent;
+            if (rnd() < 0.5) { const b = members[Math.floor(rnd() * members.length)]; if (b !== m) send(m, b, { speed: 1.6, onArrive: () => { b.flash = 1; } }); }
           } }));
         }
-        // Stage 2: one mention at a time.
+        // Stage 2: one mention at a time, mostly between agents.
         if (stage === 2) {
           modeT += dt;
           const m = MODES[mode];
-          if (modeT > 0.5 && !m.sent) {
+          if (modeT > 0.6 && !m.sent) {
             m.sent = true;
             const t = by(m.to);
             if (m.quiet) t.named = 1;
-            else send(you, t, { speed: m.speed, color: m.tint(), onArrive: () => { t.flash = 1; t.tint = m.tint(); } });
+            else send(by(m.from), t, { speed: m.speed, color: m.tint(), onArrive: () => { t.flash = 1; t.tint = m.tint(); } });
           }
           if (modeT > 3) { m.sent = false; by(m.to).named = 0; mode = (mode + 1) % MODES.length; modeT = 0; }
         }
         dim = approach(dim, stage === 1 ? 0.35 : 1, 3, dt);
         noise = approach(noise, stage === 0 ? 1 : 0, 3, dt);
-        // Stage 0: the agents wake each other too.
-        if (noise > 0.01) agents.forEach((a, i) => agents.slice(i + 1).forEach(b => d.edge(a, b, 0.14 * noise, C.muted, 0.08)));
         ask = approach(ask, stage === 1 ? 1 : 0, 3, dt);
         codeA = approach(codeA, stage === 2 ? 1 : 0, 4, dt);
 
-        // You, on the left.
-        d.ring(you.x, you.y, 30, C.text, 1, 3);
-        d.label('you', you.x, you.y + 56, 1, C.muted, 20);
-        // Stage 1: your question, waiting.
-        if (ask > 0.01) {
-          d.label('Can someone review the fix?', you.x, you.y - 70, ask, C.text, 22);
-          d.label('…', you.x, you.y - 110, ask * (0.5 + 0.5 * Math.sin(clock * 3)), C.muted, 30);
-        }
-        // Stage 2: the mention being shown, and what it does.
-        if (codeA > 0.01) {
-          const m = MODES[mode];
-          const ctx = d.ctx;
-          ctx.save(); ctx.globalAlpha = codeA; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-          ctx.fillStyle = C.accent; ctx.font = '500 34px "IBM Plex Mono", ui-monospace, monospace';
-          ctx.fillText(m.code, you.x, you.y - 90); ctx.restore();
-          d.label(m.says, you.x, you.y - 46, codeA, C.muted, 20);
-        }
+        // The room: everyone can reach everyone.
+        members.forEach((a, i) => members.slice(i + 1).forEach(b => d.edge(a, b, (0.07 + 0.08 * noise) * dim, C.muted, 0.06)));
 
-        agents.forEach(a => {
+        const asker = by('builder'), m = MODES[mode], sender = by(m.from);
+        members.forEach(a => {
           a.flash = Math.max(0, a.flash - dt * 1.4);
-          // The builder is busy in stage 2: an arc turning around it.
-          if (stage === 2 && a.name === 'builder' && a.flash < 0.3) a.spin += dt * 4;
-          d.edge(you, a, 0.18 * dim, C.muted, 0.08);
-          if (a.named) d.edge(you, a, 0.7, C.accent, 0.08, 2.5);
-          const color = a.flash > 0.25 ? (a.tint || C.green) : C.accent;
-          d.bead(a.x, a.y, a.r * (1 + a.flash * 0.25), color, dim);
+          const busy = stage === 2 && m.busy && a.name === m.to && a.flash < 0.3;
+          if (busy) a.spin += dt * 4;
+          const lit = stage === 1 && a === asker ? 1 : dim;
+          if (a.named) d.edge(sender, a, 0.75, C.accent, 0.06, 2.5);
+          if (a.person) {
+            d.ring(a.x, a.y, a.r + 2, C.text, lit, 3);
+          } else {
+            const color = a.flash > 0.25 ? (a.tint || C.green) : C.accent;
+            d.bead(a.x, a.y, a.r * (1 + a.flash * 0.25), color, lit);
+          }
           if (a.named) d.ring(a.x, a.y, a.r + 12, C.accent, 0.9, 2.5);
-          if (stage === 2 && a.name === 'builder' && a.flash < 0.3) {
+          if (busy) {
             const ctx = d.ctx;
             ctx.save(); ctx.strokeStyle = C.muted; ctx.lineWidth = 3; ctx.globalAlpha = 0.8;
             ctx.beginPath(); ctx.arc(a.x, a.y, a.r + 12, a.spin, a.spin + 1.6); ctx.stroke(); ctx.restore();
           }
-          d.label(a.name, a.x, a.y + 52, dim, C.muted, 18);
+          d.label(a.name, a.x, a.y + 54, lit, a.person ? C.text : C.muted, 18);
         });
-        pulses.forEach(p => { p.u += dt * p.speed; if (p.u >= 1 && p.onArrive) { p.onArrive(); p.onArrive = null; } d.pulse(p.a, p.b, Math.min(1, p.u), p.color, 0.08, 7); });
-        pulses = pulses.filter(p => p.u < 1).slice(-80);
+        // Stage 1: an agent's question, waiting.
+        if (ask > 0.01) {
+          d.label('Can someone review the fix?', asker.x, asker.y - 62, ask, C.text, 22);
+          d.label('…', asker.x, asker.y - 100, ask * (0.5 + 0.5 * Math.sin(clock * 3)), C.muted, 30);
+        }
+        // Stage 2: the mention being written, over whoever wrote it.
+        if (codeA > 0.01) {
+          const ctx = d.ctx, above = sender.y < cy ? -1 : 1, y = sender.y + above * (sender.y < cy ? 82 : 96);
+          ctx.save(); ctx.globalAlpha = codeA; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillStyle = C.accent; ctx.font = '500 32px "IBM Plex Mono", ui-monospace, monospace';
+          ctx.fillText(m.code, sender.x, y); ctx.restore();
+          d.label(m.says, sender.x, y + (above < 0 ? -36 : 36), codeA, C.muted, 19);
+        }
+        pulses.forEach(p => { p.u += dt * p.speed; if (p.u >= 1 && p.onArrive) { p.onArrive(); p.onArrive = null; } d.pulse(p.a, p.b, Math.min(1, p.u), p.color, 0.06, 7); });
+        pulses = pulses.filter(p => p.u < 1).slice(-90);
       },
     };
   };
