@@ -614,6 +614,96 @@
     };
   };
 
+  // ── Waking agents is hard ──
+  // Stage 0: every message wakes everyone, and each one answers, so the room
+  // fills with turns nobody needed. Stage 1: nothing wakes anyone, and the
+  // question sits there. Stage 2: each message says who it's for, shown one
+  // mention at a time: @ wakes one agent, @~ names one without waking it,
+  // @! cuts in on one that's busy.
+  defs.wake = () => {
+    const rnd = seeded(23);
+    const you = node(420, 690);
+    const agents = [['builder', 1050, 480], ['reviewer', 1330, 450], ['design', 1600, 560], ['desktop', 1050, 880], ['research', 1330, 910], ['voice', 1600, 800]]
+      .map(([name, x, y]) => Object.assign(node(x, y, 26, 1), { name, tint: null, named: 0, spin: 0 }));
+    const by = name => agents.find(a => a.name === name);
+    const MODES = [
+      { code: '@reviewer', says: 'wakes one agent', to: 'reviewer', tint: () => C.green, speed: 1.2 },
+      { code: '@~design', says: 'names one, without waking it', to: 'design', quiet: true, speed: 1.2 },
+      { code: '@!builder', says: 'cuts in on one that\'s busy', to: 'builder', tint: () => C.yellow, speed: 2.4 },
+    ];
+    let stage = 0, pulses = [], clock = 0, mode = 0, modeT = 0, dim = 1, ask = 0, codeA = 0, noise = 1;
+    const send = (a, b, o = {}) => pulses.push({ a, b, u: 0, speed: o.speed || 1.3, color: o.color || C.accent, onArrive: o.onArrive });
+    return {
+      stage(s) { stage = s; pulses = []; clock = 0; mode = 0; modeT = 0; MODES.forEach(m => { m.sent = false; }); agents.forEach(a => { a.flash = 0; a.named = 0; }); },
+      frame(d, dt) {
+        clock += dt;
+        // Stage 0: you post, everyone wakes, and each wakes two more.
+        if (stage === 0 && clock > 2.4) {
+          clock = 0;
+          agents.forEach(a => send(you, a, { onArrive: () => {
+            a.flash = 1; a.tint = C.accent;
+            for (let k = 0; k < 3; k++) { const b = agents[Math.floor(rnd() * agents.length)]; if (b !== a) send(a, b, { speed: 1.6, onArrive: () => { b.flash = 1; } }); }
+          } }));
+        }
+        // Stage 2: one mention at a time.
+        if (stage === 2) {
+          modeT += dt;
+          const m = MODES[mode];
+          if (modeT > 0.5 && !m.sent) {
+            m.sent = true;
+            const t = by(m.to);
+            if (m.quiet) t.named = 1;
+            else send(you, t, { speed: m.speed, color: m.tint(), onArrive: () => { t.flash = 1; t.tint = m.tint(); } });
+          }
+          if (modeT > 3) { m.sent = false; by(m.to).named = 0; mode = (mode + 1) % MODES.length; modeT = 0; }
+        }
+        dim = approach(dim, stage === 1 ? 0.35 : 1, 3, dt);
+        noise = approach(noise, stage === 0 ? 1 : 0, 3, dt);
+        // Stage 0: the agents wake each other too.
+        if (noise > 0.01) agents.forEach((a, i) => agents.slice(i + 1).forEach(b => d.edge(a, b, 0.14 * noise, C.muted, 0.08)));
+        ask = approach(ask, stage === 1 ? 1 : 0, 3, dt);
+        codeA = approach(codeA, stage === 2 ? 1 : 0, 4, dt);
+
+        // You, on the left.
+        d.ring(you.x, you.y, 30, C.text, 1, 3);
+        d.label('you', you.x, you.y + 56, 1, C.muted, 20);
+        // Stage 1: your question, waiting.
+        if (ask > 0.01) {
+          d.label('Can someone review the fix?', you.x, you.y - 70, ask, C.text, 22);
+          d.label('…', you.x, you.y - 110, ask * (0.5 + 0.5 * Math.sin(clock * 3)), C.muted, 30);
+        }
+        // Stage 2: the mention being shown, and what it does.
+        if (codeA > 0.01) {
+          const m = MODES[mode];
+          const ctx = d.ctx;
+          ctx.save(); ctx.globalAlpha = codeA; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillStyle = C.accent; ctx.font = '500 34px "IBM Plex Mono", ui-monospace, monospace';
+          ctx.fillText(m.code, you.x, you.y - 90); ctx.restore();
+          d.label(m.says, you.x, you.y - 46, codeA, C.muted, 20);
+        }
+
+        agents.forEach(a => {
+          a.flash = Math.max(0, a.flash - dt * 1.4);
+          // The builder is busy in stage 2: an arc turning around it.
+          if (stage === 2 && a.name === 'builder' && a.flash < 0.3) a.spin += dt * 4;
+          d.edge(you, a, 0.18 * dim, C.muted, 0.08);
+          if (a.named) d.edge(you, a, 0.7, C.accent, 0.08, 2.5);
+          const color = a.flash > 0.25 ? (a.tint || C.green) : C.accent;
+          d.bead(a.x, a.y, a.r * (1 + a.flash * 0.25), color, dim);
+          if (a.named) d.ring(a.x, a.y, a.r + 12, C.accent, 0.9, 2.5);
+          if (stage === 2 && a.name === 'builder' && a.flash < 0.3) {
+            const ctx = d.ctx;
+            ctx.save(); ctx.strokeStyle = C.muted; ctx.lineWidth = 3; ctx.globalAlpha = 0.8;
+            ctx.beginPath(); ctx.arc(a.x, a.y, a.r + 12, a.spin, a.spin + 1.6); ctx.stroke(); ctx.restore();
+          }
+          d.label(a.name, a.x, a.y + 52, dim, C.muted, 18);
+        });
+        pulses.forEach(p => { p.u += dt * p.speed; if (p.u >= 1 && p.onArrive) { p.onArrive(); p.onArrive = null; } d.pulse(p.a, p.b, Math.min(1, p.u), p.color, 0.08, 7); });
+        pulses = pulses.filter(p => p.u < 1).slice(-80);
+      },
+    };
+  };
+
   // A point or an option as the app shows one: a rounded card with an
   // optional mono label before its text. x is its left edge, y its middle.
   // `o.stroke` outlines it in a colour (a flag), `o.dash` dashes the outline.

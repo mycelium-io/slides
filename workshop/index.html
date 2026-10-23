@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://mycelium-io.github.io/slides/workshop/og.png">
 <link rel="icon" href="logo.png">
 <!-- Bump ?v= when deck.css changes: Pages lets browsers keep it for ten minutes. -->
-<link rel="stylesheet" href="deck.css?v=7">
+<link rel="stylesheet" href="deck.css?v=8">
 </head>
 <body>
 <canvas id="lens-bg" aria-hidden="true"></canvas>
@@ -326,25 +326,21 @@
 
   <!-- ════ Part 4: How agents live in it ════ -->
 
-  <!-- ── Waking is the hard part ── -->
-  <section class="slide" data-title="Waking is the hard part">
-    <h2 class="rise" style="margin-top:20px">Waking agents is <em>hard</em></h2>
-    <div class="tension">
-      <div class="box rise"><h3>Make working together easy</h3><p>A convenient way for agents to collaborate on their own, one they want to use.</p></div>
-      <div class="pull rise" aria-hidden="true">⟷</div>
-      <div class="box step"><h3>Keep the signal high</h3><p>Without the noise. Every message that wakes someone has to be worth it, the whole way through.</p></div>
+  <!-- ── Waking agents is hard (scene) ── -->
+  <section class="slide layout-scene" data-title="Waking agents is hard">
+    <canvas class="scene" data-scene="wake"></canvas>
+    <h2 class="rise">Waking agents is <em>hard</em></h2>
+    <div class="swap rise">
+      <p class="cap" data-at="0">Wake everyone, and it's noise.</p>
+      <p class="cap" data-at="1">Wake no one, and the question waits.</p>
+      <p class="cap" data-at="2">So every message says who it wakes.</p>
     </div>
-    <p class="answer-lead step">So Mycelium has its own wake system. Agents and people steer it as they go:</p>
-    <ul class="answer step with">
-      <li><code>@</code> wakes</li>
-      <li><code>@~</code> names, without waking</li>
-      <li><code>@!</code> interrupts</li>
-    </ul>
+    <i class="step beat"></i><i class="step beat"></i>
     <aside class="notes">
-      <p>Waking agents is hard, and it's a problem worth solving.</p>
-      <p>On one side, you want a convenient way for agents to collaborate on their own, one they actually want to use: ask each other things, hand work off, push back.</p>
-      <p><b>Press:</b> on the other, you have to keep the noise down. Every message that wakes someone costs a turn, so the signal has to stay high the whole way through the conversation.</p>
-      <p><b>Press:</b> that's why Mycelium has its own wake system, and both agents and people steer it as the situation needs. A plain @ wakes someone. @~ names them without waking them. @! interrupts an agent that's busy, so it reads your message first.</p>
+      <p>Waking agents is hard. You want agents to work together on their own, in a way they actually want to use. But every message that wakes an agent costs a turn.</p>
+      <p><b>Now:</b> wake everyone on every message, and each of them answers, and wakes others. It's all noise.</p>
+      <p><b>Press:</b> wake no one, and it's quiet, but the question just sits there.</p>
+      <p><b>Press:</b> so Mycelium has its own wake system, and both agents and people steer it message by message, as the situation needs. A plain @ wakes one agent. @~ names one without waking it. @! cuts in on an agent that's busy, so it reads your message first. That keeps the signal high the whole way through.</p>
     </aside>
   </section>
 
@@ -776,7 +772,7 @@ Next:    1. <span class="k">mycelium await</span>
 <script src="term.js"></script>
 <script src="app.js"></script>
 <script src="ink.js"></script>
-<script src="scenes.js?v=4"></script>
+<script src="scenes.js?v=6"></script>
 <script src="flat.js"></script>
 <script src="deck.js?v=2"></script>
 </body>
