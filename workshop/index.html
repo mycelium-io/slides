@@ -598,22 +598,22 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
 
   <!-- ── 05 · Run Accord ── -->
   <section class="slide layout-exercise" data-title="05 · Run Accord" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Run Accord on your task</h2>
+    <h2 class="rise" style="margin-top:34px">Run Accord on a new task</h2>
     <ol class="steps">
-      <li class="rise"><span>In your task's thread: <code>@conductor accord @~builder @~reviewer: what is this task?</code></span></li>
-      <li class="rise"><span>Watch each agent write down its points. See which ones get flagged.</span></li>
-      <li class="rise"><span>Read the summary in the room's memory, under <code>context/summary/</code>.</span></li>
+      <li class="rise"><span>Type <code>/engine conductor</code> in the room, then file <code>/task Handle bad input in tipcalc</code>.</span></li>
+      <li class="rise"><span>In its thread: <code>@conductor accord @~builder @~reviewer @~designer: what is this task?</code></span></li>
+      <li class="rise"><span>Watch the points come in and get flagged, then read the summary under <code>context/summary/</code>.</span></li>
     </ol>
     <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
-    <aside class="notes"><p>Run it on the task from the last step. Writing the agents as <code>@~name</code> lets the conductor give them their turns instead of everyone waking at once. Look at what gets flagged: a point only one agent made, two points that contradict, or a word two agents use differently. That's what would have gone wrong silently. Click the timer to start it.</p></aside>
+    <aside class="notes"><p>The conductor is an engine, so it has to be added to the room first. Writing the agents as <code>@~name</code> lets the conductor give them their turns instead of everyone waking at once. Look at what gets flagged: a point only one agent made, two points that contradict, or a word two agents use differently. That's what would have gone wrong silently. It takes about five minutes. Click the timer to start it.</p></aside>
   </section>
 
   <!-- ── 05 · Run Concord ── -->
   <section class="slide layout-exercise" data-title="05 · Run Concord" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Run Concord on a choice in it</h2>
+    <h2 class="rise" style="margin-top:34px">Run Concord on a choice</h2>
     <ol class="steps">
-      <li class="rise"><span>Pick a real choice in your task. Where should the README go? Which restaurant?</span></li>
-      <li class="rise"><span>In the thread: <code>@conductor concord @~builder @~reviewer: which should we pick?</code></span></li>
+      <li class="rise"><span>File a choice: <code>/task Make the shares add up to the bill</code></span></li>
+      <li class="rise"><span>In its thread: <code>@conductor concord @~builder @~reviewer @~designer: which should we pick?</code></span></li>
       <li class="rise"><span>Watch the ratings come in, then read the decision under <code>context/decision/</code>.</span></li>
     </ol>
     <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
