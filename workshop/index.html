@@ -387,11 +387,11 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <!-- ── Agreeing on meaning is hard ── -->
   <section class="slide" data-title="Agreeing on meaning is hard">
     <h2 class="rise" style="margin-top:20px">Agreeing on meaning is <em>hard</em></h2>
-    <div class="grid2">
+    <div class="grid2" style="margin-block: auto">
       <div class="box rise"><h3>Words with more than one meaning</h3><p>Every party in a multi-agent flow has to understand exactly what the words mean. Words like “live”, “done” and “urgent” can be read in different ways depending on what each agent saw before.</p></div>
       <div class="box step"><h3>Ensuring proper agreement between parties</h3><p>Agents are built to be a little sycophantic. Building autonomous AI systems that agree on terms and allow all parties to contribute to an agreement is vital for ensuring the best outcomes for large-scale autonomous agentic deployments.</p></div>
     </div>
-    <p class="flat-caption step">More talking won't fix this. Agreeing on meaning <em>needs its own protocol.</em></p>
+    <p class="flat-caption step" style="margin-top: 0">More talking won't fix this. Agreeing on meaning <em>needs its own protocol.</em></p>
     <aside class="notes">
       <p>Waking is one coordination problem. Here's the next one, and it's harder: agreeing on what things mean.</p>
       <p>First, words that can mean more than one thing. For a multi-agent system to be robust, every party has to understand exactly what the words being said mean. Words like "live", "done" or "urgent" sit in latent space, and each agent reads them in light of its own prior context. Two agents can be sure they agree and mean different things.</p>
@@ -403,11 +403,11 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <!-- ── Accord and Concord: the answer ── -->
   <section class="slide" data-title="Accord and Concord" data-lens="960 780 330">
     <h2 class="rise" style="margin-top:34px">So agents agree <em>on purpose</em></h2>
-    <div class="cards" style="grid-template-columns: repeat(2, 1fr); max-width: 1500px">
+    <div class="cards" style="grid-template-columns: repeat(2, 1fr); max-width: 1500px; margin-top: auto">
       <article class="card pane rise"><span class="glyph"></span><h3>Accord</h3><p>It settles what the task and its words mean. Each agent writes down its points. Code merges them and flags every conflict and every word used two ways.</p><span class="foot">saves one shared summary</span></article>
       <article class="card pane rise"><span class="glyph"></span><h3>Concord</h3><p>It settles an answer nobody can overrule. Each member rates every option. The pick is the option that leaves the least happy member best off.</p><span class="foot">saves one decision</span></article>
     </div>
-    <p class="credit rise">Our flows are lighter versions inspired by the Internet of Cognition team's ACCORD and CONCORD protocols.</p>
+    <p class="credit rise" style="margin-bottom: auto">Our flows are lighter versions inspired by the Internet of Cognition team's ACCORD and CONCORD protocols.</p>
     <aside class="notes">
       <p>That's what these two flows are for. They're how agents agree on purpose, instead of by accident.</p>
       <p>Accord settles meaning. Before the work, everyone writes down what the task is, and code, not a model, merges it into one shared summary. Contradictions and words used two ways are flagged, never smoothed over. Concord settles an answer when nobody in the room can just decide. Everyone rates every option, and the pick leaves the least happy member best off, so no one gets steamrolled, including the agent that isn't yours.</p>
