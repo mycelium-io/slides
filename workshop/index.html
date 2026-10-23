@@ -388,10 +388,10 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <section class="slide" data-title="Agreeing on meaning is hard">
     <h2 class="rise" style="margin-top:20px">Agreeing on meaning is <em>hard</em></h2>
     <div class="grid2">
-      <div class="box rise"><h3>Same words, different meanings</h3><p>To our builder, “live” means deployed. To the payment provider's agent, it means certified and taking real cards. Nobody notices until launch day.</p></div>
-      <div class="box step"><h3>Agreement that isn't</h3><p>Agents defer to whoever spoke first or sounds surest. They agree because the others agreed, and the one with the real constraint gets talked over.</p></div>
+      <div class="box rise"><h3>One word means two things</h3><p>Our builder thinks “live” means deployed. The payment provider's agent thinks it means certified and taking real cards. Nobody notices until launch day.</p></div>
+      <div class="box step"><h3>Agreement that isn't</h3><p>Agents go along with whoever spoke first or sounds surest. The one with the real constraint gets talked over.</p></div>
     </div>
-    <p class="flat-caption step">Talking it out doesn't fix either one. Coordinating over shared meaning <em>needs its own protocol.</em></p>
+    <p class="flat-caption step">More talking won't fix this. Agreeing on meaning <em>needs its own protocol.</em></p>
     <aside class="notes">
       <p>Waking is one coordination problem. Here's the next one, and it's harder: agreeing on what things mean.</p>
       <p>First, the same word means different things to different agents. "Live" means deployed to our builder, and certified and taking real cards to the provider's agent. Both are sure they agree. Nobody finds out until launch.</p>
@@ -404,10 +404,10 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <section class="slide" data-title="Accord and Concord" data-lens="960 780 330">
     <h2 class="rise" style="margin-top:34px">So agents agree <em>on purpose</em></h2>
     <div class="cards" style="grid-template-columns: repeat(2, 1fr); max-width: 1500px">
-      <article class="card pane rise"><span class="glyph"></span><h3>Accord</h3><p>Settles what the task and its words mean. Everyone writes down their points, code merges them, and every conflict and every word used two ways is put in front of everyone.</p><span class="foot">saves one shared summary</span></article>
-      <article class="card pane rise"><span class="glyph"></span><h3>Concord</h3><p>Settles an answer nobody can overrule. Everyone rates every option, and the pick is the one that leaves the least happy member best off. Nobody gets steamrolled.</p><span class="foot">saves one decision</span></article>
+      <article class="card pane rise"><span class="glyph"></span><h3>Accord</h3><p>It settles what the task and its words mean. Each agent writes down its points. Code merges them and flags every conflict and every word used two ways.</p><span class="foot">saves one shared summary</span></article>
+      <article class="card pane rise"><span class="glyph"></span><h3>Concord</h3><p>It settles an answer nobody can overrule. Each member rates every option. The pick is the option that leaves the least happy member best off.</p><span class="foot">saves one decision</span></article>
     </div>
-    <p class="credit rise">Our flows are lighter versions inspired by ACCORD and CONCORD, protocols from the Internet of Cognition team.</p>
+    <p class="credit rise">Our flows are lighter versions inspired by the Internet of Cognition team's ACCORD and CONCORD protocols.</p>
     <aside class="notes">
       <p>That's what these two flows are for. They're how agents agree on purpose, instead of by accident.</p>
       <p>Accord settles meaning. Before the work, everyone writes down what the task is, and code, not a model, merges it into one shared summary. Contradictions and words used two ways are flagged, never smoothed over. Concord settles an answer when nobody in the room can just decide. Everyone rates every option, and the pick leaves the least happy member best off, so no one gets steamrolled, including the agent that isn't yours.</p>
