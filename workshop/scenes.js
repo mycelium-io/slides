@@ -679,7 +679,6 @@
           const busy = stage >= 2 && m.busy && a.name === m.to && !a.hold;
           if (busy) a.spin += dt * 4;
           const lit = stage === 1 && a === asker ? 1 : dim;
-          if (a.named) d.edge(sender, a, 0.75, C.accent, 0.06, 2.5);
           if (a.person) {
             d.ring(a.x, a.y, a.r + 2, C.text, lit, 3);
           } else {
