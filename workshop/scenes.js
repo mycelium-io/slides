@@ -403,7 +403,7 @@
           d.bead(n.x, n.y, n.r * (1 + n.flash * 0.2), n.name === 'you' ? C.violet : C.accent, n.a);
           d.label(n.name, n.x, n.y + 56, n.a * (0.4 + 0.6 * (1 - vis.chat)), n.name === 'you' ? C.violet : C.muted, 18);
         });
-        d.label('one task runs a flow, giving each agent a turn', MID.x, MID.y + 330, vis.flow, C.accent, 18);
+        d.label('a flow gives each agent on the task a turn', MID.x, MID.y + 330, vis.flow, C.accent, 18);
       },
     };
   };
@@ -443,7 +443,7 @@
           awake = cycle < 3.2 ? Math.min(1, cycle * 2) : Math.max(0, 1 - (cycle - 3.2) * 1.2);
           d.edge(reviewer, down(reviewer), 0.3 + awake * 0.4, C.accent, 0, 2);
           if (cycle > 0.6 && cycle < 2.2) d.pulse(down(reviewer), down(builder), (cycle - 0.6) / 1.6, C.accent, 0.12, 9);
-          d.label('it wakes, answers in the thread, and goes back to waiting', 960, 420, 1, C.accent, 22);
+          d.label('it wakes, answers in the thread and goes back to waiting', 960, 420, 1, C.accent, 22);
         }
         if (awake > 0.05) d.ring(reviewer.x, reviewer.y, reviewer.r + 18, C.accent, awake * 0.9, 3);
         d.bead(builder.x, builder.y, builder.r, C.violet, 1);
@@ -633,7 +633,7 @@
     const MODES = [
       { from: 'builder', code: '@reviewer', says: 'agent to agent: wakes one', to: 'reviewer', tint: () => C.green, speed: 1.1 },
       { from: 'you', code: '@research', says: 'person to agent: wakes one', to: 'research', tint: () => C.green, speed: 1.1 },
-      { from: 'reviewer', code: '@~design', says: 'agent to agent: names one, without waking it', to: 'design', quiet: true },
+      { from: 'reviewer', code: '@~design', says: 'agent to agent: names one without waking it', to: 'design', quiet: true },
       { from: 'you', code: '@!builder', says: "person to agent: cuts in on one that's busy", to: 'builder', tint: () => C.yellow, speed: 2.2, busy: true },
     ];
     let stage = 0, pulses = [], clock = 0, mode = 0, modeT = 0, dim = 1, ask = 0, codeA = 0, noise = 1;
@@ -852,7 +852,7 @@
         bracket(d, PANEL.x + 16, rowY(4), rowY(5), 'only @provider', C.yellow, vis.flags);
         bracket(d, PANEL.x + 16, rowY(6), rowY(7), 'used two ways', C.yellow, vis.terms);
         d.label('restated', PANEL.x + 590, rowY(6), s === 3 ? Math.min(1, clock) : 0, C.green, 18, 'left');
-        d.label('still open: Friday, or Tuesday to Thursday', PANEL.x, PANEL.y + PANEL.h + 40, vis.saved, C.muted, 19, 'left');
+        d.label('still open: Friday or Tuesday to Thursday', PANEL.x, PANEL.y + PANEL.h + 40, vis.saved, C.muted, 19, 'left');
 
         // Later work in the task reads the summary.
         if (s >= 4 && clock > 1) {
@@ -894,8 +894,8 @@
     const COLX = [1110, 1290, 1470], MINX = 1640, BAR = 70, X0 = 250, X1 = 1730;
     const rows = [
       { letter: 'A', text: 'Ship Friday', by: 0, r: [95, 80, 0] },
-      { letter: 'B', text: 'Ship in the window, Tuesday', by: 2, r: [45, 70, 90] },
-      { letter: 'C', text: 'Behind a flag now, certify later', by: 1, r: [85, 75, 30] },
+      { letter: 'B', text: 'Ship on Tuesday in the window', by: 2, r: [45, 70, 90] },
+      { letter: 'C', text: 'Ship behind a flag and certify later', by: 1, r: [85, 75, 30] },
       { letter: 'B′', text: 'B, with the flag merged now', by: 0, r: [80, 82, 88], fix: true },
     ].map(o => ({ ...o, a: 0, shown: [0, 0, 0], low: 0, lit: 0, min: Math.min(...o.r) }));
     const rowY = i => 410 + i * 104;
