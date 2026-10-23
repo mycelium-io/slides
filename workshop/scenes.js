@@ -685,7 +685,7 @@
             const color = a.hold || a.flash > 0.25 ? (a.tint || C.green) : C.accent;
             d.bead(a.x, a.y, a.r * (1 + a.flash * 0.25), color, lit);
           }
-          if (a.named) d.ring(a.x, a.y, a.r + 12, C.accent, 0.9, 2.5);
+          if (a.named) d.ring(a.x, a.y, a.r + 12, C.muted, 0.7, 2.5);
           if (busy) {
             const ctx = d.ctx;
             ctx.save(); ctx.strokeStyle = C.muted; ctx.lineWidth = 3; ctx.globalAlpha = 0.8;
