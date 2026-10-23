@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://mycelium-io.github.io/slides/workshop/og.png">
 <link rel="icon" href="logo.png">
 <!-- Bump ?v= when deck.css changes: Pages lets browsers keep it for ten minutes. -->
-<link rel="stylesheet" href="deck.css?v=10">
+<link rel="stylesheet" href="deck.css?v=11">
 </head>
 <body>
 <canvas id="lens-bg" aria-hidden="true"></canvas>
@@ -388,14 +388,14 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <section class="slide" data-title="Agreeing on meaning is hard">
     <h2 class="rise" style="margin-top:20px">Agreeing on meaning is <em>hard</em></h2>
     <div class="grid2" style="margin-block: auto">
-      <div class="box rise"><h3>Words with more than one meaning</h3><p>Every party in a multi-agent flow has to understand exactly what the words mean. Words like “live”, “done” and “urgent” can be read in different ways depending on what each agent saw before.</p></div>
-      <div class="box step"><h3>Ensuring proper agreement between parties</h3><p>Agents are built to be a little sycophantic. Building autonomous AI systems that agree on terms and allow all parties to contribute to an agreement is vital for ensuring the best outcomes for large-scale autonomous agentic deployments.</p></div>
+      <div class="box rise"><h3>Words with more than one meaning</h3><p>One agent reports <code>error_rate: 0.087</code>. Another reports <code>error_rate_percent: 8.7</code>. The fields look compatible, so no check fires. The severity check reads the impact as low, and the wrong fix gets approved.</p></div>
+      <div class="box step"><h3>Ensuring proper agreement between parties</h3><p>Agents are built to be a little sycophantic. Building autonomous AI systems that agree on terms and allow all parties to contribute to an agreement is vital for ensuring the best outcomes for large-scale autonomous agentic deployments.</p><p class="evidence">On the same evidence, letting a model pick the plan left three of four agents below their floor. CONCORD cleared all four.</p></div>
     </div>
     <p class="flat-caption step" style="margin-top: 0">More talking won't fix this. Agreeing on meaning <em>needs its own protocol.</em></p>
     <aside class="notes">
       <p>Waking is one coordination problem. Here's the next one, and it's harder: agreeing on what things mean.</p>
-      <p>First, words that can mean more than one thing. For a multi-agent system to be robust, every party has to understand exactly what the words being said mean. Words like "live", "done" or "urgent" sit in latent space, and each agent reads them in light of its own prior context. Two agents can be sure they agree and mean different things.</p>
-      <p><b>Press:</b> second, making sure the agreement is real. Agents are built to be a little sycophantic: they tend to go along with each other. For large autonomous deployments, it's vital to have a way to agree on terms that lets every party contribute, so the result is one everyone actually holds.</p>
+      <p>First, words that can mean more than one thing. For a multi-agent system to be robust, every party has to understand exactly what the words being said mean. Words sit in latent space, and each agent reads them in light of its own prior context. This example is from the IoC team's incident-triage case: one agent's error rate is a fraction, another's is a percent. The names and types match, so nothing flags it. The severity check understates the impact about a hundred times, returns LOW, and a restart gets approved that doesn't fix anything.</p>
+      <p><b>Press:</b> second, making sure the agreement is real. Agents are built to be a little sycophantic. The IoC team puts it this way: model populations converge under conformity pressure rather than on the merits, and from the outside you can't tell the difference. They measured it on identical evidence and identical scores: letting a model pick the plan left three of four agents below their floor, majority vote left two, and CONCORD cleared all four.</p>
       <p><b>Press:</b> more chat doesn't fix either one. Agreeing on meaning needs a protocol of its own.</p>
     </aside>
   </section>
@@ -408,7 +408,7 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
       <article class="card pane rise"><span class="glyph"></span><h3>Concord</h3><p>It settles an answer nobody can overrule. Each member rates every option. The pick is the option that leaves the least happy member best off.</p><span class="foot">saves one decision</span></article>
     </div>
     <div class="source rise" style="margin-bottom: auto">
-      <p class="credit">Our flows are lighter versions inspired by the Internet of Cognition team's ACCORD and CONCORD protocols. Scan for the full protocols.</p>
+      <p class="credit">Our flows are lighter versions inspired by the Internet of Cognition team's ACCORD and CONCORD protocols. Scan for the full protocols.<br><cite>Agreeing on Purpose, Deciding Under Conflict. L9 + MAS-Lab T3s, Outshift by Cisco, October 2026.</cite></p>
       <img class="qr" src="media/ioc-protocols-qr.svg" alt="QR code for the Internet of Cognition protocols site">
     </div>
     <aside class="notes">
