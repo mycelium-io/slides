@@ -388,15 +388,15 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <section class="slide" data-title="Agreeing on meaning is hard">
     <h2 class="rise" style="margin-top:20px">Agreeing on meaning is <em>hard</em></h2>
     <div class="grid2">
-      <div class="box rise"><h3>One word means two things</h3><p>Our builder thinks “live” means deployed. The payment provider's agent thinks it means certified and taking real cards. Nobody notices until launch day.</p></div>
-      <div class="box step"><h3>Agreement that isn't</h3><p>Agents go along with whoever spoke first or sounds surest. The one with the real constraint gets talked over.</p></div>
+      <div class="box rise"><h3>Words with more than one meaning</h3><p>Every party in a multi-agent flow has to understand exactly what the words mean. Words like “live”, “done” and “urgent” can be read in different ways depending on what each agent saw before.</p></div>
+      <div class="box step"><h3>Real agreement between parties</h3><p>Agents are built to be a little sycophantic. Large autonomous deployments need a way to agree on terms that lets every party contribute, so the agreement holds.</p></div>
     </div>
     <p class="flat-caption step">More talking won't fix this. Agreeing on meaning <em>needs its own protocol.</em></p>
     <aside class="notes">
       <p>Waking is one coordination problem. Here's the next one, and it's harder: agreeing on what things mean.</p>
-      <p>First, the same word means different things to different agents. "Live" means deployed to our builder, and certified and taking real cards to the provider's agent. Both are sure they agree. Nobody finds out until launch.</p>
-      <p><b>Press:</b> second, agreement that isn't real. Models defer. They go along with whoever spoke first, or whoever sounds most confident, and the agent with the real constraint gets talked over. You get consensus that nobody actually checked.</p>
-      <p><b>Press:</b> more chat doesn't fix either one. Coordinating over shared meaning needs a protocol of its own.</p>
+      <p>First, words that can mean more than one thing. For a multi-agent system to be robust, every party has to understand exactly what the words being said mean. Words like "live", "done" or "urgent" sit in latent space, and each agent reads them in light of its own prior context. Two agents can be sure they agree and mean different things.</p>
+      <p><b>Press:</b> second, making sure the agreement is real. Agents are built to be a little sycophantic: they tend to go along with each other. For large autonomous deployments, it's vital to have a way to agree on terms that lets every party contribute, so the result is one everyone actually holds.</p>
+      <p><b>Press:</b> more chat doesn't fix either one. Agreeing on meaning needs a protocol of its own.</p>
     </aside>
   </section>
 
