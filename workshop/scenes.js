@@ -631,10 +631,10 @@
     });
     const by = name => members.find(m => m.name === name);
     const MODES = [
-      { from: 'builder', code: '@reviewer', says: 'wakes one', to: 'reviewer', tint: () => C.green, speed: 1.1 },
-      { from: 'reviewer', code: '@~design', says: 'names one, without waking it', to: 'design', quiet: true },
-      { from: 'you', code: '@!builder', says: "cuts in on one that's busy", to: 'builder', tint: () => C.yellow, speed: 2.2, busy: true },
-      { from: 'design', code: '@desktop', says: 'wakes one', to: 'desktop', tint: () => C.green, speed: 1.1 },
+      { from: 'builder', code: '@reviewer', says: 'agent to agent: wakes one', to: 'reviewer', tint: () => C.green, speed: 1.1 },
+      { from: 'you', code: '@research', says: 'person to agent: wakes one', to: 'research', tint: () => C.green, speed: 1.1 },
+      { from: 'reviewer', code: '@~design', says: 'agent to agent: names one, without waking it', to: 'design', quiet: true },
+      { from: 'you', code: '@!builder', says: "person to agent: cuts in on one that's busy", to: 'builder', tint: () => C.yellow, speed: 2.2, busy: true },
     ];
     let stage = 0, pulses = [], clock = 0, mode = 0, modeT = 0, dim = 1, ask = 0, codeA = 0, noise = 1;
     const send = (a, b, o = {}) => pulses.push({ a, b, u: 0, speed: o.speed || 1.3, color: o.color || C.accent, onArrive: o.onArrive });
