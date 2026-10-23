@@ -582,11 +582,9 @@
     }
     const edges = [];
     for (let i = 0; i < agents.length; i++) for (let j = i + 1; j < agents.length; j++) if (dist(agents[i], agents[j]) < 190) edges.push([i, j]);
-    // The demo's checkout room, so the deck and the demo tell one story.
-    const TASKS = ['refund double charges', 'Apple Pay behind a switch', 'test orders on a real iPhone', 'alert when payments fail', 'move card payments to Stripe', 'review the double-charge fix', 'remove the old card form', 'Apple Pay for everyone'];
-    let pulses = [], next = 0, since = 0, outcomes = [];
+    let pulses = [];
     return {
-      stage(s) { stage = s; if (s === 0) { outcomes = []; next = 0; since = 0; } },
+      stage(s) { stage = s; },
       frame(d, dt) {
         // Busy: many messages at once, crossing every way.
         if (rnd() < dt * 22 && edges.length) { const [i, j] = edges[Math.floor(rnd() * edges.length)]; pulses.push(rnd() < 0.5 ? { a: agents[i], b: agents[j], u: 0 } : { a: agents[j], b: agents[i], u: 0 }); }
@@ -602,25 +600,16 @@
           ctx.save(); ctx.globalAlpha = 0.93 * frost; ctx.fillStyle = C.bg;
           ctx.beginPath(); ctx.roundRect(box.x - 20, box.y - 20, box.w + 40, box.h + 40, 24); ctx.fill(); ctx.restore();
         }
-        // Then only the finished work comes out, newest on top, a few at a time.
-        if (stage >= 1) {
-          since += dt;
-          if (since > (outcomes.length ? 1.8 : 0.6)) {
-            since = 0;
-            outcomes.unshift({ text: TASKS[next++ % TASKS.length], a: 0 });
-            outcomes = outcomes.slice(0, 4);
-          }
+        // Over the frost, the one thing to take away.
+        if (frost > 0.01) {
+          const ctx = d.ctx, cx = box.x + box.w / 2, cy = box.y + box.h / 2;
+          ctx.save(); ctx.globalAlpha = frost; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillStyle = C.text; ctx.font = '500 52px "IBM Plex Sans", system-ui, sans-serif';
+          ctx.fillText('Focus on the high-level tasks.', cx, cy - 40);
+          ctx.fillStyle = C.accent; ctx.font = 'italic 400 60px "Cormorant Garamond", Georgia, serif';
+          ctx.fillText('Leave the coordination to the agents.', cx, cy + 40);
+          ctx.restore();
         }
-        const cx = box.x + box.w / 2, top = box.y + box.h / 2 - 1.5 * 96;
-        outcomes.forEach((o, i) => {
-          o.a = approach(o.a, frost * (1 - i * 0.22), 4, dt);
-          const y = top + i * 96;
-          // One left edge for every line, so the dots stack in a column.
-          const ctx = d.ctx, x = cx - 300;
-          d.bead(x + 14, y, 14, C.green, o.a);
-          ctx.save(); ctx.globalAlpha = o.a; ctx.fillStyle = C.text; ctx.textBaseline = 'middle';
-          ctx.font = '400 38px "IBM Plex Sans", system-ui, sans-serif'; ctx.fillText(o.text, x + 52, y); ctx.restore();
-        });
       },
     };
   };
