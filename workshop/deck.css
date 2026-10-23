@@ -303,6 +303,10 @@ p code, li code { font-size: 0.82em; padding: 0.08em 0.36em; border-radius: 8px;
 .turn:has(.flip.shown) .triad .box h3 { color: var(--red); }
 .turn .credit { margin-bottom: -70px; }
 .credit { margin-top: 26px; font: 400 24px var(--sans); color: var(--muted); }
+/* A credit line with a QR code to the source beside it. */
+.source { display: flex; align-items: center; justify-content: space-between; gap: 40px; max-width: 1500px; margin-top: 26px; }
+.source .credit { margin: 0; max-width: 900px; }
+.source .qr { width: 150px; height: 150px; padding: 10px; background: #fff; border-radius: 12px; flex-shrink: 0; }
 
 /* ── Media: an image or clip from media/, or a placeholder naming it ── */
 figure.media { margin: 0; text-shadow: none; }
@@ -336,7 +340,7 @@ figure.media figcaption { margin-top: 14px; font: 400 22px var(--sans); color: v
 .wakes .hub small { font-size: 22px; }
 
 /* What you need: three plain icons. */
-.needs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; margin-top: 70px; }
+.needs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px; margin-top: 70px; max-width: 1400px; }
 .needs .box { padding: 44px 40px; display: flex; flex-direction: column; gap: 14px; min-height: 320px; }
 .needs svg { width: 72px; height: 72px; fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 10px; }
 .needs h3 { font: 600 40px/1.1 var(--sans); letter-spacing: -0.02em; }
@@ -520,10 +524,14 @@ svg.timeline text.hi { fill: var(--accent); }
 .layout-scene canvas.scene { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; z-index: -1; }
 .layout-scene h2 { margin-top: 30px; font-size: 80px; }
 .swap { position: relative; height: 130px; }
+.swap .cap { margin: 0; font-size: 40px; color: var(--muted); }
+/* A caption that stays up through the steps after its own. */
+.slide[data-stage="3"] .swap .hold, .slide[data-stage="4"] .swap .hold, .slide[data-stage="5"] .swap .hold { opacity: 1; transform: none; filter: none; }
 .swap [data-at] { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; transform: translateY(14px); filter: blur(6px); transition: opacity 0.5s, transform 0.5s, filter 0.5s; }
 .slide:not([data-stage]) .swap [data-at="0"],
 .slide[data-stage="0"] .swap [data-at="0"], .slide[data-stage="1"] .swap [data-at="1"],
-.slide[data-stage="2"] .swap [data-at="2"], .slide[data-stage="3"] .swap [data-at="3"] { opacity: 1; transform: none; filter: none; }
+.slide[data-stage="2"] .swap [data-at="2"], .slide[data-stage="3"] .swap [data-at="3"],
+.slide[data-stage="4"] .swap [data-at="4"] { opacity: 1; transform: none; filter: none; }
 .step.beat { display: none; }
 .stages { position: absolute; left: 150px; right: 150px; bottom: 140px; margin: 0; padding: 0; list-style: none; display: flex; justify-content: center; gap: 70px; font: italic 600 44px var(--display); color: var(--faint); }
 .stages li { transition: color 0.4s; }
@@ -570,8 +578,8 @@ svg.wires path.plain { marker-end: none; }
 .layout-levelset p { margin-top: 56px; max-width: 1180px; font-size: 40px; color: color-mix(in srgb, var(--text) 82%, transparent); }
 
 /* ── Layout: staircase (steps rising left to right) ── */
-.stair { position: relative; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; align-items: end; margin: 30px 0 70px 90px; }
-.stair .box { margin-bottom: calc(var(--n) * 100px); min-height: 150px; padding: 20px 22px 24px; }
+.stair { position: relative; flex: 1; display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; align-items: end; margin: 30px 0 70px 90px; }
+.stair .box { margin-bottom: calc(var(--n) * 80px); min-height: 150px; padding: 20px 22px 24px; }
 .stair .box figure.media { margin: 0 0 14px; }
 .stair .box figure.media img { width: 100%; border-radius: 10px; box-shadow: none; }
 /* Product marks are single-colour SVGs, black as published: light on the dark theme. */
@@ -602,7 +610,6 @@ svg.wires path.plain { marker-end: none; }
 .funnel .band b { font-weight: 600; }
 .funnel .band { background: color-mix(in srgb, var(--mid) calc(40% + var(--fill) * 2), var(--bg)); }
 .funnel .band.hi { background: var(--mid-on); color: var(--accent); }
-.funnel .here { position: absolute; color: var(--accent); }
 
 /* ── Layout: close ── */
 .layout-close { align-items: center; justify-content: center; text-align: center; }
