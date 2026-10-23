@@ -638,7 +638,7 @@
     ];
     let stage = 0, pulses = [], clock = 0, mode = 0, modeT = 0, dim = 1, ask = 0, codeA = 0, noise = 1;
     const send = (a, b, o = {}) => pulses.push({ a, b, u: 0, speed: o.speed || 1.3, color: o.color || C.accent, onArrive: o.onArrive });
-    const reset = () => { pulses = []; clock = 0; mode = 0; modeT = 0; MODES.forEach(m => { m.sent = false; }); members.forEach(m => { m.flash = 0; m.named = 0; }); };
+    const reset = () => { pulses = []; clock = 0; mode = 0; modeT = 0; MODES.forEach(m => { m.sent = false; }); members.forEach(m => { m.flash = 0; m.named = 0; m.hold = false; }); };
     return {
       stage(s) { stage = s; reset(); },
       frame(d, dt) {
@@ -652,22 +652,23 @@
             if (rnd() < 0.5) { const b = members[Math.floor(rnd() * members.length)]; if (b !== m) send(m, b, { speed: 1.6, onArrive: () => { b.flash = 1; } }); }
           } }));
         }
-        // Stage 2: one mention at a time, mostly between agents.
-        if (stage === 2) {
+        // Stages 2 to 5: one mention per press, mostly between agents. Each
+        // is sent once and its result held, so it can be talked through.
+        if (stage >= 2) {
+          mode = Math.min(stage - 2, MODES.length - 1);
           modeT += dt;
           const m = MODES[mode];
           if (modeT > 0.6 && !m.sent) {
             m.sent = true;
             const t = by(m.to);
             if (m.quiet) t.named = 1;
-            else send(by(m.from), t, { speed: m.speed, color: m.tint(), onArrive: () => { t.flash = 1; t.tint = m.tint(); } });
+            else send(by(m.from), t, { speed: m.speed, color: m.tint(), onArrive: () => { t.hold = true; t.tint = m.tint(); } });
           }
-          if (modeT > 3) { m.sent = false; by(m.to).named = 0; mode = (mode + 1) % MODES.length; modeT = 0; }
         }
         dim = approach(dim, stage === 1 ? 0.35 : 1, 3, dt);
         noise = approach(noise, stage === 0 ? 1 : 0, 3, dt);
         ask = approach(ask, stage === 1 ? 1 : 0, 3, dt);
-        codeA = approach(codeA, stage === 2 ? 1 : 0, 4, dt);
+        codeA = approach(codeA, stage >= 2 ? 1 : 0, 4, dt);
 
         // The room: everyone can reach everyone.
         members.forEach((a, i) => members.slice(i + 1).forEach(b => d.edge(a, b, (0.07 + 0.08 * noise) * dim, C.muted, 0.06)));
@@ -675,14 +676,14 @@
         const asker = by('builder'), m = MODES[mode], sender = by(m.from);
         members.forEach(a => {
           a.flash = Math.max(0, a.flash - dt * 1.4);
-          const busy = stage === 2 && m.busy && a.name === m.to && a.flash < 0.3;
+          const busy = stage >= 2 && m.busy && a.name === m.to && !a.hold;
           if (busy) a.spin += dt * 4;
           const lit = stage === 1 && a === asker ? 1 : dim;
           if (a.named) d.edge(sender, a, 0.75, C.accent, 0.06, 2.5);
           if (a.person) {
             d.ring(a.x, a.y, a.r + 2, C.text, lit, 3);
           } else {
-            const color = a.flash > 0.25 ? (a.tint || C.green) : C.accent;
+            const color = a.hold || a.flash > 0.25 ? (a.tint || C.green) : C.accent;
             d.bead(a.x, a.y, a.r * (1 + a.flash * 0.25), color, lit);
           }
           if (a.named) d.ring(a.x, a.y, a.r + 12, C.accent, 0.9, 2.5);

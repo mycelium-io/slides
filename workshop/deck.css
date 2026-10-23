@@ -521,6 +521,8 @@ svg.timeline text.hi { fill: var(--accent); }
 .layout-scene h2 { margin-top: 30px; font-size: 80px; }
 .swap { position: relative; height: 130px; }
 .swap .cap { margin: 0; font-size: 40px; color: var(--muted); }
+/* A caption that stays up through the steps after its own. */
+.slide[data-stage="3"] .swap .hold, .slide[data-stage="4"] .swap .hold, .slide[data-stage="5"] .swap .hold { opacity: 1; transform: none; filter: none; }
 .swap [data-at] { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; transform: translateY(14px); filter: blur(6px); transition: opacity 0.5s, transform 0.5s, filter 0.5s; }
 .slide:not([data-stage]) .swap [data-at="0"],
 .slide[data-stage="0"] .swap [data-at="0"], .slide[data-stage="1"] .swap [data-at="1"],
