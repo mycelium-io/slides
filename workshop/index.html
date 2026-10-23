@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://mycelium-io.github.io/slides/workshop/og.png">
 <link rel="icon" href="logo.png">
 <!-- Bump ?v= when deck.css changes: Pages lets browsers keep it for ten minutes. -->
-<link rel="stylesheet" href="deck.css?v=10">
+<link rel="stylesheet" href="deck.css?v=12">
 </head>
 <body>
 <canvas id="lens-bg" aria-hidden="true"></canvas>
@@ -424,9 +424,9 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <!-- ── Segue ── -->
   <section class="slide layout-statement opener" data-title="Let's build a team">
     <blockquote class="rise">Let's build <em>a team.</em></blockquote>
-    <cite class="long rise">Your agents, your neighbor's agents, one task.</cite>
+    <cite class="long rise">A few of your own agents, working on one task.</cite>
     <aside class="notes">
-      <p>Rather than tell you more about it, let's build a team. By the end of this session, your agent and the agent of the person next to you will be working on the same task.</p>
+      <p>Rather than tell you more about it, let's build a team. By the end of this session, a few of your own agents will be working on one task together, in a room on your laptop.</p>
       <p>Along the way you'll see all three layers we talked about: the board for shared intent, the room's memory for shared context, and a flow for shared reasoning.</p>
     </aside>
   </section>
@@ -441,16 +441,13 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
       </div>
       <div class="box rise">
         <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="9" width="36" height="30" rx="4"/><path d="M13 20l6 5-6 5M22 31h11"/></svg>
-        <h3>A coding agent</h3><p>The one you already use: Claude Code, Codex or Cursor</p>
-      </div>
-      <div class="box rise">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16"/><path d="M8 24h32M24 8c5 5 5 27 0 32M24 8c-5 5-5 27 0 32"/></svg>
-        <h3>Our hub's address</h3><p>We'll put it on the screen</p>
+        <h3>A coding agent</h3><p>The one you already use, signed in: Claude Code, Codex or Cursor</p>
       </div>
     </div>
-    <p class="flat-caption rise">That's it.</p>
+    <p class="flat-caption rise">That's it. Everything runs <em>on your laptop.</em></p>
     <aside class="notes">
-      <p>Here's all you need: your laptop, the coding agent you already use, signed in, and our hub's address, which we'll put up on the screen. That's it.</p>
+      <p>Here's all you need: your laptop and the coding agent you already use, signed in. Everything today runs on your own machine, so there's no account to make and nothing to share yet.</p>
+      <p>If you use Codex, run <code>codex</code> once in a terminal first and get past its welcome screen.</p>
     </aside>
   </section>
 
@@ -458,14 +455,14 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <section class="slide" data-title="The plan">
     <h2 class="rise" style="margin-top:34px">The <em>plan</em></h2>
     <ol class="agenda">
-      <li class="rise"><time>01</time><span>Install Mycelium and connect to our hub</span><span></span></li>
-      <li class="rise"><time>02</time><span>Invite an agent and see what it sees</span><span></span></li>
-      <li class="rise"><time>03</time><span>Add more agents and let them talk</span><span></span></li>
-      <li class="rise"><time>04</time><span>Give them a task</span><span></span></li>
-      <li class="rise"><time>05</time><span>Run a flow: Accord and Concord</span><span></span></li>
-      <li class="rise"><time>06</time><span>Work with someone else's agents</span><span></span></li>
+      <li class="rise"><time>01</time><span>Install and open Mycelium</span><span>5 min</span></li>
+      <li class="rise"><time>02</time><span>Add your first agent</span><span>5 min</span></li>
+      <li class="rise"><time>03</time><span>Give it teammates</span><span>5 min</span></li>
+      <li class="rise"><time>04</time><span>Hand them a task</span><span>10 min</span></li>
+      <li class="rise"><time>05</time><span>Agree on purpose with Accord and Concord</span><span>15 min</span></li>
+      <li class="rise"><time>06</time><span>Watch us share a room</span><span>demo</span></li>
     </ol>
-    <aside class="notes"><p>Each step builds on the last. If you fall behind, pair with a neighbor.</p></aside>
+    <aside class="notes"><p>Each step builds on the last, and everything happens on your own laptop. If you fall behind, look over at a neighbor's screen and catch up at the next step.</p></aside>
   </section>
 
   <!-- ── 01 · Download ── -->
@@ -483,70 +480,51 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 01 · Connect ── -->
-  <section class="slide layout-exercise" data-title="01 · Connect" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Connect to our hub</h2>
+  <!-- ── 01 · Open ── -->
+  <section class="slide layout-exercise" data-title="01 · Open Mycelium" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Open Mycelium</h2>
     <ol class="steps">
-      <li class="rise"><span>Open Mycelium.</span></li>
-      <li class="rise"><span>Choose to connect to a hub and enter ours.</span></li>
-      <li class="rise"><span>You land in a room of your own. It's private.</span></li>
+      <li class="rise"><span>Open the app and go through its first screen.</span></li>
+      <li class="rise"><span>You land in a room of your own, on your laptop.</span></li>
+      <li class="rise"><span>Say hello in the room. Nobody answers yet.</span></li>
     </ol>
+    <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
     <aside class="notes">
       <p>Switch to the app and do it live while they follow along.</p>
-      <p>The hub hands each person their own private room. We'll open things up later.</p>
+      <p>The app runs its own hub on your laptop: your rooms, your memory and your agents all stay on this machine. The room is empty for now. That's next.</p>
     </aside>
   </section>
 
-  <!-- ── 02 · Invite an agent ── -->
-  <section class="slide layout-exercise" data-title="02 · Invite an agent" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Invite an agent</h2>
+  <!-- ── 02 · Your first agent ── -->
+  <section class="slide layout-exercise" data-title="02 · Your first agent" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Add your first agent</h2>
     <ol class="steps">
-      <li class="rise"><span>Add a member: pick Claude Code, Codex or Cursor and a folder on your machine.</span></li>
-      <li class="rise"><span>Say yes when your Mac asks to start it.</span></li>
-      <li class="rise"><span>Say hi: @ it in the room and it answers there.</span></li>
+      <li class="rise"><span>Click Add member. Pick your coding agent and a folder on your laptop.</span></li>
+      <li class="rise"><span>Watch its terminal come up live as it starts.</span></li>
+      <li class="rise"><span>@ it in the room. It answers there.</span></li>
     </ol>
+    <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
     <aside class="notes">
-      <p>This is your own agent, running on your machine, in its own terminal. Mycelium starts it and gives it a name in the room.</p>
-      <p>Give it something to be: "You're the designer." That's its identity, and it keeps it.</p>
+      <p>This is your own coding agent, running on your machine in its own terminal. Mycelium starts it, gives it a name in the room and tells it how to reply.</p>
+      <p>Add member shows its terminal from the first second, so you can see it start, read its notes and come up. Later, click its name in Members to watch it again.</p>
+      <p>When you @ it, it gets the wake we looked at earlier: who woke it and why, the message, and the command that replies. It answers the room because it decides to, not because it was prompted.</p>
     </aside>
   </section>
 
-  <!-- ── 02 · What the agent sees ── -->
-  <section class="slide layout-terminal dense" data-title="02 · What the agent sees" data-lens="1700 220 200">
-    <div class="copy">
-      <h2 class="rise" style="margin:34px 0 30px">What the agent sees</h2>
-      <p class="rise">When you @ it, Mycelium wakes it in its terminal with a short message saying why it woke, what changed and how to reply.</p>
-      <p class="rise">It answers the room only when it decides to.</p>
-    </div>
-    <div class="term pane rise">
-      <div class="bar"><i></i><i></i><i></i><span>herdr · @designer</span></div>
-<pre><span class="c">mycelium wake for @designer in your-room</span>
-
-Why:     @julia mentioned you in the room
-Since:   your last turn: 1 new message
-
-<span class="c">┌ @julia · now · in the room</span>
-<span class="c">│</span> @designer hi! what are you working on?
-<span class="c">└</span>
-
-Next:    1. <span class="k">mycelium await</span>
-         2. <span class="k">mycelium respond</span> --body "..."
-            (lands in the room)</pre>
-    </div>
-    <aside class="notes">
-      <p>Open herdr and show the agent's pane while it wakes. This is the answer to AI theater: the message is a wake, not a user prompt it must answer, and replying to the room is a CLI call it chooses to make.</p>
-    </aside>
-  </section>
-
-  <!-- ── 03 · More agents ── -->
-  <section class="slide layout-exercise" data-title="03 · More agents" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Add more agents</h2>
+  <!-- ── 03 · Teammates ── -->
+  <section class="slide layout-exercise" data-title="03 · Give it teammates" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Give it teammates</h2>
     <ol class="steps">
-      <li class="rise"><span>Add a builder and a reviewer.</span></li>
-      <li class="rise"><span>Start a conversation that needs all three.</span></li>
-      <li class="rise"><span>Watch who speaks up and who stays quiet.</span></li>
+      <li class="rise"><span>Add a builder and a reviewer. Give each one line about its job.</span></li>
+      <li class="rise"><span>Try all three mentions: <code>@builder</code> wakes it, <code>@~reviewer</code> names it without waking it, and <code>@!builder</code> cuts in while it works.</span></li>
+      <li class="rise"><span>Ask something that needs all three, and watch who answers.</span></li>
     </ol>
-    <aside class="notes"><p>These are persistent agents. They stay in the room, keep their context and pick up where they left off the next time they're woken.</p></aside>
+    <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <aside class="notes">
+      <p>The one line you give each agent becomes its notes: who it is and what it does in this room. It keeps that across every wake.</p>
+      <p>This is the wake system from the talk, in your hands. A plain mention wakes one agent. The tilde names one without waking it, and it'll see it when it next looks. The bang interrupts one that's busy. Watch how much quieter the room is when you only wake who you need.</p>
+      <p>These agents stay. They keep their context and pick up where they left off the next time they're woken.</p>
+    </aside>
   </section>
 
   <!-- ── 04 · Tasks ── -->
@@ -562,26 +540,15 @@ Next:    1. <span class="k">mycelium await</span>
   </section>
 
   <!-- ── 04 · A first task ── -->
-  <section class="slide layout-exercise" data-title="04 · A first task" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Give them a task</h2>
+  <section class="slide layout-exercise" data-title="04 · Hand them a task" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Hand them a task</h2>
     <ol class="steps">
-      <li class="rise"><span>File something small: <code>/task Plan a team lunch</code></span></li>
+      <li class="rise"><span>File something small and real from your folder: <code>/task Add a README for this project</code>. No code with you? Try <code>/task Plan a team lunch</code>.</span></li>
       <li class="rise"><span>Open its thread and @ your agents in it.</span></li>
-      <li class="rise"><span>Let them sort it out. Watch the board.</span></li>
+      <li class="rise"><span>Watch it get claimed, worked in its thread and resolved on the board.</span></li>
     </ol>
     <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
-    <aside class="notes"><p>Low stakes on purpose. The point is to watch them coordinate: who claims it, whether they split it, how they reach an answer. Click the timer to start it.</p></aside>
-  </section>
-
-  <!-- ── 05 · L9 ── -->
-  <section class="slide layout-statement" data-title="05 · L9" data-lens="1680 840 190, 1440 970 38">
-    <blockquote class="rise">Getting agents to agree on purpose.</blockquote>
-    <cite class="rise">L9 · protocols from the Internet of Cognition team</cite>
-    <aside class="notes">
-      <p>So far the agents have worked things out on their own. Sometimes you want a structured way for them to reach shared understanding, and that's where L9 comes in.</p>
-      <p>L9 comes out of the Internet of Cognition work: protocols for how agents get to a shared understanding, and for telling an agreement they all believe in apart from one where an agent just gave in. It's the IoC team's research, and Mycelium runs lighter versions of two of its protocols: Accord and Concord.</p>
-      <p>Big thanks to the Internet of Cognition team. These protocols are their work; we just get to run them.</p>
-    </aside>
+    <aside class="notes"><p>Pick something small enough to finish in ten minutes. The point is to watch them coordinate: who claims it, whether they split it, and how the conversation stays in the task's thread while the room's chat stays readable. Click the timer to start it.</p></aside>
   </section>
 
   <!-- ── 05 · Another company's agent ── -->
@@ -635,33 +602,32 @@ Next:    1. <span class="k">mycelium await</span>
     </aside>
   </section>
 
-  <!-- ── 05 · When to reach for each ── -->
-  <section class="slide" data-title="05 · When to reach for each">
-    <h2 class="rise" style="margin-top:34px">When to reach for <em>each</em></h2>
-    <div class="grid2">
-      <div class="box rise"><h3>Accord</h3><p>When agents from different teams or companies start on one task. Before the work, so everyone's rules are in the summary.</p><code>@conductor accord @~builder @~provider: what is this launch?</code></div>
-      <div class="box rise"><h3>Concord</h3><p>When there are real options and nobody in the room can just decide. They agree on an answer without anyone getting steamrolled.</p><code>@conductor concord @~builder @~provider: when do we ship?</code></div>
-    </div>
-    <aside class="notes">
-      <p>When to use them matters as much as how they work. In your own room, you'll rarely need either: you can just decide. Accord is for agreeing on the problem when the agents don't share one boss, so the other side's rules are known before the work. Concord is for agreeing on an answer when there are real options and nobody can simply make the call.</p>
-      <p>Either one starts with a message in the task's thread. Write the agents as <code>@~name</code> so the conductor gives them their turns instead of everyone waking at once.</p>
-    </aside>
+  <!-- ── 05 · Run Accord ── -->
+  <section class="slide layout-exercise" data-title="05 · Run Accord" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Run Accord on your task</h2>
+    <ol class="steps">
+      <li class="rise"><span>In your task's thread: <code>@conductor accord @~builder @~reviewer: what is this task?</code></span></li>
+      <li class="rise"><span>Watch each agent write down its points. See which ones get flagged.</span></li>
+      <li class="rise"><span>Read the summary in the room's memory, under <code>context/summary/</code>.</span></li>
+    </ol>
+    <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <aside class="notes"><p>Run it on the task from the last step. Writing the agents as <code>@~name</code> lets the conductor give them their turns instead of everyone waking at once. Look at what gets flagged: a point only one agent made, two points that contradict, or a word two agents use differently. That's what would have gone wrong silently. Click the timer to start it.</p></aside>
   </section>
 
-  <!-- ── 05 · Run one ── -->
-  <section class="slide layout-exercise" data-title="05 · Run one" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Run one on lunch</h2>
+  <!-- ── 05 · Run Concord ── -->
+  <section class="slide layout-exercise" data-title="05 · Run Concord" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Run Concord on a choice in it</h2>
     <ol class="steps">
-      <li class="rise"><span>In your lunch task's thread: <code>@conductor concord @~agent-one @~agent-two: where do we eat?</code></span></li>
-      <li class="rise"><span>Watch the ratings come in and a plan get picked.</span></li>
-      <li class="rise"><span>Find the decision in the room's memory, under <code>context/decision/</code>.</span></li>
+      <li class="rise"><span>Pick a real choice in your task. Where should the README go? Which restaurant?</span></li>
+      <li class="rise"><span>In the thread: <code>@conductor concord @~builder @~reviewer: which should we pick?</code></span></li>
+      <li class="rise"><span>Watch the ratings come in, then read the decision under <code>context/decision/</code>.</span></li>
     </ol>
     <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
-    <aside class="notes"><p>Use the lunch task from before, with two of your agents. Put your own handle in as well if you want a turn yourself: you rate in the thread like the agents do. Lunch is low stakes on purpose, so you can see how it runs. In the next part you'll share a room with your neighbor: run it again there with their agent, which you can't overrule. That's the case it's for. Click the timer to start it.</p></aside>
+    <aside class="notes"><p>Each agent proposes one option and rates every option. The pick is the one that leaves the least happy agent best off, and below the bar the least happy one is asked for a fix. Put your own handle in too if you want a turn yourself: you rate in the thread like the agents do. In your own room you could just decide, so this is practice. The case it's for is the one we'll show next: agents that don't share one boss. Click the timer to start it.</p></aside>
   </section>
 
   <!-- ── 06 · Multiplayer (a demo, on stage) ── -->
-  <section class="slide layout-exercise" data-title="06 · Multiplayer" data-lens="1500 560 300">
+  <section class="slide layout-exercise" data-title="06 · Demo: one room, two people" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Work with someone else's agents</h2>
     <ol class="steps">
       <li class="rise"><span>Julia and Jodee share one room, each with their own agent.</span></li>

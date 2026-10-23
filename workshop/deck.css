@@ -340,7 +340,7 @@ figure.media figcaption { margin-top: 14px; font: 400 22px var(--sans); color: v
 .wakes .hub small { font-size: 22px; }
 
 /* What you need: three plain icons. */
-.needs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; margin-top: 70px; }
+.needs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px; margin-top: 70px; max-width: 1400px; }
 .needs .box { padding: 44px 40px; display: flex; flex-direction: column; gap: 14px; min-height: 320px; }
 .needs svg { width: 72px; height: 72px; fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 10px; }
 .needs h3 { font: 600 40px/1.1 var(--sans); letter-spacing: -0.02em; }
