@@ -703,6 +703,24 @@ body.black .blackout { opacity: 1; }
   .pane { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--pane-solid); }
 }
 
+/* The room: a screenshot with numbered callouts, one per click (from Jodee's AGNTCon deck) */
+.step.beat { display: none; }
+.tour { display: grid; grid-template-columns: 1040px 1fr; gap: 40px; margin-top: 12px; align-items: start; }
+.tour .shot { position: relative; border: 2px solid var(--mid-line); border-radius: 12px; overflow: hidden; }
+.tour .shot img { display: block; width: 100%; height: auto; }
+.tour .mk { position: absolute; width: 46px; height: 46px; margin: -23px 0 0 -23px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 700 26px var(--sans); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 30%, transparent); opacity: 0; transition: opacity 0.4s; }
+.tour .legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.tour .lg { display: grid; grid-template-columns: 46px 1fr; gap: 18px; align-items: start; opacity: 0.12; transition: opacity 0.4s; }
+.tour .lg .num { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); font: 700 26px var(--sans); }
+.tour .lg h3 { margin: 0 0 2px; font: 600 32px/1.1 var(--sans); }
+.tour .lg p { margin: 0; font-size: 23px; line-height: 1.3; color: var(--muted); }
+.slide:has(.b1.shown) .m1, .slide:has(.b1.shown) .l1,
+.slide:has(.b2.shown) .m2, .slide:has(.b2.shown) .l2,
+.slide:has(.b3.shown) .m3, .slide:has(.b3.shown) .l3,
+.slide:has(.b4.shown) .m4, .slide:has(.b4.shown) .l4,
+.slide:has(.b5.shown) .m5, .slide:has(.b5.shown) .l5,
+.slide:has(.b6.shown) .m6, .slide:has(.b6.shown) .l6 { opacity: 1; }
+
 @media (prefers-reduced-motion: reduce) {
   .rise { opacity: 1; transform: none; filter: none; }
   .slide.active .rise { animation: none; }
