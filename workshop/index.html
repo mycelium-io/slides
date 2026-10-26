@@ -456,13 +456,14 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     <h2 class="rise" style="margin-top:34px">The <em>plan</em></h2>
     <ol class="agenda">
       <li class="rise"><time>01</time><span>Install and open Mycelium</span><span>5 min</span></li>
-      <li class="rise"><time>02</time><span>Add your first agent</span><span>5 min</span></li>
-      <li class="rise"><time>03</time><span>Give it teammates</span><span>5 min</span></li>
-      <li class="rise"><time>04</time><span>Hand them a task</span><span>10 min</span></li>
-      <li class="rise"><time>05</time><span>Agree on purpose with Accord and Concord</span><span>15 min</span></li>
-      <li class="rise"><time>06</time><span>Watch us share a room</span><span>demo</span></li>
+      <li class="rise"><time>02</time><span>Start a team</span><span>10 min</span></li>
+      <li class="rise"><time>03</time><span>Add a reviewer</span><span>5 min</span></li>
+      <li class="rise"><time>04</time><span>Add a designer</span><span>10 min</span></li>
+      <li class="rise"><time>05</time><span>Add a security auditor</span><span>10 min</span></li>
+      <li class="rise"><time>06</time><span>Agree on purpose with Accord and Concord</span><span>15 min</span></li>
+      <li class="rise"><time>07</time><span>Watch us share a room</span><span>demo</span></li>
     </ol>
-    <aside class="notes"><p>Each step builds on the last, and everything happens on your own laptop. If you fall behind, look over at a neighbor's screen and catch up at the next step.</p></aside>
+    <aside class="notes"><p>You'll build one thing of your own, and your team grows by one role at each step. Everything happens on your own laptop. If you fall behind, look over at a neighbor's screen and catch up at the next step.</p></aside>
   </section>
 
   <!-- ── 01 · Download ── -->
@@ -512,20 +513,20 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 02 · Your first agent ── -->
-  <section class="slide layout-exercise" data-title="02 · Your first agent" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Add your first agent</h2>
+  <!-- ── 02 · Start a team ── -->
+  <section class="slide layout-exercise" data-title="02 · Start a team" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Start a <em>team</em></h2>
     <ol class="steps">
-      <li class="rise"><span>Get the sample project: <code>git clone https://github.com/mycelium-io/workshop-example-contexts</code></span></li>
-      <li class="rise"><span>Click Add member. Pick your coding agent and the <code>tipcalc</code> folder.</span></li>
-      <li class="rise"><span>Watch its terminal come up live as it starts.</span></li>
-      <li class="rise"><span>@ it in the room. It answers there.</span></li>
+      <li class="rise"><span>Make an empty folder for something you want to build.</span></li>
+      <li class="rise"><span>Click Add member twice: a <code>planner</code> and a <code>builder</code>, both in that folder.</span></li>
+      <li class="rise"><span>In the room: <code>@planner I want … Plan it and get @builder started.</code></span></li>
+      <li class="rise"><span>Watch tasks appear on the board, and the builder pick them up.</span></li>
     </ol>
-    <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
     <aside class="notes">
-      <p>This is your own coding agent, running on your machine in its own terminal. Mycelium starts it, gives it a name in the room and tells it how to reply.</p>
-      <p>Add member shows its terminal from the first second, so you can see it start, read its notes and come up. Later, click its name in Members to watch it again.</p>
-      <p>When you @ it, it gets the wake we looked at earlier: who woke it and why, the message, and the command that replies. It answers the room because it decides to, not because it was prompted.</p>
+      <p>Give each one line about its job, and end every line with "Don't install anything: use only what's already on this machine." Planner: "You turn what the person wants into small tasks on the board and give each to the right teammate. You don't write code." Builder: "You build what's asked, in this folder."</p>
+      <p>No idea of your own? Try: "a single HTML page, no build step, that tracks the books I'm reading". A single HTML file needs nothing installed, and you can open it in your browser as it grows.</p>
+      <p>In our dry runs the planner split the ask into a handful of tasks on the board within a minute, all for the builder, and the builder started on the first. From here on the team keeps working between steps. Each step adds one role and you watch it join in.</p>
     </aside>
   </section>
 
@@ -544,41 +545,54 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 03 · Teammates ── -->
-  <section class="slide layout-exercise" data-title="03 · Give it teammates" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Give it teammates</h2>
+  <!-- ── 03 · Add a reviewer ── -->
+  <section class="slide layout-exercise" data-title="03 · Add a reviewer" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Add a <em>reviewer</em></h2>
     <ol class="steps">
-      <li class="rise"><span>Add a builder and a reviewer in the <code>tipcalc</code> folder. Give each one line about its job.</span></li>
-      <li class="rise"><span>File <code>/task Fix the failing tests</code> and post in its thread: <code>@builder the tests fail, please fix them. @reviewer block it until it also handles zero people.</code></span></li>
-      <li class="rise"><span>Watch the reviewer block it, the builder answer, and the block lift.</span></li>
+      <li class="rise"><span>Add a <code>reviewer</code> in the same folder.</span></li>
+      <li class="rise"><span>In the room: <code>@reviewer you're on the team now: review each task before it's resolved.</code></span></li>
+      <li class="rise"><span>Watch the builder ask it for a review, and the reviewer pass it or send it back.</span></li>
     </ol>
     <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
     <aside class="notes">
-      <p>The one line you give each agent becomes its notes, and it keeps them across every wake. For example: "You write and fix code in this project." and "You review changes before they're done. Don't pass anything you haven't tried to break."</p>
-      <p>The sample project has a planted bug, so the tests fail. The reviewer sets out what it needs before it passes the fix. The builder works to that, and the reviewer tests it again before lifting the block. It takes about five minutes.</p>
-      <p>At the end, they'll ask you how to land it, on a branch or straight to main. That's your call, so answer them in the thread.</p>
+      <p>Its line: "You review each change before its task is done. Don't pass anything you haven't tried." Plus the no-install line.</p>
+      <p>The reviewer stays quiet until there's something to review. The builder asks for it by itself when its next task is ready. In our dry run the reviewer caught a real bug and sent it back twice before approving.</p>
       <p>This is the wake system from the talk, in your hands. Each mention wakes one agent. Name one with a tilde to mention it without waking it, or use a bang to cut in on one that's busy.</p>
     </aside>
   </section>
 
-  <!-- ── 04 · A first task ── -->
-  <section class="slide layout-exercise" data-title="04 · Hand them a task" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Hand them a task</h2>
+  <!-- ── 04 · Add a designer ── -->
+  <section class="slide layout-exercise" data-title="04 · Add a designer" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Add a <em>designer</em></h2>
     <ol class="steps">
-      <li class="rise"><span>Add a designer: "You decide what output looks like for the people using this tool."</span></li>
-      <li class="rise"><span>File <code>/task Add a --json output</code> and post in its thread: <code>@designer decide the --json output format and save it to memory. @builder build to that decision and check your work against it.</code></span></li>
-      <li class="rise"><span>Open the decision in Memory, then watch the builder check its work against it.</span></li>
+      <li class="rise"><span>Add a <code>designer</code> in the same folder.</span></li>
+      <li class="rise"><span>In the room: <code>@designer decide how it should look, save it to memory, and get it restyled to match.</code></span></li>
+      <li class="rise"><span>Open the style guide in Memory, then watch the builder restyle and the reviewer check it.</span></li>
     </ol>
     <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
     <aside class="notes">
-      <p>Each agent gets its own part, so neither has to claim the other's work. The builder waits until the decision is in memory. The designer saves it under <code>decisions/</code> with checks the output has to pass. The builder builds to it, and the designer signs off against the same memory. It takes about five minutes.</p>
-      <p>Done early? Add a researcher ("You investigate and report facts. You don't change code."), then try: <code>@researcher list every input that crashes tipcalc first. @builder wait for that list, then fix the top one.</code></p>
-      <p>Click the timer to start it.</p>
+      <p>Its line: "You decide how it looks and feels for the people using it." Plus the no-install line.</p>
+      <p>The designer writes the look down as a memory, files the restyle as a task for the builder, and then both the designer and the reviewer check the result against that same memory. That's what memory is for: everyone works to one written decision instead of three opinions.</p>
     </aside>
   </section>
 
-  <!-- ── 05 · Another company's agent ── -->
-  <section class="slide layout-statement" data-title="05 · Another company's agent" data-lens="1680 840 190, 1440 970 38">
+  <!-- ── 05 · Add a security auditor ── -->
+  <section class="slide layout-exercise" data-title="05 · Add a security auditor" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Add a <em>security auditor</em></h2>
+    <ol class="steps">
+      <li class="rise"><span>Add a <code>security</code> agent in the same folder.</span></li>
+      <li class="rise"><span>In the room: <code>@security audit what we have and file what you find as tasks for the team.</code></span></li>
+      <li class="rise"><span>Watch its findings land on the board, and the builder pick them up.</span></li>
+    </ol>
+    <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <aside class="notes">
+      <p>Its line: "You look for security problems in what the team builds and file each one as a task." Plus the no-install line.</p>
+      <p>In our dry run it read the code and filed a task straight away: data loaded from a backup wasn't checked, and one bad value would crash the page. The builder took it and folded it into the work it was already doing. Nobody told them to coordinate. The board and the thread did it.</p>
+    </aside>
+  </section>
+
+  <!-- ── 06 · Another company's agent ── -->
+  <section class="slide layout-statement" data-title="06 · Another company's agent" data-lens="1680 840 190, 1440 970 38">
     <blockquote class="rise">Now one of the agents <em>isn't yours.</em></blockquote>
     <cite class="long rise">@provider is the payment provider's agent. It has its own rate limit and certification window, and nobody in the room can overrule it.</cite>
     <aside class="notes">
@@ -588,8 +602,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 05 · Accord (scene) ── -->
-  <section class="slide layout-scene" data-title="05 · Accord">
+  <!-- ── 06 · Accord (scene) ── -->
+  <section class="slide layout-scene" data-title="06 · Accord">
     <canvas class="scene" data-scene="accord"></canvas>
     <div class="swap rise">
       <h2 data-at="0">Two pictures of <em>one launch</em></h2>
@@ -608,8 +622,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 05 · Concord (scene) ── -->
-  <section class="slide layout-scene" data-title="05 · Concord">
+  <!-- ── 06 · Concord (scene) ── -->
+  <section class="slide layout-scene" data-title="06 · Concord">
     <canvas class="scene" data-scene="concord"></canvas>
     <div class="swap rise">
       <h2 data-at="0">Everyone proposes <em>one plan</em></h2>
@@ -628,11 +642,11 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 05 · Run Accord ── -->
-  <section class="slide layout-exercise" data-title="05 · Run Accord" data-lens="1500 560 300">
+  <!-- ── 06 · Run Accord ── -->
+  <section class="slide layout-exercise" data-title="06 · Run Accord" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Run Accord on a new task</h2>
     <ol class="steps">
-      <li class="rise"><span>Type <code>/engine conductor</code> in the room, then file <code>/task Handle bad input in tipcalc</code>.</span></li>
+      <li class="rise"><span>Type <code>/engine conductor</code> in the room, then file the next thing you want: <code>/task …</code></span></li>
       <li class="rise"><span>In its thread: <code>@conductor accord @~builder @~reviewer @~designer: what is this task?</code></span></li>
       <li class="rise"><span>Watch the points come in and get flagged, then read the summary under <code>context/summary/</code>.</span></li>
     </ol>
@@ -640,11 +654,11 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     <aside class="notes"><p>The conductor is an engine, so it has to be added to the room first. Writing the agents as <code>@~name</code> lets the conductor give them their turns instead of everyone waking at once. Look at what gets flagged: a point only one agent made, two points that contradict, or a word two agents use differently. That's what would have gone wrong silently. It takes about five minutes. Click the timer to start it.</p></aside>
   </section>
 
-  <!-- ── 05 · Run Concord ── -->
-  <section class="slide layout-exercise" data-title="05 · Run Concord" data-lens="1500 560 300">
+  <!-- ── 06 · Run Concord ── -->
+  <section class="slide layout-exercise" data-title="06 · Run Concord" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Run Concord on a choice</h2>
     <ol class="steps">
-      <li class="rise"><span>File a choice: <code>/task Make the shares add up to the bill</code></span></li>
+      <li class="rise"><span>File a choice your team has to make, like <code>/task Pick how to store the data</code></span></li>
       <li class="rise"><span>In its thread: <code>@conductor concord @~builder @~reviewer @~designer: which should we pick?</code></span></li>
       <li class="rise"><span>Watch the ratings come in, then read the decision under <code>context/decision/</code>.</span></li>
     </ol>
@@ -652,8 +666,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     <aside class="notes"><p>Each agent proposes one option and rates every option. The pick is the one that leaves the least happy agent best off, and below the bar the least happy one is asked for a fix. Put your own handle in too if you want a turn yourself: you rate in the thread like the agents do. In your own room you could just decide, so this is practice. The case it's for is the one we'll show next: agents that don't share one boss. Click the timer to start it.</p></aside>
   </section>
 
-  <!-- ── 06 · Multiplayer (a demo, on stage) ── -->
-  <section class="slide layout-exercise" data-title="06 · Demo: one room, two people" data-lens="1500 560 300">
+  <!-- ── 07 · Multiplayer (a demo, on stage) ── -->
+  <section class="slide layout-exercise" data-title="07 · Demo: one room, two people" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Work with someone else's agents</h2>
     <ol class="steps">
       <li class="rise"><span>Julia and Jodee share one room, each with their own agent.</span></li>
