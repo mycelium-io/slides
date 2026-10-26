@@ -79,7 +79,14 @@
   }
 
   // ── Steps ──
-  const steps = s => [...s.querySelectorAll('.step')];
+  // Steps reveal in page order, unless a slide numbers them with data-step
+  // (lowest first; a step without a number comes after the numbered ones).
+  const steps = s => {
+    const els = [...s.querySelectorAll('.step')];
+    if (!els.some(e => e.dataset.step)) return els;
+    const rank = e => Number(e.dataset.step) || Infinity;
+    return els.map((e, i) => [e, i]).sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1]).map(p => p[0]);
+  };
   function markCurrent(s) {
     const st = steps(s), shown = st.filter(e => e.classList.contains('shown'));
     st.forEach(e => e.classList.remove('current'));

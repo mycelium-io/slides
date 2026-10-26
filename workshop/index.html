@@ -115,25 +115,25 @@
     <h2 class="rise" style="margin-top:20px">What drove each step</h2>
     <div class="rows">
       <span class="tag rise">What the models<br>learned to do</span>
-      <div class="box rise" data-node="m1">Use tools</div>
-      <div class="box rise" data-node="m2">Follow long instructions</div>
-      <div class="box rise" data-node="m3">Work for hours</div>
-      <div class="box hi step" data-node="m4">Work together</div>
+      <div class="box step" data-step="1" data-node="m1">Use tools</div>
+      <div class="box step" data-step="2" data-node="m2">Follow long instructions</div>
+      <div class="box step" data-step="3" data-node="m3">Work for hours</div>
+      <div class="box hi step" data-step="4" data-node="m4">Work together</div>
       <span class="tag rise">How the apps<br>changed</span>
-      <div class="box rise" data-node="a1">Agents in the terminal</div>
-      <div class="box rise" data-node="a2">Agents in the background</div>
-      <div class="box rise" data-node="a3">Always-on agents</div>
-      <div class="box unknown step" data-node="a4">?</div>
+      <div class="box step with" data-step="1" data-node="a1">Agents in the terminal</div>
+      <div class="box step with" data-step="2" data-node="a2">Agents in the background</div>
+      <div class="box step with" data-step="3" data-node="a3">Always-on agents</div>
+      <div class="box unknown step" data-step="5" data-node="a4">?</div>
     </div>
     <svg class="wires" aria-hidden="true">
-      <path class="rise" data-i="9" data-from="m1" data-to="a1"/>
-      <path class="rise" data-i="9" data-from="m2" data-to="a2"/>
-      <path class="rise" data-i="9" data-from="m3" data-to="a3"/>
-      <path class="hi step with" data-from="m4" data-to="a4"/>
+      <path class="step with" data-step="1" data-from="m1" data-to="a1"/>
+      <path class="step with" data-step="2" data-from="m2" data-to="a2"/>
+      <path class="step with" data-step="3" data-from="m3" data-to="a3"/>
+      <path class="hi step with" data-step="5" data-from="m4" data-to="a4"/>
     </svg>
     <p class="flat-caption rise">The apps follow the models. <em>So what's the app for this one?</em></p>
     <aside class="notes">
-      <p>Why did it go that way? Each new kind of app came after the models learned something new.</p>
+      <p>Why did it go that way? Each new kind of app came after the models learned something new. Press once per pair.</p>
       <p>Once models could use tools, we got agents in the terminal. Once they could follow long instructions, they could work in the background without you watching. Now that they can work for hours, it makes sense to keep them running.</p>
       <p>The point: the apps follow the models. As the models keep getting better, the apps will keep changing.</p>
       <p><b>Press:</b> and now models are learning to work together. So what's the app for that one? That's the question for the rest of the talk.</p>
@@ -741,6 +741,6 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
 <script src="ink.js"></script>
 <script src="scenes.js?v=13"></script>
 <script src="flat.js"></script>
-<script src="deck.js?v=2"></script>
+<script src="deck.js?v=3"></script>
 </body>
 </html>
