@@ -956,6 +956,131 @@
     };
   };
 
+  // ── Accord, in three clicks, on the demo's release ──
+  // Two agents plan one release: eng and product. One idea per stage, and
+  // the picture shows only that idea. Stage 0: each writes down what it
+  // thinks the task is, three notes each. Stage 1: the notes line up in one
+  // column; the note both wrote folds into one, and the two notes that
+  // disagree are lit red side by side. Stage 2: the column becomes one saved
+  // summary with its open question.
+  defs.accord3 = () => {
+    const A = [{ name: 'eng', color: 'accent', y: 430 }, { name: 'product', color: 'green', y: 740 }];
+    const agents = A.map(o => Object.assign(node(260, o.y, 34, 1), o));
+    // [who, text, row in the merged column (shared rows fold), is the clash]
+    const notes = [
+      [0, 'Ship three features', 0], [0, '"Done" means merged', 1, true], [0, 'Settings is risky', 3],
+      [1, 'Ship three features', 0], [1, '"Done" means announced', 2, true], [1, 'Users want asks', 4],
+    ].map(([who, text, row, clash], i) => Object.assign(node(380, agents[who].y, 0, 0), { who, text, row, clash: !!clash, col: i % 3 }));
+    const COL = { x: 900, y: 400, gap: 88 };
+    const vis = { flag: 0, saved: 0 };
+    return {
+      frame(d, dt, s) {
+        ease(vis, 'flag', s === 1 ? 1 : 0, 4, dt);
+        ease(vis, 'saved', s >= 2 ? 1 : 0, 4, dt);
+        agents.forEach(n => { n.ta = 1; settle(n, dt); });
+        notes.forEach(p => {
+          if (s === 0) { p.tx = 380 + p.col * 420; p.ty = agents[p.who].y; }
+          else { p.tx = COL.x; p.ty = COL.y + p.row * COL.gap; }
+          const twin = notes.find(q => q.row === p.row) !== p;
+          p.ta = s >= 2 ? 0 : s === 1 && twin && dist(p, { x: p.tx, y: p.ty }) < 8 ? 0 : 1;
+          settle(p, dt, 3.2);
+        });
+        const ctx = d.ctx;
+        agents.forEach(n => {
+          d.bead(n.x, n.y, n.r, C[n.color], n.a);
+          d.label(n.name, n.x, n.y + 66, n.a, C.muted, 22);
+        });
+        notes.forEach(p => card(d, p.x, p.y, '', p.text, p.a, s === 1 && p.clash ? { stroke: C.red } : {}));
+        // Who wrote each row of the column, as dots at its end.
+        [0, 1, 2, 3, 4].forEach(r => {
+          const who = [...new Set(notes.filter(p => p.row === r).map(p => p.who))];
+          who.forEach((w, j) => d.bead(COL.x + 520 + j * 34, COL.y + r * COL.gap, 11, C[A[w].color], (1 - vis.saved) * Math.min(1, s)));
+        });
+        d.label("doesn't match", COL.x - 30, COL.y + 1.5 * COL.gap, vis.flag, C.red, 24, 'right');
+        // The saved summary.
+        if (vis.saved > 0.01) {
+          const x = COL.x, y = 420, w = 720, h = 330;
+          ctx.save(); ctx.globalAlpha = vis.saved;
+          ctx.fillStyle = C.dark ? 'rgba(255,255,255,0.05)' : 'rgba(10,20,40,0.05)';
+          ctx.beginPath(); ctx.roundRect(x, y, w, h, 18); ctx.fill();
+          ctx.strokeStyle = C.accent; ctx.lineWidth = 2.5; ctx.stroke(); ctx.restore();
+          d.label('Shared summary', x + 40, y + 60, vis.saved, C.accent, 26, 'left');
+          d.label('Ship three features', x + 40, y + 140, vis.saved, C.text, 26, 'left');
+          d.label('Settings is risky · users want asks', x + 40, y + 200, vis.saved, C.muted, 24, 'left');
+          d.label('Open: what "done" means', x + 40, y + 260, vis.saved, C.yellow, 26, 'left');
+        }
+      },
+    };
+  };
+
+  // ── Concord, in three clicks, on the demo's release ──
+  // Stage 0: three options for the release, and both agents rate every one.
+  // Stage 1: each option's lowest rating is circled, and the option whose
+  // lowest rating is highest is picked (B has the highest total and still
+  // loses). Stage 2: the pick is saved with each agent's satisfaction as a
+  // bar, as the app shows it.
+  defs.concord3 = () => {
+    const M = [{ name: 'eng', color: 'accent' }, { name: 'product', color: 'green' }];
+    const COLX = [1380, 1580], X0 = 260, X1 = 1720;
+    const rows = [
+      { letter: 'A', text: 'Asks, Windows polish, satisfaction view', r: [80, 70] },
+      { letter: 'B', text: 'Several hubs, Settings, memory versions', r: [40, 95] },
+      { letter: 'C', text: 'Asks, Settings, Windows polish', r: [75, 60] },
+    ].map(o => ({ ...o, a: 0, shown: [0, 0], min: Math.min(...o.r) }));
+    const PICK = 0, rowY = i => 420 + i * 120;
+    const vis = { rated: 0, low: 0, saved: 0 };
+    let clock = 0;
+    return {
+      stage() { clock = 0; },
+      frame(d, dt, s) {
+        clock += dt;
+        ease(vis, 'low', s === 1 ? 1 : 0, 4, dt);
+        ease(vis, 'saved', s >= 2 ? 1 : 0, 4, dt);
+        const ctx = d.ctx;
+        const table = 1 - vis.saved;
+        M.forEach((m, j) => {
+          d.bead(COLX[j], 310, 15, C[m.color], table);
+          d.label(m.name, COLX[j], 350, table, C.muted, 22);
+        });
+        rows.forEach((o, i) => {
+          o.a = approach(o.a, clock > i * 0.35 || s > 0 ? (s === 1 && i !== PICK ? 0.4 : 1) : 0, 5, dt);
+          o.r.forEach((v, j) => { o.shown[j] = approach(o.shown[j], clock > 1.2 || s > 0 ? v : 0, 3, dt); });
+          const a = o.a * table;
+          if (a < 0.01) return;
+          const y = rowY(i);
+          ctx.save(); ctx.globalAlpha = a;
+          ctx.fillStyle = C.dark ? 'rgba(255,255,255,0.04)' : 'rgba(10,20,40,0.04)';
+          ctx.beginPath(); ctx.roundRect(X0, y - 44, X1 - X0, 88, 14); ctx.fill();
+          if (s === 1 && i === PICK) { ctx.strokeStyle = C.accent; ctx.lineWidth = 3; ctx.stroke(); }
+          ctx.restore();
+          d.label(o.letter, X0 + 40, y, a, C.accent, 28, 'left');
+          ctx.save(); ctx.globalAlpha = a; ctx.font = SANS; ctx.fillStyle = C.text; ctx.textBaseline = 'middle';
+          ctx.fillText(o.text, X0 + 100, y + 1); ctx.restore();
+          o.r.forEach((v, j) => {
+            if (v === o.min) d.ring(COLX[j], y, 34, i === PICK ? C.accent : C.yellow, a * vis.low, 3);
+            d.label(String(Math.round(o.shown[j])), COLX[j], y, a, C.text, 28);
+          });
+        });
+        // The saved decision, with each agent's satisfaction as a bar.
+        if (vis.saved > 0.01) {
+          const o = rows[PICK], x = 460, y = 360, w = 1000;
+          d.label('Picked A: ' + o.text, x, y, vis.saved, C.text, 30, 'left');
+          M.forEach((m, j) => {
+            const by = y + 120 + j * 100, frac = o.r[j] / 100;
+            d.label(m.name, x, by, vis.saved, C.muted, 24, 'left');
+            ctx.save(); ctx.globalAlpha = vis.saved;
+            ctx.fillStyle = C.dark ? 'rgba(255,255,255,0.08)' : 'rgba(10,20,40,0.08)';
+            ctx.beginPath(); ctx.roundRect(x + 180, by - 10, 640, 20, 10); ctx.fill();
+            ctx.fillStyle = C[m.color]; ctx.beginPath(); ctx.roundRect(x + 180, by - 10, 640 * frac, 20, 10); ctx.fill();
+            ctx.restore();
+            d.label(Math.round(frac * 100) + '%', x + 860, by, vis.saved, C.text, 24, 'left');
+          });
+          d.label('Saved to memory as the decision', x, y + 360, vis.saved, C.accent, 24, 'left');
+        }
+      },
+    };
+  };
+
   // ════ Running them ════
   const live = [];
   document.querySelectorAll('canvas.scene[data-scene]').forEach(canvas => {
