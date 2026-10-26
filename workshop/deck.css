@@ -193,7 +193,7 @@ p code, li code { font-size: 0.82em; padding: 0.08em 0.36em; border-radius: 8px;
  * outline only; filled means still to do. */
 .agenda {
   list-style: none; margin: auto 0 40px; padding: 0;
-  display: grid; grid-template-rows: repeat(3, auto); grid-auto-flow: column; grid-auto-columns: 1fr; gap: 18px 30px;
+  display: grid; grid-template-rows: repeat(4, auto); grid-auto-flow: column; grid-auto-columns: 1fr; gap: 18px 30px;
 }
 .agenda li {
   display: grid; grid-template-columns: 70px 1fr auto; align-items: baseline; gap: 20px;
