@@ -30,7 +30,6 @@ the internet for the fonts. Without a connection the type falls back to Georgia 
 | T | light / dark (light suits a bright room or a weak projector) |
 | B or . | blackout |
 | a number, then ⏎ | go to that slide |
-| + − 0 | zoom the live app toward the pointer; 0 goes back to fit |
 | D | draw on the slide; U undoes, C clears it, Esc puts the pen down |
 | ? | the key list |
 
@@ -74,62 +73,23 @@ To make a pane live, give it a `data-term` id and a script:
 </div>
 ```
 
-## The live app
+## App screenshots
 
-An app pane shows the real Mycelium app in a frame:
+An app pane shows a screenshot of the app or a website in a browser frame:
 
 ```html
-<div class="app pane" data-app="/room/workshop" data-zoom="1.1">
+<div class="app pane">
   <div class="bar"><i></i><i></i><i></i><span class="addr">mycelium</span></div>
-  <div class="app-view"><img src="app-room-channel@2x.png" alt=""></div>
-  <template class="script">
-    /room/workshop/graph
-    /metrics
-  </template>
+  <div class="app-view"><img src="media/room.png" alt="What the screenshot shows"></div>
 </div>
 ```
 
-- **Finding the app.** The deck looks for it at `?app=` on its own URL
-  (`serve.py --app URL` adds that), else on the Docker stack's port
-  (`127.0.0.1:8080`), else the desktop app's (`127.0.0.1:3717`). Until one
-  answers, the pane shows its screenshot, so the slide works offline and as
-  a file.
-- **Clicking in.** The frame sits under a shield. Click it to use the app,
-  and click anywhere else on the slide to give the keys back to the deck.
-  A frame with focus keeps every key, a clicker's included.
-- **Stepping through pages.** Each → opens the next route in the script,
-  after any terminal commands on the slide. The speaker view counts the
-  pages left.
-- **Zoom while presenting.** Magnify any part of the app on the fly, and
-  keep using it while zoomed. Every zoom glides there, holding still the
-  point you aim at, and holding + down zooms in steadily:
-  - the − and + in the pane's address bar (the percentage goes back to fit)
-  - the + and − keys, which zoom toward the pointer when it is over the app,
-    and 0 to go back to fit
-  - a pinch over the app
-  - drag or scroll to look around while zoomed
-
-  Once you have clicked into the app, its keys and pinch belong to the app,
-  so use the bar's buttons, or click outside first.
-- **Base size.** `data-zoom` sets how large the app is drawn at fit, so the
-  room can read it.
-
-A website works the same way: give `data-app` a full URL and the pane frames
-that page at once, with no local app to find. Add `data-tour` (the ids of the
-page's sections, in order) and the bar gets an **Auto-scroll** button. A page
-that answers the deck's `hello` message with `ready` is told to glide to the
-bottom at `data-tour-speed` px/s (default 110); `mycelium-io.github.io` does
-this in its `site.js`. A page that doesn't is toured by jumping the frame
-between the anchors, `data-tour-ms` apart (default 4500). Clicking into the
-page, the Stop button or leaving the slide ends either.
-
-The app keeps its own theme, whatever the deck's. Present from the app
-`mycelium up` or the desktop app serves: a `next dev` server draws its own
-error badge over the page.
+The deck doesn't run the app live: a screenshot or a short video loads
+instantly, works offline, and can't stall on stage.
 
 ## Drawing
 
-Press D (or pick a tool) to draw over the whole slide, the live app and
+Press D (or pick a tool) to draw over the whole slide,
 terminals included. A toolbar appears at the bottom with three tools: a
 pen (it follows a stylus's pressure), a highlighter, and laser ink that
 fades a moment after you lift. It has five colours from the palette, and
@@ -236,7 +196,7 @@ out in stage pixels and the deck scales them to fit the screen.
 (`layout-terminal`), an agenda (`.agenda`), `layout-section`,
 `layout-statement`, `.cards`, `layout-diagram` (an SVG in stage coordinates
 with the lens over its centre), a flow of `.step`s, `.numbers`,
-`layout-exercise` with a timer, `layout-image`, `layout-app` (the live app), `.compare`,
+`layout-exercise` with a timer, `layout-image`, `layout-app` (a screenshot in a browser frame), `.compare`,
 `layout-isnt` (two "not" panes and a line revealed under them), `layout-lanes` (the room's
 chat over parallel task threads), `.points` (three short points under a statement),
 `layout-trio` (three big lines, one per press) and `layout-close`.
@@ -252,12 +212,11 @@ Copy the one closest to what you need.
 | `lens.js` | the background: the motes and the lens, in one WebGL shader |
 | `logo.js` | the Mycelium mark, inlined, because a WebGL texture can't come from a `file://` image |
 | `term.js` | live terminals: xterm.js panes over the shells `serve.py` runs |
-| `app.js` | live app panes: the Mycelium app in a frame, its screenshot until it answers, with smooth zoom |
 | `ink.js` | drawing over the deck: pen, highlighter and laser ink, kept per slide |
 | `scenes.js` | the living diagrams: one canvas per scene slide, moved on by the slide's steps |
 | `flat.js` | the wires between a flat diagram's boxes, and callouts beside a terminal pane |
-| `board.png` | the board slide's still, until the live app answers |
-| `banner.png` | the website slide's still, until the page answers |
+| `board.png` | the board slide's screenshot |
+| `media/site-install.png` | the download slide's screenshot of the website |
 | `logo.png` | the Mycelium mark in the footer and the tab |
 | `serve.py` | serves the deck on 127.0.0.1 and runs a shell on a pseudo-terminal per pane |
 
