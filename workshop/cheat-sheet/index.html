@@ -30,14 +30,14 @@
 <body>
 
 <h1>Workshop cheat sheet</h1>
-<p class="sub">What to do on your laptop, step by step, for steps 01 to 07. Slide numbers are on the right. Every prompt here was tested with fresh agents.</p>
+<p class="sub">What to do on your laptop, step by step, for steps 01 to 06. Slide numbers are on the right. Every prompt here was tested with fresh agents.</p>
 
 <div class="box">
   <b>Before you go on stage</b>
   <ul>
-    <li>Your app is on <b>On this computer</b> (Settings → Where rooms live) for steps 01 to 06. The shared hub is only for the 07 recording.</li>
+    <li>Your app is on <b>On this computer</b> (Settings → Where rooms live) for steps 01 to 05. The shared hub is only for the 06 recording.</li>
     <li>An empty folder for the live build: <code>~/workshop-live</code>. Claude Code signed in, and its folder trust already answered once.</li>
-    <li>The deck running: <code>uv run workshop/serve.py</code> in the slides repo. The 07 video is ready to play, and the recorded room is open in a browser tab as the backup.</li>
+    <li>The deck running: <code>uv run workshop/serve.py</code> in the slides repo. The 06 video is ready to play, and the recorded room is open in a browser tab as the backup.</li>
     <li>Tell the room they can watch instead of building (slide 23 says so too).</li>
   </ul>
 </div>
@@ -92,24 +92,13 @@
 </section>
 
 <section>
-<h2>05 · Add a security auditor <span class="slide">slide 32 · 10 min</span></h2>
+<h2>05 · Accord and Concord <span class="slide">slides 32 to 36 · 15 min</span></h2>
 <ol>
-  <li>Add member → <code>security</code>, same folder:
-    <div class="cmd">You look for security problems in what the team builds and file each one as a task. Don't install anything: use only what's already on this machine.</div></li>
-  <li>In the room:
-    <div class="cmd">@security audit what we have and file what you find as tasks for the team.</div></li>
-  <li><span class="point">Point at:</span> its findings land on the board as tasks, and the builder picks them up into the work it's already doing. Nobody told them to coordinate.</li>
-</ol>
-</section>
-
-<section>
-<h2>06 · Accord and Concord <span class="slide">slides 33 to 37 · 15 min</span></h2>
-<ol>
-  <li><b>33 to 35:</b> one sentence per click; read the heading. 34 is Accord, 35 is Concord.</li>
-  <li><b>Run Accord (36):</b> type <code>/engine conductor</code>, then file the next thing you want, e.g. <code>/task Let people rate each book</code>. In its thread:
+  <li><b>32 to 34:</b> one sentence per click; read the heading. 33 is Accord, 34 is Concord.</li>
+  <li><b>Run Accord (35):</b> type <code>/engine conductor</code>, then file the next thing you want, e.g. <code>/task Let people rate each book</code>. In its thread:
     <div class="cmd">@conductor accord @~builder @~reviewer @~designer: what is this task?</div>
     <span class="point">Point at:</span> the main chat's <i>Accord started</i> / <i>ended</i> lines, then the summary at the top of the thread and its open items.</li>
-  <li><b>Run Concord (37):</b> <code>/task Pick how to store the books</code>, then in its thread:
+  <li><b>Run Concord (36):</b> <code>/task Pick how to store the books</code>, then in its thread:
     <div class="cmd">@conductor concord @~builder @~reviewer @~designer: which should we pick?</div>
     <span class="point">Point at:</span> <i>Picked …</i>, a bar per agent, and who's least satisfied. <b>Open decision</b> shows it in memory.</li>
 </ol>
@@ -117,7 +106,7 @@
 </section>
 
 <section>
-<h2>07 · Demo: one room, two people <span class="slide">slide 38 · demo</span></h2>
+<h2>06 · Demo: one room, two people <span class="slide">slide 37 · demo</span></h2>
 <ol>
   <li>Play the recorded video of you and Jodee's agents planning a release on the shared hub (how it was recorded: last page).</li>
   <li>Narrate over it: your <code>eng</code> agent and Jodee's <code>product</code> agent; Accord flags what doesn't line up; Concord picks, with each one's satisfaction.</li>
@@ -126,12 +115,12 @@
 </section>
 
 <section>
-<h2>Close <span class="slide">slides 39 and 40</span></h2>
+<h2>Close <span class="slide">slides 38 and 39</span></h2>
 <p>The room remembers; your agents stay yours. Leave <b>Questions</b> up. If there's time, show the live room: the team has kept building in the background.</p>
 </section>
 
 <div class="page"></div>
-<h1 style="font-size:16pt">The 07 recording (do this Monday, with Jodee)</h1>
+<h1 style="font-size:16pt">The 06 recording (do this Monday, with Jodee)</h1>
 <p class="sub">Real agents, one each, on mycelium.outshift.com. It took 10 to 12 minutes in the dry runs.</p>
 <ol>
   <li><b>Point the app at the shared hub:</b> Settings → <i>Where rooms live</i> → <b>On my team's hub</b> → <code>https://mycelium.outshift.com</code>. Sign in if asked, and run <code>mycelium login</code> in a terminal so the hub lists your laptop.</li>

@@ -445,9 +445,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
       <li class="rise"><time>02</time><span>Start a team</span><span>10 min</span></li>
       <li class="rise"><time>03</time><span>Add a reviewer</span><span>5 min</span></li>
       <li class="rise"><time>04</time><span>Add a designer</span><span>10 min</span></li>
-      <li class="rise"><time>05</time><span>Add a security auditor</span><span>10 min</span></li>
-      <li class="rise"><time>06</time><span>Accord and Concord</span><span>15 min</span></li>
-      <li class="rise"><time>07</time><span>Watch us share a room</span><span>demo</span></li>
+      <li class="rise"><time>05</time><span>Accord and Concord</span><span>15 min</span></li>
+      <li class="rise"><time>06</time><span>Watch us share a room</span><span>demo</span></li>
     </ol>
     <aside class="notes"><p>You'll build one thing of your own, and your team grows by one role at each step. Everything happens on your own laptop. If you fall behind, look over at a neighbor's screen and catch up at the next step.</p></aside>
   </section>
@@ -564,23 +563,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 05 · Add a security auditor ── -->
-  <section class="slide layout-exercise" data-title="05 · Add a security auditor" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Add a <em>security auditor</em></h2>
-    <ol class="steps">
-      <li class="rise"><span>Add a <code>security</code> agent in the same folder.</span></li>
-      <li class="rise"><span>In the room: <code>@security audit what we have and file what you find as tasks for the team.</code></span></li>
-      <li class="rise"><span>Watch its findings land on the board, and the builder pick them up.</span></li>
-    </ol>
-    <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
-    <aside class="notes">
-      <p>Its line: "You look for security problems in what the team builds and file each one as a task." Plus the no-install line.</p>
-      <p>In our dry run it read the code and filed a task straight away: data loaded from a backup wasn't checked, and one bad value would crash the page. The builder took it and folded it into the work it was already doing. Nobody told them to coordinate. The board and the thread did it.</p>
-    </aside>
-  </section>
-
-  <!-- ── 06 · Another company's agent ── -->
-  <section class="slide layout-statement" data-title="06 · Another company's agent" data-lens="1680 840 190, 1440 970 38">
+  <!-- ── 05 · Another company's agent ── -->
+  <section class="slide layout-statement" data-title="05 · Another company's agent" data-lens="1680 840 190, 1440 970 38">
     <blockquote class="rise">Now the agents <em>don't share a boss.</em></blockquote>
     <cite class="long rise">An engineering agent and a product agent plan one release. Neither can overrule the other.</cite>
     <aside class="notes">
@@ -589,8 +573,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 06 · Accord (scene) ── -->
-  <section class="slide layout-scene" data-title="06 · Accord">
+  <!-- ── 05 · Accord (scene) ── -->
+  <section class="slide layout-scene" data-title="05 · Accord">
     <canvas class="scene" data-scene="accord3"></canvas>
     <div class="swap rise">
       <h2 data-at="0">Each agent writes down <em>what the task is</em></h2>
@@ -606,8 +590,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 06 · Concord (scene) ── -->
-  <section class="slide layout-scene" data-title="06 · Concord">
+  <!-- ── 05 · Concord (scene) ── -->
+  <section class="slide layout-scene" data-title="05 · Concord">
     <canvas class="scene" data-scene="concord3"></canvas>
     <div class="swap rise">
       <h2 data-at="0">Everyone <em>rates every option</em></h2>
@@ -623,8 +607,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 06 · Run Accord ── -->
-  <section class="slide layout-exercise" data-title="06 · Run Accord" data-lens="1500 560 300">
+  <!-- ── 05 · Run Accord ── -->
+  <section class="slide layout-exercise" data-title="05 · Run Accord" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Run Accord on a new task</h2>
     <ol class="steps">
       <li class="rise"><span>Type <code>/engine conductor</code> in the room, then file the next thing you want: <code>/task …</code></span></li>
@@ -635,8 +619,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     <aside class="notes"><p>The conductor is an engine, so it has to be added to the room first. Writing the agents as <code>@~name</code> lets the conductor give them their turns instead of everyone waking at once. Look at what gets flagged: a point only one agent made, two points that contradict, or a word two agents use differently. That's what would have gone wrong silently. It takes about five minutes. Click the timer to start it.</p></aside>
   </section>
 
-  <!-- ── 06 · Run Concord ── -->
-  <section class="slide layout-exercise" data-title="06 · Run Concord" data-lens="1500 560 300">
+  <!-- ── 05 · Run Concord ── -->
+  <section class="slide layout-exercise" data-title="05 · Run Concord" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Run Concord on a choice</h2>
     <ol class="steps">
       <li class="rise"><span>File a choice your team has to make, like <code>/task Pick how to store the data</code></span></li>
@@ -647,8 +631,8 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     <aside class="notes"><p>Each agent proposes one option and rates every option. The pick is the one that leaves the least happy agent best off, and below the bar the least happy one is asked for a fix. Put your own handle in too if you want a turn yourself: you rate in the thread like the agents do. In your own room you could just decide, so this is practice. The case it's for is the one we'll show next: agents that don't share one boss. Click the timer to start it.</p></aside>
   </section>
 
-  <!-- ── 07 · Multiplayer (a demo, on stage) ── -->
-  <section class="slide layout-exercise" data-title="07 · Demo: one room, two people" data-lens="1500 560 300">
+  <!-- ── 06 · Multiplayer (a demo, on stage) ── -->
+  <section class="slide layout-exercise" data-title="06 · Demo: one room, two people" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Work with someone else's agents</h2>
     <ol class="steps">
       <li class="rise"><span>Julia and Jodee share one room, each with their own agent.</span></li>
