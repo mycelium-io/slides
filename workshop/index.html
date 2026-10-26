@@ -593,52 +593,45 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
 
   <!-- ── 06 · Another company's agent ── -->
   <section class="slide layout-statement" data-title="06 · Another company's agent" data-lens="1680 840 190, 1440 970 38">
-    <blockquote class="rise">Now one of the agents <em>isn't yours.</em></blockquote>
-    <cite class="long rise">@provider is the payment provider's agent. It has its own rate limit and certification window, and nobody in the room can overrule it.</cite>
+    <blockquote class="rise">Now the agents <em>don't share a boss.</em></blockquote>
+    <cite class="long rise">An engineering agent and a product agent plan one release. Neither can overrule the other.</cite>
     <aside class="notes">
-      <p>In a room of your own agents, you break every tie, and fast. You'd never need a protocol for that. These flows earn their keep when nobody in the room can just decide.</p>
-      <p>So put one agent from another company in the room: the payment provider's agent. It has a rate limit, it only lets changes go live in its certification window, Tuesday to Thursday, and a new integration has to be re-certified. You can't overrule it, and its limits aren't up for negotiation.</p>
-      <p>This isn't a story. An agent running on another company's machine has already joined one of our rooms with a join code, the same one Add member hands out.</p>
+      <p>In a room of your own agents, you break every tie. These flows are for when nobody in the room can just decide: two people's agents, or two teams'.</p>
+      <p>Our example, and the demo you'll see: an engineering agent and a product agent plan the next release together.</p>
     </aside>
   </section>
 
   <!-- ── 06 · Accord (scene) ── -->
   <section class="slide layout-scene" data-title="06 · Accord">
-    <canvas class="scene" data-scene="accord"></canvas>
+    <canvas class="scene" data-scene="accord3"></canvas>
     <div class="swap rise">
-      <h2 data-at="0">Two pictures of <em>one launch</em></h2>
-      <h2 data-at="1">Each writes down <em>its points</em></h2>
-      <h2 data-at="2">Code merges them <em>and flags the gaps</em></h2>
-      <h2 data-at="3">A word used two ways <em>is restated</em></h2>
-      <h2 data-at="4">One summary <em>is saved</em></h2>
+      <h2 data-at="0">Each agent writes down <em>what the task is</em></h2>
+      <h2 data-at="1">Code lines them up <em>and flags what doesn't match</em></h2>
+      <h2 data-at="2">One summary <em>is saved</em></h2>
     </div>
-    <i class="step beat"></i><i class="step beat"></i><i class="step beat"></i><i class="step beat"></i>
+    <i class="step beat"></i><i class="step beat"></i>
     <aside class="notes">
-      <p><b>Now:</b> our two agents and the provider's agent start on the same task, turning on Apple Pay for everyone. Our builder plans to merge and go live on Friday. The provider only lets changes go live Tuesday to Thursday. Without anything else, we'd find that out at launch.</p>
-      <p><b>Press:</b> accord starts by having each one write down its points, each under a label: the objective, constraints, what done means, and the words that matter. The provider brings points nobody on our side knew: its window, re-certifying a new integration, and a rate limit of 100 test payments a minute.</p>
-      <p><b>Press:</b> then code merges them, not a model. Points that say the same thing become one, and keep who said them. Friday and the Tuesday-to-Thursday window contradict each other, so that's flagged. The re-certification and the rate limit are kept, marked as only the provider's. This is the point to land: a model summarizing would quietly drop the other company's limits, and our load test would blow through them. Accord keeps them in front of everyone.</p>
-      <p><b>Press:</b> "live" meant deployed to us and certified and taking real cards to the provider, so those two are asked to say what they mean once more. Here they land on the provider's meaning.</p>
-      <p><b>Press:</b> what comes out is one shared summary, saved to the room's memory, with what's still open at the bottom: Friday or the window. Everything that runs on the task afterwards reads it. Run accord again and it updates.</p>
+      <p>Read the heading on each click. That's the whole explanation.</p>
+      <p><b>Now:</b> each agent writes down what it thinks the task is. Engineering and product both want three features, but they've each got their own idea of the details.</p>
+      <p><b>Press:</b> code lines their points up. The point they both made becomes one. "Done" means merged to engineering and announced to product, so that's flagged. Nobody would have noticed until the release.</p>
+      <p><b>Press:</b> one shared summary is saved to the room's memory, with what's still open. Everything that runs on the task afterwards reads it.</p>
     </aside>
   </section>
 
   <!-- ── 06 · Concord (scene) ── -->
   <section class="slide layout-scene" data-title="06 · Concord">
-    <canvas class="scene" data-scene="concord"></canvas>
+    <canvas class="scene" data-scene="concord3"></canvas>
     <div class="swap rise">
-      <h2 data-at="0">Everyone proposes <em>one plan</em></h2>
-      <h2 data-at="1">Everyone rates <em>every plan</em></h2>
-      <h2 data-at="2">The least happy member <em>is best off</em></h2>
-      <h2 data-at="3">Below the bar <em>means a fix</em></h2>
-      <h2 data-at="4">One decision <em>is saved</em></h2>
+      <h2 data-at="0">Everyone <em>rates every option</em></h2>
+      <h2 data-at="1">The pick leaves the least happy agent <em>best off</em></h2>
+      <h2 data-at="2">The decision is saved, <em>with how satisfied each is</em></h2>
     </div>
-    <i class="step beat"></i><i class="step beat"></i><i class="step beat"></i><i class="step beat"></i>
+    <i class="step beat"></i><i class="step beat"></i>
     <aside class="notes">
-      <p><b>Now:</b> the question accord left open: when does it go live? There's no boss here. Our agents can't overrule the provider, and the provider can't overrule us. Each member proposes one plan: ship Friday, ship in the provider's window on Tuesday, or ship behind a flag now and certify later.</p>
-      <p><b>Press:</b> everyone rates every plan from 0 to 100, all at the same time, so nobody sees the others' ratings first.</p>
-      <p><b>Press:</b> code picks, not a model. For each plan it looks at the least happy rating, and picks the plan where that's highest. Friday has the highest total, both of ours, but the provider rates it 0, so it can't win. Ratings aren't added up. The flag plan leaves the provider at 30. Tuesday leaves nobody below 45.</p>
-      <p><b>Press:</b> 45 is still below the bar of 70, so the least happy member, our builder, is asked for a fix: merge the flag now, so Tuesday is just flipping it. Everyone rates the fix. This happens at most twice.</p>
-      <p><b>Press:</b> the fix clears the bar for everyone, and the decision is saved to the room's memory. If nothing clears it, concord says so honestly: no plan works for everyone. The point to land: with nobody in charge, nobody gets steamrolled, including the company that isn't you.</p>
+      <p>Read the heading on each click. That's the whole explanation.</p>
+      <p><b>Now:</b> three options for what goes in the release, and both agents rate every one from 0 to 100.</p>
+      <p><b>Press:</b> code picks, not a model. For each option it looks at the lowest rating, and picks the option where that's highest. B has the highest total, but engineering rates it 40, so A wins. Nobody gets steamrolled.</p>
+      <p><b>Press:</b> the decision is saved, with how close it came to what each agent wanted. That's the view you'll see in the app.</p>
     </aside>
   </section>
 
@@ -739,7 +732,7 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
 <script src="term.js"></script>
 <script src="app.js"></script>
 <script src="ink.js"></script>
-<script src="scenes.js?v=13"></script>
+<script src="scenes.js?v=15"></script>
 <script src="flat.js"></script>
 <script src="deck.js?v=3"></script>
 </body>
