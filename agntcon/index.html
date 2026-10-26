@@ -1,0 +1,720 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- Copyright 2026 Mycelium Contributors -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Making Swarm Work</title>
+<meta name="description" content="Coordination primitives for decentralized multi-agent systems. AGNTCon + MCPCon NA.">
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="deck.css?v=5">
+<style>
+  /* One press brings in the whole bottom row and its arrows together. */
+  .later { opacity: 0.06; transform: translateY(10px); filter: blur(3px); transition: opacity 0.5s, transform 0.5s, filter 0.5s; }
+  .slide:has(.apps.shown) .later { opacity: 1; transform: none; filter: none; }
+
+  .grid2.when { margin: 30px 0 24px; gap: 20px; }
+  .grid2.when { grid-auto-rows: 1fr; }
+  .grid2.when .box { min-height: 238px; padding: 36px 40px; gap: 12px; justify-content: center; }
+
+  /* Backup: L9 protocols chart */
+  .l9top { display: grid; grid-template-columns: 1fr 190px 1fr; align-items: center; gap: 14px; margin-top: 14px; max-width: 1740px; }
+  .pcard { padding: 30px 36px; border: 3px solid; border-radius: 20px; min-height: 270px; background: color-mix(in srgb, var(--text) 3%, transparent); }
+  .pcard.acc { border-color: #7bd88f; box-shadow: 0 0 40px color-mix(in srgb, #7bd88f 22%, transparent); }
+  .pcard.con { border-color: #f5a524; box-shadow: 0 0 40px color-mix(in srgb, #f5a524 22%, transparent); }
+  .pcard h3 { margin: 0 0 14px; font: 700 58px/1 var(--sans); letter-spacing: -0.01em; } .pcard h3 small { font: 600 28px var(--sans); color: var(--text); margin-left: 12px; letter-spacing: 0; }
+  .pcard.acc h3 { color: #7bd88f; } .pcard.con h3 { color: #f5a524; }
+  .pcard p { margin: 0 0 14px; font-size: 27px; line-height: 1.35; }
+  .pcard .fixes { font-size: 23px; color: var(--muted); } .pcard .fixes b { color: #7bd88f; letter-spacing: 0.06em; margin-right: 8px; } .pcard.con .fixes b { color: #f5a524; }
+  .l9top .mid { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .l9top .arr { color: #7bd88f; font-size: 36px; } .l9top .arr.o { color: #f5a524; }
+  .l9top .work { text-align: center; padding: 18px 12px; border: 2px solid var(--mid-line); border-radius: 16px; background: color-mix(in srgb, var(--text) 4%, transparent); }
+  .l9top .work b { display: block; font: 600 30px var(--sans); } .l9top .work small { font-size: 20px; color: var(--muted); }
+  .l9res { display: grid; grid-template-columns: 190px repeat(4, 1fr); gap: 12px; margin-top: 24px; max-width: 1740px; align-items: stretch; }
+  .l9res .hd { font: 600 20px var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .l9res .lab { display: flex; align-items: center; padding: 0 20px; border: 2px solid; border-radius: 14px; font: 700 28px var(--sans); }
+  .l9res .lab.acc { color: #7bd88f; border-color: color-mix(in srgb, #7bd88f 55%, transparent); } .l9res .lab.con { color: #f5a524; border-color: color-mix(in srgb, #f5a524 55%, transparent); }
+  .l9res .cell { padding: 16px 20px; border: 2px solid var(--mid-line); border-radius: 14px; font-size: 22px; line-height: 1.3; color: var(--muted); background: color-mix(in srgb, var(--text) 4%, transparent); }
+  .l9res .cell b { display: inline-block; font: 700 44px/1 var(--sans); color: var(--text); margin-right: 8px; } .l9res .cell b.g { color: #7bd88f; }
+  .l9foot { margin: 18px 0 0; text-align: center; font: 600 28px var(--sans); }
+  .l9note { margin: 10px 0 0; text-align: center; font-size: 24px; color: var(--muted); } .l9note em { color: var(--accent); }
+
+  /* The room: screenshot with numbered callouts */
+  .tour { display: grid; grid-template-columns: 1200px 1fr; gap: 40px; margin-top: 24px; align-items: start; }
+  .tour .shot { position: relative; border: 2px solid var(--mid-line); border-radius: 12px; overflow: hidden; }
+  .tour .shot img { display: block; width: 100%; height: auto; }
+  .tour .mk { position: absolute; width: 46px; height: 46px; margin: -23px 0 0 -23px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: var(--accent-ink, #04141a); font: 700 26px var(--sans); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 30%, transparent); opacity: 0; transition: opacity 0.4s; }
+  .tour .legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .tour .lg { display: grid; grid-template-columns: 46px 1fr; gap: 18px; align-items: start; opacity: 0.12; transition: opacity 0.4s; }
+  .tour .lg .num { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); font: 700 26px var(--sans); }
+  .tour .lg h3 { margin: 0 0 2px; font: 600 32px/1.1 var(--sans); } .tour .lg p { margin: 0; font-size: 23px; line-height: 1.3; color: var(--muted); }
+  .slide:has(.b1.shown) .m1 { opacity: 1; } .slide:has(.b1.shown) .l1 { opacity: 1; }
+  .slide:has(.b2.shown) .m2 { opacity: 1; } .slide:has(.b2.shown) .l2 { opacity: 1; }
+  .slide:has(.b3.shown) .m3 { opacity: 1; } .slide:has(.b3.shown) .l3 { opacity: 1; }
+  .slide:has(.b4.shown) .m4 { opacity: 1; } .slide:has(.b4.shown) .l4 { opacity: 1; }
+  .slide:has(.b5.shown) .m5 { opacity: 1; } .slide:has(.b5.shown) .l5 { opacity: 1; }
+  .slide:has(.b6.shown) .m6 { opacity: 1; } .slide:has(.b6.shown) .l6 { opacity: 1; }
+
+  /* The deck makes <b> a block inside boxes; keep these names inline with their definitions. */
+  .scripts b { display: inline; font-weight: 600; color: var(--text); }
+
+  /* Print: ?notes puts each slide on a letter page with its speaker notes under it. */
+  .print-notes { display: none; }
+  @media print { .no-print-banner { display: none !important; } }
+  @media print {
+    html.notes-print body { background: #fff; }
+    html.notes-print .deck { width: auto; }
+    html.notes-print .slide { zoom: 0.375; break-after: avoid; margin: 0 auto; border: 1px solid #ccc; }
+    html.notes-print .print-notes { display: block; break-after: page; padding: 14px 4px 0; font: 12.5pt/1.45 Helvetica, Arial, sans-serif; color: #111; }
+    html.notes-print .print-notes h4 { margin: 0 0 8px; font: 700 11pt Helvetica, Arial, sans-serif; color: #444; text-transform: uppercase; letter-spacing: 0.04em; }
+    html.notes-print .print-notes, html.notes-print .print-notes p, html.notes-print .print-notes li, html.notes-print .print-notes b { font-size: 12pt !important; line-height: 1.4 !important; max-width: none !important; }
+    html.notes-print .print-notes p { margin: 0 0 7px !important; color: #111 !important; }
+    html.notes-print .print-notes code { font: 11pt/1.3 Menlo, monospace !important; background: #eee; padding: 0 3px; }
+  }
+
+  /* A second slide that shows the turned-over side of the frame, with no click. */
+  .turn.turned .now { opacity: 0; } .turn.turned .then { opacity: 1; }
+  .turn.turned .triad .box { border-color: color-mix(in srgb, var(--red) 55%, transparent); }
+  .turn.turned .triad .box h3 { color: var(--red); }
+
+  /* Primitives slide: blocks 4 and 5 and the closing lines arrive together on one press. */
+  .later2 { opacity: 0; transform: translateY(14px); transition: opacity 0.5s, transform 0.5s; }
+  .slide:has(.p2.shown) .later2 { opacity: 1; transform: none; }
+  @media print { .later2 { opacity: 1 !important; transform: none !important; } }
+
+  /* Video and recap slides */
+  .vid { margin: 30px auto 0; text-align: center; }
+  .vid video { width: 1400px; max-width: 100%; max-height: 800px; border-radius: 12px; background: #000; }
+  .recap { display: grid; gap: 16px; margin: 34px 0 0; max-width: 1720px; }
+  .recap .row { display: grid; grid-template-columns: 300px 1fr; gap: 34px; align-items: center; padding: 22px 34px; border: 2px solid var(--mid-line); border-radius: 16px; background: color-mix(in srgb, var(--text) 4%, transparent); }
+  .recap .row h3 { margin: 0; font: 600 34px/1.1 var(--sans); color: var(--accent); }
+  .recap .row p { margin: 0; font-size: 27px; line-height: 1.35; color: var(--muted); }
+
+  /* Who I am: my card takes half the slide, a QR code on the right. */
+  .me { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; max-width: 1740px; align-items: stretch; }
+  .me .card { display: flex; flex-direction: row; align-items: center; gap: 40px; padding: 44px; text-align: left; }
+  .me .photo { width: 260px; height: 260px; object-fit: cover; border-radius: 50%; flex: none; }
+  .me h3 { margin: 0 0 8px; font: 600 54px/1.05 var(--sans); letter-spacing: -0.02em; }
+  .me .role { font-size: 32px; line-height: 1.35; margin: 0 0 18px; }
+  .me .where { display: flex; align-items: center; gap: 12px; font: 500 28px var(--mono); color: var(--accent); margin: 0 0 24px; }
+  .me .where svg { width: 30px; height: 30px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; }
+  .me .orgs { margin: 0; padding-left: 28px; font-size: 28px; line-height: 1.45; color: var(--muted); } .me .orgs li { margin-bottom: 8px; } .me .orgs b { color: var(--text); font-weight: 600; }
+  .logos-side { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 70px; }
+  .logos-side img { width: 480px; height: auto; display: block; }
+  .logos-side .wordmark { font: 700 64px var(--sans); letter-spacing: 0.06em; } .logos-side .wordmark small { font: 400 30px var(--sans); letter-spacing: 0; color: var(--muted); }
+  .me p { font-size: 28px; line-height: 1.4; color: var(--muted); }
+
+  /* Primitives slide: five numbered cards, grouped. */
+  .kicker { margin-top: 20px; font: 500 24px var(--mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); }
+  .prim { display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; margin-top: 40px; max-width: 1700px; }
+  .prim .grp { font: 500 22px var(--mono); letter-spacing: 0.16em; text-transform: uppercase; }
+  .prim .g1 { grid-column: 1 / 4; color: var(--accent); }
+  .prim .g2 { grid-column: 4 / 6; color: #f5a524; }
+  .pc { display: flex; flex-direction: column; min-height: 400px; padding: 30px 28px; border: 2px solid; border-radius: 18px; background: color-mix(in srgb, var(--text) 4%, transparent); }
+  .pc .n { font: 600 44px var(--sans); }
+  .pc h3 { margin: 26px 0 14px; font: 600 38px/1.1 var(--sans); letter-spacing: -0.02em; }
+  .pc p { margin: 0; font-size: 26px; line-height: 1.4; color: var(--muted); }
+  .pc .foot { margin-top: auto; font: 600 22px/1.3 var(--sans); }
+  .pc.c1 { border-color: color-mix(in srgb, var(--accent) 55%, transparent); } .pc.c1 .n, .pc.c1 .foot { color: var(--accent); }
+  .pc.c2 { border-color: color-mix(in srgb, #7bd88f 70%, transparent); } .pc.c2 .n, .pc.c2 .foot { color: #7bd88f; }
+  .pc.c3 { border-color: color-mix(in srgb, #f5a524 70%, transparent); } .pc.c3 .n, .pc.c3 .foot { color: #f5a524; }
+  .prim-sub { margin: 34px 0 0; text-align: center; font-size: 28px; color: var(--muted); }
+  .prim-warn { margin: 18px 0 0; text-align: center; font: 600 30px var(--sans); color: #f5a524; }
+</style>
+</head>
+<body>
+<canvas id="lens-bg" aria-hidden="true"></canvas>
+
+<main class="deck" data-talk="Making Swarm Work">
+
+  <!-- 1 ── Title -->
+  <section class="slide layout-title" data-title="Title" data-lens="1520 470 330, 1130 860 54" data-glass data-logo data-bare>
+    <h1 class="display rise">Making<br>swarm <em>work.</em></h1>
+    <p class="lede rise">A starting set of primitives for agents that work as peers, not as subagents.</p>
+    <div class="byline rise"><span>Jodee Varney</span><span class="dot"></span><span>Outshift by Cisco</span><span class="dot"></span><span>AGNTCon + MCPCon NA</span><span class="dot"></span><span>October 2026</span></div>
+    <aside class="notes">
+      <ul>
+        <li>Thanks for coming.</li>
+        <li>I will be talking about swarm, or peer-to-peer, agentic systems, and the tools needed to help these agent teams actually coordinate and collaborate.</li>
+        <li>I'll show some of those tools using Mycelium, an open source project we've been working on.</li>
+        <li>The abstract mentions OpenClaw-style agent systems. We've moved beyond OpenClaw to other kinds of personal agents, specifically coding agents, which I expect most of you are actually using.</li>
+        <li>You should leave with the problems, some practical approaches, when swarm fits, and the infrastructure it needs.</li>
+        <li>And I'll be upfront about what we still don't know. (~1 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 2 ── Who we are -->
+  <section class="slide" data-title="Who I am">
+    <h2 class="rise" style="margin-top:34px">Who I am</h2>
+    <div class="me">
+      <article class="card pane rise">
+        <img class="photo" src="people/jodee.jpg" alt="Jodee Varney">
+        <div>
+          <h3>Jodee Varney</h3>
+          <p class="role">Principal Product Manager<br>Outshift by Cisco</p>
+          <p class="where"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>Portland, Oregon USA</p>
+          <ul class="orgs">
+            <li><b>CNCF:</b> OpenTelemetry</li>
+            <li><b>AAIF:</b> AGNTCY, Workflows and Process Integration WG</li>
+          </ul>
+        </div>
+      </article>
+      <div class="logos-side rise">
+        <img src="media/outshift-logo.svg" alt="Outshift by Cisco" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'wordmark',innerHTML:'OUTSHIFT <small>by Cisco</small>'}))">
+        <img src="media/logo-1C-goldenrod.svg" alt="AGNTCY" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'wordmark',textContent:'AGNTCY'}))">
+      </div>
+    </div>
+    <aside class="notes">
+      <ul>
+        <li>I'm a Principal Product Manager at Outshift by Cisco, based in Portland, Oregon.</li>
+        <li>I am part of a team at Outshift working on what we call the Internet of Cognition, and Mycelium, which is built with my amazing colleague Julia Valenti.</li>
+        <li>Before that I worked on AGNTCY, where Outshift is a founding member.</li>
+        <li>I'm also an active member of the AAIF working group on workflows and process integration. (~0.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 3 ── Where Mycelium comes from -->
+  <section class="slide layout-statement" data-title="Where Mycelium comes from">
+    <blockquote class="rise">Mycelium is part of Outshift's <em>Internet of Cognition.</em></blockquote>
+    <cite class="long rise">Agents working together on bigger jobs than any one of them can do alone. We're exploring how they can do it with no single agent in charge, on tasks that run for weeks.</cite>
+    <aside class="notes">
+      <ul>
+        <li>Mycelium comes out of the Internet of Cognition project at Outshift.</li>
+        <li>The idea behind Mycelium is agents working together on bigger jobs than any one of them can do alone.</li>
+        <li>We're exploring two things: agents coordinating with no central coordinator, and tasks that run for a long time. (~0.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 4 ── Levelset -->
+  <section class="slide layout-levelset" data-title="Nobody has this figured out">
+    <div class="big rise">Nobody has this <em>figured out.</em></div>
+    <p class="rise">Agentic AI is still an experiment. We've watched the field change several times in the past year. We are experimenting a lot with multi-agent systems and still have lots of questions.</p>
+    <aside class="notes">
+      <ul>
+        <li>A level set.</li>
+        <li>Plenty of teams are putting agents to work today very effectively on discrete tasks and prescribed workflows, and experimenting with more loosely constructed agent teams and swarms.</li>
+        <li>Our use case, peer agents collaborating on long-running tasks, is still highly experimental.</li>
+        <li>We've been using multi-agent systems (MAS) for coding teams, and there we've watched the field change several times in the past year or so.</li>
+        <li>Net out: we still have a lot of questions. (~1 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 6.1 ── One agent -->
+  <section class="slide layout-scene" data-title="One agent" data-start-stage="0">
+    <canvas class="scene" data-scene="coworkers"></canvas>
+    <div class="swap rise">
+      <h2 data-at="0">One <em>agent</em></h2>
+      <h2 data-at="1">An <em>orchestrator</em></h2>
+      <h2 data-at="2">One point of <em>failure</em></h2>
+      <h2 data-at="3"><em>Coworkers</em></h2>
+    </div>
+    <aside class="notes">
+      <p>One agent keeps all the context, which is great. But it is limited by its context window (the ring fills, then compacts), and it can only do one thing at a time. (~0.5 min)</p>
+    </aside>
+  </section>
+
+  <!-- 6.2 ── An orchestrator -->
+  <section class="slide layout-scene" data-title="An orchestrator" data-start-stage="1">
+    <canvas class="scene" data-scene="coworkers"></canvas>
+    <div class="swap rise">
+      <h2 data-at="0">One <em>agent</em></h2>
+      <h2 data-at="1">An <em>orchestrator</em></h2>
+      <h2 data-at="2">One point of <em>failure</em></h2>
+      <h2 data-at="3"><em>Coworkers</em></h2>
+    </div>
+    <aside class="notes">
+      <ul>
+        <li>So we moved to an orchestrator: an agent that hands work to subagents.</li>
+        <li>Each subagent gets a few tools, does one piece, sends back a summary and goes.</li>
+        <li>The orchestrator has to absorb every summary.</li>
+        <li>In the coding world, this is Claude Code, Codex, Cursor.</li>
+        <li>This is often the right pattern for coding, and it is a very common pattern in many production multi-agent systems across many use cases. (~0.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 6.3 ── One point of failure -->
+  <section class="slide layout-scene" data-title="One point of failure" data-start-stage="2">
+    <canvas class="scene" data-scene="coworkers"></canvas>
+    <div class="swap rise">
+      <h2 data-at="0">One <em>agent</em></h2>
+      <h2 data-at="1">An <em>orchestrator</em></h2>
+      <h2 data-at="2">One point of <em>failure</em></h2>
+      <h2 data-at="3"><em>Coworkers</em></h2>
+    </div>
+    <aside class="notes">
+      <ul>
+        <li>It's also one point of failure, and everything flows through one context.</li>
+        <li>Prompt the main agent wrong, and the mistake runs all the way down.</li>
+        <li>And as soon as you have one external agent, under different control, with its own context, this pattern can break down. (~0.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 6.4 ── Coworkers -->
+  <section class="slide layout-scene" data-title="Coworkers" data-start-stage="3">
+    <canvas class="scene" data-scene="coworkers"></canvas>
+    <div class="swap rise">
+      <h2 data-at="0">One <em>agent</em></h2>
+      <h2 data-at="1">An <em>orchestrator</em></h2>
+      <h2 data-at="2">One point of <em>failure</em></h2>
+      <h2 data-at="3"><em>Coworkers</em></h2>
+    </div>
+    <aside class="notes">
+      <ul>
+        <li>Coworkers: each agent owns something, keeps its own context, and they talk to each other directly.</li>
+        <li>This is the pattern we are interested in.</li>
+        <li><b>Define swarm here (voiceover):</b> when I say swarm, I mean this.</li>
+        <li>It starts as a simple team of peer agents, two or three, and could scale to as many as you like.</li>
+        <li>No agent is in charge of the others.</li>
+        <li>Coordination, not delegation, is how they work together. (~1 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+
+  <!-- 7 ── When coworkers help -->
+  <section class="slide" data-title="When coworkers help">
+    <h2 class="rise" style="margin-top:20px">When <em>coworkers</em> help</h2>
+    <div class="grid2 when" style="grid-template-columns: repeat(2, 1fr)">
+      <div class="box rise"><h3>Several parties to represent</h3><p>Each agent speaks for someone, and none of them can speak for the others.</p></div>
+      <div class="box rise"><h3>Conflicting objectives</h3><p>Real tradeoffs between goals, not one goal split into pieces.</p></div>
+      <div class="box rise"><h3>Partial knowledge, on purpose</h3><p>One agent couldn't, or shouldn't, hold everything.</p></div>
+      <div class="box rise"><h3>Membership that changes</h3><p>Agents join and leave while the task is running.</p></div>
+    </div>
+    <p class="flat-caption step">Cross a team or company boundary, and <em>all four show up at once.</em></p>
+    <aside class="notes">
+      <ul>
+        <li>Sometimes a swarm is the right fit, or the use case drives the peer-to-peer pattern. Here are some conditions where this is true.</li>
+        <li>(1) Representing multiple parties: each agent speaks for someone, and none can speak for the others. Think of personal agents, like multiple OpenClaw agents collaborating, or similar.</li>
+        <li>(2) Conflicting objectives, where you want to make sure you are making real tradeoffs.</li>
+        <li>(3) Partial knowledge, where you don't or can't have one agent holding everything.</li>
+        <li>(4) And sometimes, membership needs to be highly flexible.</li>
+        <li>In the case of real boundaries between teams or companies, it is hard to have a single orchestrator. You see multiple of these conditions at once. The other side's agent has its own rules and its own owner. Peer to peer isn't a preference here. It's the requirement. (~2.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 10 ── When agents work together -->
+  <section class="slide layout-statement opener" data-title="When agents work together">
+    <blockquote class="rise">When agents work <em>together</em></blockquote>
+    <aside class="notes">
+      <p>So what happens when agents start working together? It's already happening, whether anyone planned it or not. What do they need? That's where we'll start. (~0.5 min)</p>
+    </aside>
+  </section>
+
+  <!-- 8 ── Internet of Cognition triad -->
+  <!-- 10a ── What peers need -->
+  <section class="slide turn" data-title="What peers need">
+    <div class="heads rise" style="margin-top:20px">
+      <h2 class="now">What peers <em>need</em></h2>
+      <h2 class="then">The same three are where it <em>breaks</em></h2>
+    </div>
+    <div class="triad">
+      <div class="box rise"><h3>Shared intent</h3><div class="say"><p class="now">Everyone agrees on what the task is.</p><p class="then">Agents take on goals nobody asked for.</p></div></div>
+      <div class="box rise"><h3>Shared context</h3><div class="say"><p class="now">Everyone works from the same facts.</p><p class="then">One unchecked fact spreads until everyone treats it as true.</p></div></div>
+      <div class="box rise"><h3>Shared reasoning</h3><div class="say"><p class="now">Everyone can see how a decision was reached.</p><p class="then">Agents agree because the others agreed, not because they checked.</p></div></div>
+    </div>
+    <p class="credit rise now">A frame from the Internet of Cognition team</p>
+    <p class="flat-caption then">Agents coordinate whether you design for it or not.</p>
+    <aside class="notes">
+      <ul>
+        <li>My Internet of Cognition colleagues describe what agents need to work together in three layers.</li>
+        <li>Shared intent means everyone agrees on what the task is.</li>
+        <li>Shared context means everyone works from the same facts.</li>
+        <li>Shared reasoning means everyone can see how a decision was reached.</li>
+        <li>The rest of my talk hangs on these. (~0.75 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 10b ── Where it breaks -->
+  <section class="slide turn turned" data-title="Where it breaks">
+    <div class="heads rise" style="margin-top:20px">
+      <h2 class="now">What peers <em>need</em></h2>
+      <h2 class="then">The same three are where it <em>breaks</em></h2>
+    </div>
+    <div class="triad">
+      <div class="box rise"><h3>Shared intent</h3><div class="say"><p class="now">Everyone agrees on what the task is.</p><p class="then">Agents take on goals nobody asked for.</p></div></div>
+      <div class="box rise"><h3>Shared context</h3><div class="say"><p class="now">Everyone works from the same facts.</p><p class="then">One unchecked fact spreads until everyone treats it as true.</p></div></div>
+      <div class="box rise"><h3>Shared reasoning</h3><div class="say"><p class="now">Everyone can see how a decision was reached.</p><p class="then">Agents agree because the others agreed, not because they checked.</p></div></div>
+    </div>
+    <p class="credit rise now">A frame from the Internet of Cognition team</p>
+    <p class="flat-caption then">Agents coordinate whether you design for it or not.</p>
+    <aside class="notes">
+      <ul>
+        <li>Turn that same framing around, and it's where things go wrong.</li>
+        <li>Intent breaks when agents take on goals nobody asked for.</li>
+        <li>Context breaks when one unchecked fact spreads until everyone treats it as true.</li>
+        <li>Reasoning breaks as false consensus: agents agree because the others agreed, not because they checked.</li>
+        <li>In a swarm or peer-agent scenario, when agents are talking to each other, they will coordinate whether you design for it or not.</li>
+        <li>Think of the Hugging Face story, where agents turned a shared repository into their own message board. Nobody designed that. So it's worth designing for. (~0.75 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 9 ── A playground -->
+  <section class="slide layout-statement opener" data-title="A playground">
+    <blockquote class="rise">A <em>playground</em></blockquote>
+    <cite class="long rise">A place to run today's coding agents as always-on agents, and watch them work together.</cite>
+    <aside class="notes">
+      <ul>
+        <li>That's what Mycelium is for us: a playground.</li>
+        <li>Mycelium has evolved considerably. We started with personal agents like OpenClaw, when that was the hottest thing. Now we are very focused on coding agents, which is what a lot of us use day to day, even if we are not necessarily coders.</li>
+        <li>From Mycelium you can spin up agents in the coding harness of your choice, like Claude Code, Codex or Cursor, and give them a name and instructions.</li>
+        <li>You run them as always-on agents in a shared room, so you can watch how they work together.</li>
+        <li>It's where we try out the coordination primitives.</li>
+        <li>Mycelium is open source, and the code is linked at the end.</li>
+        <li>You may have heard about Buzz in Thursday's keynote, or gone to their breakout session. Our approach is not completely different, but we are tightly focused on agent teams. We use Mycelium as a playground to test collaboration engines and protocols that make these teams more effective. (~1 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 11 ── Primitives: our starting point -->
+  <section class="slide" data-title="Coordination primitives">
+    <div class="kicker rise">Introducing Mycelium</div>
+    <h2 class="rise" style="margin-top:8px">Coordination primitives: <em>our starting point</em></h2>
+    <div class="prim">
+      <div class="grp g1 rise">Plumbing · Mycelium rooms</div>
+      <div class="grp g2 later2">Mycelium engines · L9 (IoC) protocols</div>
+      <article class="pc c1 rise"><b class="n">1</b><h3>Discover</h3><p>Who is here, and who owns what</p><span class="foot">Rooms · members · board</span></article>
+      <article class="pc c1 rise"><b class="n">2</b><h3>Share state</h3><p>One source of truth any joiner inherits</p><span class="foot">Tasks with threads · markdown memory</span></article>
+      <article class="pc c1 rise"><b class="n">3</b><h3>Mentions and turns</h3><p>Talk freely, stay readable</p><span class="foot">@ · @~ · @! · conductor</span></article>
+      <article class="pc c2 later2"><b class="n">4</b><h3>Align intent</h3><p>Same goal, same words, same 'done'</p><span class="foot">ACCORD</span></article>
+      <article class="pc c3 later2"><b class="n">5</b><h3>Negotiate</h3><p>A decision every agent can accept</p><span class="foot">CONCORD · ALIGNER</span></article>
+    </div>
+    <p class="prim-sub later2">Shared intent · Shared context · Shared reasoning</p>
+    <p class="flat-caption later2" style="max-width:none">This is not the complete set. It's where we started, and <em>we expect to need&nbsp;more.</em></p>
+    <i class="step beat p2"></i>
+    <aside class="notes">
+      <ul>
+        <li>These are the primitives that we've needed so far, mapped to what Mycelium actually has. The first three are the plumbing.</li>
+        <li>(1) <b>Discover.</b> Mycelium has <b>rooms</b> where you can add <b>members</b> and keep track of work on a <b>board</b>.</li>
+        <li>(2) <b>Share state.</b> The board manages tasks, and every <b>task has a thread</b>. Any member can add <b>memory in markdown format</b>, and decisions are captured in memory too.</li>
+        <li>(3) <b>Mentions and turns.</b> Agents can stay quiet unless woken. We use <code>@</code> to ask and wake, and Mycelium engines can give agents <b>turns</b> instead of waking everyone at once. We can also assign without waking (<code>@~</code>) and interrupt (<code>@!</code>).</li>
+        <li><b>Press:</b> then our <b>engines</b>, which we have been building.</li>
+        <li>(4) <b>Align intent.</b> We use ACCORD so the agent team has the same goal, same words, and same definition of done.</li>
+        <li>(5) <b>Negotiate.</b> We use CONCORD and the Aligner so that every agent has a voice and can reach decisions that all agents can accept.</li>
+        <li>ACCORD and CONCORD are based on L9 protocols built by the Internet of Cognition team.</li>
+        <li>This is just our starting set! More are being added that do other important jobs. For example, the Verifier is new: it flags things like an approval that nobody gave. We will keep building more as we need them. But these are the critical ones. (~2 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 12 ── The room (UI tour) -->
+  <section class="slide" data-title="The room">
+    <div class="kicker rise">Mycelium</div>
+    <h2 class="rise" style="margin-top:8px">The <em>room</em></h2>
+    <div class="tour rise">
+      <div class="shot">
+        <img src="media/mycelium-room.png" alt="A Mycelium room: rooms on the left, the channel in the middle, the task board on top, members and memory on the right" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'media-missing',innerHTML:'<b>media/mycelium-room.png</b><span>Screenshot of a Mycelium room</span>'}))">
+        <span class="mk m1" style="left:13.0%;top:17.1%">1</span><span class="mk m2" style="left:18.5%;top:26.2%">2</span><span class="mk m3" style="left:62.0%;top:9.9%">3</span><span class="mk m4" style="left:62.0%;top:89.0%">4</span><span class="mk m5" style="left:85.0%;top:6.8%">5</span><span class="mk m6" style="left:80.0%;top:53.0%">6</span>
+      </div>
+      <ol class="legend"><li class="lg l1"><b class="num">1</b><div><h3>Rooms</h3><p>One room per team or project. People and agents interact in it.</p></div></li><li class="lg l2"><b class="num">2</b><div><h3>Views</h3><p>Channel, stream, board, files and schedules, for the same room.</p></div></li><li class="lg l3"><b class="num">3</b><div><h3>Board</h3><p>A summary of the tasks, and who is doing each task.</p></div></li><li class="lg l4"><b class="num">4</b><div><h3>Channel</h3><p>The chat where people and agents talk to each other.</p></div></li><li class="lg l5"><b class="num">5</b><div><h3>Members</h3><p>People, agents, and the engines available: aligner and conductor.</p></div></li><li class="lg l6"><b class="num">6</b><div><h3>Memory</h3><p>What agents share and know, and the decisions they keep.</p></div></li></ol>
+    </div>
+    <i class="step beat b1"></i><i class="step beat b2"></i><i class="step beat b3"></i><i class="step beat b4"></i><i class="step beat b5"></i><i class="step beat b6"></i>
+    <aside class="notes">
+      <ul>
+        <li>The room. <b>This is the plumbing</b>, and it is super useful with or without the engines.</li>
+        <li>This is the current UI exposed to humans, so you can see how collaboration happens. All commands are available in the CLI too.</li>
+        <li>Press once per callout. This is a real Mycelium room (apple-pay-launch).</li>
+        <li><b>1, Rooms:</b> on the left, the list of rooms. One room per team or project, where people and agents interact.</li>
+        <li><b>2, Views:</b> under the room's name are the different views of the same room: channel, stream, board, files and schedules.</li>
+        <li><b>3, Board:</b> across the top, a summary of the tasks, and who is doing each task.</li>
+        <li><b>4, Channel:</b> in the middle, the chat where people and agents talk to each other.</li>
+        <li><b>5, Members:</b> top right, everyone in the room: the people, the agents, and the engines available, here the aligner and the conductor. Add an agent from here: pick the harness, give it a name and instructions.</li>
+        <li><b>6, Memory:</b> bottom right, where agents share what they know and keep track of decisions. Here a decision is saved under context/decision. (~1.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 12 ── Share state: board -->
+  <section class="slide layout-app" data-title="Shared intent: the board">
+    <div class="kicker rise" style="margin:0 0 -20px">Mycelium</div>
+    <div class="head">
+      <h2 class="rise">Share state: <em>the board</em></h2>
+      <span class="sub rise">A task is a row and a thread.</span>
+    </div>
+    <div class="app pane rise" data-app="/room/workshop" data-zoom="1.6">
+      <div class="bar"><i></i><i></i><i></i><span class="addr">mycelium · the board</span></div>
+      <div class="app-view"><img src="board.png" alt="A room's board: tasks as rows, with who has each and the last thing said"></div>
+    </div>
+    <aside class="notes">
+      <ul>
+        <li>A drill down on the board view, one key part of shared state. (The other part is memory.)</li>
+        <li>On this board, each task is a row: what it is, who has it, and the last thing said about it.</li>
+        <li>This is what lets anyone, people or agents, see the state of the work at a glance.</li>
+        <li>After a compaction, the board is how an agent finds out where things stand. (~0.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 14 ── Toolbox -->
+  <section class="slide" data-title="Agreeing: the toolbox">
+    <div class="kicker rise">Mycelium</div>
+    <h2 class="rise" style="margin-top:8px">Agree: <em>the toolbox</em></h2>
+    <div class="grid2">
+      <div class="box rise"><h3>Conductor</h3><p>A script for a conversation. It fixes the steps, and at each step it asks certain agents to speak. Code runs it, not a model, so the steps are the same every time, even though what the agents say is not.</p><p class="scripts" style="white-space:nowrap"><b>Accord</b> (agree on the task, and key terms)<br>and<br><b>Concord</b> (negotiate where everyone has a voice)<br>are two of its scripts.</p><code>@conductor concord @~a @~b: question</code></div>
+      <div class="box rise"><h3>Aligner</h3><p>A lightweight "let's all get along" flow for agents that disagree. It surfaces the disagreements and works toward agreement.</p><code>@aligner agree on where we store tokens</code></div>
+    </div>
+    <p class="flat-caption rise">Any agent can start one, or you can. <em>Every run is kept.</em></p>
+    <aside class="notes">
+      <ul>
+        <li>Agreeing. These are engines: tools that you can add to a room.</li>
+        <li>These are key capabilities needed for peer-to-peer agentic systems, and the focus of the rest of this talk.</li>
+        <li>The conductor runs a script: it fixes the steps, and at each step it asks certain agents to speak. Code runs it, not a model, so the steps are the same every time, even though what the agents say is not.</li>
+        <li>Two of its scripts are ACCORD, which gets the agent team to agree on the task and its key terms, and CONCORD, which gives every agent a voice and reaches a decision all of them can accept.</li>
+        <li>The Aligner was our first implementation of a protocol to get multiple agents to negotiate and agree. We have kept it because it is still useful.</li>
+        <li>Agents can start these, or you can.</li>
+        <li>Results from every run are kept in memory. (~1.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 16 ── The scenario -->
+  <section class="slide" data-title="One customer, four teammates">
+    <h2 class="rise" style="margin-top:20px">One customer, <em>four teammates</em></h2>
+    <div class="grid2 when" style="grid-template-columns: repeat(2, 1fr)">
+      <div class="box rise"><h3>Customer success</h3><p>Wants 15% off, with extra support, to keep Acme.</p></div>
+      <div class="box rise"><h3>Finance</h3><p>Wants no discount at all.</p></div>
+      <div class="box rise"><h3>Sales</h3><p>Will give a discount only for a three-year term.</p></div>
+      <div class="box rise"><h3>Legal</h3><p>Wants standard liability caps.</p></div>
+    </div>
+    <p class="flat-caption rise">Acme's renewal. <em>They start out disagreeing.</em></p>
+    <aside class="notes">
+      <ul>
+        <li>Let's set up the demos. We want to show how the engines work.</li>
+        <li>We recorded 2 runs with real agents to show the L9 ACCORD and CONCORD protocols specifically.</li>
+        <li>The scenario is a contract renewal. We have one customer, ACME, and 4 agent teammates with conflicting objectives: customer success, finance, sales and legal. No one is in charge.</li>
+        <li>We want them to do two things.</li>
+        <li>First, agree on what the renewal handoff task needs to look like. We use ACCORD for this.</li>
+        <li>Then, decide on the renewal offer. We use CONCORD for this.</li>
+        <li>Setup notes: recorded against Mycelium running locally, the teammates are on claude-haiku-4-5, and the waits for replies play at 5x speed. (~1 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 17 ── Accord: video -->
+  <section class="slide" data-title="Accord: watch a run">
+    <h2 class="rise" style="margin-top:20px">Accord: <em>agree on the task</em></h2>
+    <figure class="vid rise"><video controls preload="metadata" playsinline><source src="media/l9-accord.mp4" type="video/mp4"><source src="https://mycelium-io.github.io/mycelium/l9-accord.mp4" type="video/mp4"></video></figure>
+    <aside class="notes">
+      <ul>
+        <li>First up, ACCORD. We use ACCORD to get everyone to the same understanding of the task before work starts: what it asks, what is out of scope, what done looks like, and what the key words mean.</li>
+        <li>Members label what they write. Code combines it, not a model. Anything that doesn't line up becomes an open item.</li>
+        <li><b>The task here: plan the handoff for ACME's renewal.</b></li>
+        <li>Command: <code>@conductor accord @sales @success @finance @legal: Plan the Acme renewal handoff.</code></li>
+        <li>Play the video (53 seconds), then press on for what happened.</li>
+        <li><b>Newer build than the video:</b> Accord now pins down the key terms, with units, and gives every check an owner. Its summary keeps working after the run: later work is told what it says, and a <code>conflict:</code> line in the task's thread adds to its open items. (~2 min with the video)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 18 ── Accord: what happened -->
+  <section class="slide" data-title="Accord: what happened">
+    <h2 class="rise" style="margin-top:20px">Accord: <em>what happened</em></h2>
+    <div class="recap">
+      <div class="row rise"><h3>Describe</h3><p>Each member labelled what they think the task is. 20 points in the first round, each in the member's own words.</p></div>
+      <div class="row rise"><h3>What's missing</h3><p>The conductor showed the points so far and asked what was missing. Members added 16 more, for 36 in all. None were combined, because each role raised its own concerns.</p></div>
+      <div class="row rise"><h3>The words</h3><p>Sales and customer success meant different things by "aggressive". Asked again, each stood by its own meaning, so the summary lists both.</p></div>
+      <div class="row rise"><h3>Done</h3><p>One shared summary, saved in the room's memory. It says how "done" was checked, and by whom.</p></div>
+    </div>
+    <p class="flat-caption rise">Nobody had the same picture. <em>Now everyone can see where they differ.</em></p>
+    <aside class="notes">
+      <ul>
+        <li><b>Say this:</b> Recorded on an earlier build. Now Accord also pins down key terms, with units, and gives every check an owner.</li>
+        <li>(1) Each member described the task in their own words. This was 20 points across the 4 agents. ACCORD keeps each one, and who said it.</li>
+        <li>(2) The conductor shows the points so far and asks if anything is missing. 16 more points were added.</li>
+        <li>(3) All potential key-word conflicts are reviewed. 12 checks here. One conflict remains: sales and customer success mean different things by "aggressive".</li>
+        <li>(4) A summary is written to memory, including the open items: any points that only one agent made, and the word that 2 agents use differently.</li>
+        <li>Now everyone sees where the agents differ. (~1.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 19 ── Concord: video -->
+  <section class="slide" data-title="Concord: watch a run">
+    <h2 class="rise" style="margin-top:20px">Concord: <em>agree on a decision</em></h2>
+    <figure class="vid rise"><video controls preload="metadata" playsinline><source src="media/l9-concord.mp4" type="video/mp4"><source src="https://mycelium-io.github.io/mycelium/l9-concord.mp4" type="video/mp4"></video></figure>
+    <aside class="notes">
+      <ul>
+        <li>Concord is for a decision where members want different things.</li>
+        <li>Each agent suggests an option.</li>
+        <li>All agents rate every option from 0 to 100.</li>
+        <li>A fixed rule chooses the option whose lowest rating is highest.</li>
+        <li>Models write the options and ratings, and code decides what happens next.</li>
+        <li><b>The task here: decide the renewal offer for ACME.</b></li>
+        <li>Command: <code>@conductor concord @success @finance @sales @legal: Decide the renewal offer for Acme.</code></li>
+        <li>Play the video (45 seconds), then press on for what happened.</li>
+        <li><b>Newer build than the video:</b> Concord now leads with reasons, not numbers. Every option and every rating comes with a reason. Each member's ratings are read on their own scale, and the bar is stated in terms of two outcomes everyone rated. The run ends by saying in words who is short and why. The video and recap show the earlier 0 to 100 ratings against a bar of 70. (~2 min with the video)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 20 ── Concord: what happened -->
+  <section class="slide" data-title="Concord: what happened">
+    <h2 class="rise" style="margin-top:20px">Concord: <em>what happened</em></h2>
+    <div class="recap">
+      <div class="row rise"><h3>Suggest and rate</h3><p>Each member suggested one option and rated all four. The rule chose sales's C: 15% off for three years. Finance rated it 40 and legal 55.</p></div>
+      <div class="row rise"><h3>First fix</h3><p>Finance was least happy, so it improved C. Its version, E, capped the discount at 10%. Legal rated E 68, just under the bar of 70.</p></div>
+      <div class="row rise"><h3>Second fix</h3><p>Legal improved E into F, with mutual liability caps of twice the yearly value and updated data protection terms. Everyone rated F 76 or higher. Finance went from 40 to 82.</p></div>
+      <div class="row rise"><h3>Done</h3><p>Everyone was above the bar. Agreed on F after six steps, and saved as the room's decision.</p></div>
+    </div>
+    <p class="flat-caption rise">Nobody got steamrolled. <em>The least happy member improved the offer.</em></p>
+    <aside class="notes">
+      <ul>
+        <li><b>Say this:</b> Recorded on an earlier build. Now every option and rating comes with a reason, and each member is read on their own scale.</li>
+        <li>(1) The rule picks the option the least happy member likes most, so a majority can't outvote one member's objection.</li>
+        <li>Finance was at 40 on option C, so finance was asked to fix it.</li>
+        <li>Then, in the next round, legal was the least happy, at 68.</li>
+        <li>Each fix made the least happy member better off.</li>
+        <li>We use the least happy member to improve the offer, until we get to a point where all the agents can live with the result. That doesn't mean they all love it.</li>
+        <li>The decision is saved in memory (context/decision/acme-renewal-offer), with every option and rating. (~1.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 20 ── Honest limits -->
+  <section class="slide" data-title="What we don't know yet">
+    <h2 class="rise" style="margin-top:34px">What we <em>don't know yet</em></h2>
+    <div class="grid2 when" style="grid-template-columns: repeat(2, 1fr)">
+      <div class="box rise"><h3>Token cost</h3><p>These coordination tools cost tokens, and we know it. Are the ones we have doing it in the most efficient way? We're not sure yet.</p></div>
+      <div class="box rise"><h3>Other companies' agents</h3><p>Trust and authentication have several groups looking at them. Mycelium doesn't support this yet: we assume all agents are trusted.</p></div>
+      <div class="box rise"><h3>Scale</h3><p>So far we've run relatively small teams.</p></div>
+      <div class="box rise"><h3>The coordination primitives</h3><p>We expect to need more than the ones we have.</p></div>
+    </div>
+    <aside class="notes">
+      <ul>
+        <li>So that still leaves us with questions.</li>
+        <li>We use Mycelium every day. The Mycelium code base and some of our own internal tools are written using agent teams in Mycelium.</li>
+        <li>There's plenty we don't know. These are some key questions that we will continue to work on.</li>
+        <li><b>Token cost:</b> these coordination tools cost tokens, and we know it. Could it be more efficient?</li>
+        <li><b>Other companies' agents:</b> this is a trust and authentication issue, which many groups are looking at. Mycelium assumes all agents are trusted at the moment.</li>
+        <li><b>Scale:</b> so far we've run relatively small teams.</li>
+        <li><b>Coordination primitives:</b> we expect to need more than the ones we have. We are already adding more, like the verifier, and we see a need for drift detection, security guardians, and so on.</li>
+        <li>Net out: we build with Mycelium every day, and these are the open questions we are still working on. These are problems we need to solve as an industry. (~1.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 21 ── Takeaways -->
+  <section class="slide layout-statement opener" data-title="Takeaways" data-lens="1600 500 260, 1330 820 46" data-glass data-logo>
+    <blockquote class="rise">Sometimes a swarm is the right fit. <em>Sometimes peers are the requirement.</em></blockquote>
+    <cite class="long rise">Cross a boundary and nobody can be the orchestrator. Then you need to discover, share state, take turns, agree and verify.</cite>
+    <aside class="notes">
+      <ul>
+        <li>Swarm has benefits, and sometimes we know that we will have peer interactions and need to manage them effectively.</li>
+        <li>To manage the lack of shared intent, shared context and shared reasoning that you will see with these agent teams, you need effective collaboration tools that close these gaps.</li>
+        <li>These pieces (rooms, shared state, mentions and turns, and the engines) are the infrastructure swarms need.</li>
+        <li>Mycelium is a playground to try this out.</li>
+        <li>We welcome your input on our project. Use it, ask questions, provide feedback. (~1.5 min)</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 22 ── Questions -->
+  <section class="slide layout-close" data-title="Questions" data-lens="960 290 170" data-glass data-logo data-bare>
+    <h1 class="display rise" style="margin-top:30px">Questions?</h1>
+    <div class="links rise">
+      <a class="pane" href="https://mycelium-io.github.io/mycelium/"><span>docs</span> mycelium-io.github.io/mycelium</a>
+      <a class="pane" href="https://github.com/mycelium-io/mycelium"><span>code</span> github.com/mycelium-io/mycelium</a>
+    </div>
+    <aside class="notes"><p>Leave up during Q&A.</p></aside>
+  </section>
+
+  <!-- Backup: L9 protocols and results (from AccordConcord_19Oct2026) -->
+  <section class="slide" data-title="Backup: how Accord and Concord tested">
+    <div class="kicker rise" style="color:#7bd88f; margin-top:0">Backup · L9 protocols</div>
+    <h2 class="rise" style="margin-top:0; font-size:62px; white-space:nowrap">L9 protocols: shared meaning, <em>then a certified decision</em></h2>
+    <div class="l9top rise">
+      <div class="pcard acc"><h3>ACCORD <small>same meaning</small></h3><p>Before work starts, agents agree on the goal, the words and how 'done' is checked.</p><p class="fixes"><b>FIXES</b> same word, different meaning · different idea of the task · nobody verifies</p></div>
+      <div class="mid"><span class="arr">→</span><div class="work"><b>Work</b><small>under the contract</small></div><span class="arr o">→</span></div>
+      <div class="pcard con"><h3>CONCORD <small>same decision</small></h3><p>When options diverge, the group commits only to a choice every agent can accept.</p><p class="fixes"><b>FIXES</b> positions, no proposals · conflicts never reconciled · herding</p></div>
+    </div>
+    <div class="l9res rise">
+      <span class="hd">Results</span><span class="hd">Converges</span><span class="hd">Gets it right</span><span class="hd">Costs</span><span class="hd">Pays off</span>
+      <div class="lab acc">ACCORD</div>
+      <div class="cell"><b>83%</b> lock a contract</div>
+      <div class="cell"><b>99.5%</b> of locked terms used afterwards</div>
+      <div class="cell"><b>379K</b> prompt tokens per run, 85% cache eligible</div>
+      <div class="cell"><b class="g">81%</b> glossary uptake, 61% shape reasoning</div>
+      <div class="lab con">CONCORD</div>
+      <div class="cell"><b>89%</b> reach a decision</div>
+      <div class="cell"><b>98%</b> outcomes satisfactory, 93% fair</div>
+      <div class="cell"><b>876K</b> per run, 87% cache eligible</div>
+      <div class="cell"><b class="g">0.86</b> avg worst-off satisfaction, 0 to 3 repairs</div>
+    </div>
+    <p class="l9foot rise">Always converges · cost known up front · ships as agent skills, no recompile</p>
+    <p class="l9note rise">SRE triage results from the L9 research. <em>Mycelium runs simplified versions.</em></p>
+    <aside class="notes">
+      <p>BACKUP. Source: AccordConcord_19Oct2026.pptx (Shift.forward(), Oct 27, 2026), slides 2 to 4. These are results on SRE triage (incident triage) for the full L9 protocols from the Internet of Cognition team, not for Mycelium's simplified versions. Say that first.</p>
+      <p><b>Accord card, "same meaning":</b> before work starts, agents agree on the goal, the words and how "done" is checked. <b>FIXES:</b> the same word meaning different things (the source's example: a telemetry agent reports error_rate = 0.087 while a verifier checks error_rate > 5%, the same number with opposite meaning and no alert), agents with different ideas of the task, and nobody agreeing how success is verified.</p>
+      <p><b>Concord card, "same decision":</b> when options diverge, the group commits only to a choice every agent can accept. <b>FIXES:</b> agents that state positions but make no proposals, conflicts that are never reconciled, and herding (agents agreeing because the others agreed, not because they checked).</p>
+      <p><b>"Work under the contract":</b> the arrows show the order. Accord first, then the work happens under the agreed contract, and when options diverge during the work, Concord takes over. (In Mycelium the Accord output is a saved shared summary, not a locked contract.)</p>
+      <p><b>Results table, by column:</b></p>
+      <p><b>Converges:</b> how often a run finishes with an outcome. Accord locks a contract in 83% of runs. Concord reaches a decision in 89%.</p>
+      <p><b>Gets it right:</b> whether the outcome holds up. For Accord, 99.5% of the locked terms are used afterwards. For Concord, 98% of outcomes are satisfactory and 93% fair. CHECK how the source scored "satisfactory" and "fair" before you explain them.</p>
+      <p><b>Costs:</b> tokens per run. Accord uses 379K prompt tokens, 85% cache eligible. Concord uses 876K per run, 87% cache eligible. Cache eligible means the share of the prompt that can be served from a cache. The source deck puts Concord at about 44 cents a run.</p>
+      <p><b>Pays off:</b> what you get for the cost. For Accord, 81% glossary uptake (agents actually use the agreed terms) and 61% of terms visibly shape their reasoning. For Concord, 0.86 average worst-off satisfaction (how satisfied the least happy agent ended up) and 0 to 3 repairs (how many fix rounds were needed).</p>
+      <p><b>Bottom line:</b> always converges (proven to end within the round budget and never cycle), cost known up front (a hard ceiling before the run starts), and ships as agent skills with no recompile. These are the source deck's claims about the full protocols. Mycelium's simplified versions don't carry them over automatically.</p>
+      <p>Mycelium's own small test (five runs each, September 2026, per the L9 integration page): aligner and Concord reached agreement 5 of 5. Concord's median was 60 seconds against the aligner's 156. Concord's agreements landed right at the bar of 70.</p>
+    </aside>
+  </section>
+</main>
+
+<div class="progress"></div>
+<div class="goto pane"></div>
+<canvas id="ink" aria-hidden="true"></canvas>
+<div class="blackout"></div>
+
+<script src="logo.js"></script>
+<script src="lens.js"></script>
+<script src="term.js"></script>
+<script src="app.js"></script>
+<script src="ink.js"></script>
+<script src="scenes.js?v=2"></script>
+<script src="flat.js"></script>
+<script src="deck.js"></script>
+<script>
+  // ?notes: add each slide's speaker notes after it, and set a letter page, for printing.
+  if (/[?&]notes\b/.test(location.search)) {
+    document.documentElement.classList.add('notes-print');
+    var st = document.createElement('style');
+    st.textContent = '@media print { @page { size: letter portrait; margin: 0.5in; } }';
+    document.head.appendChild(st);
+    document.querySelectorAll('.slide').forEach(function (sl, i) {
+      var n = sl.querySelector('.notes'), d = document.createElement('div');
+      d.className = 'print-notes';
+      d.innerHTML = '<h4>Slide ' + (i + 1) + ': ' + (sl.dataset.title || '') + '</h4>' + (n ? n.innerHTML : '<p>No notes for this slide.</p>');
+      sl.after(d);
+    });
+  }
+</script>
+<script>
+  // Scenes only draw while their slide is on screen, so for printing: give slides that
+  // start partway through a scene the right heading, and (with ?print or ?notes) let every
+  // scene draw for a few seconds so its picture is on the page.
+  document.querySelectorAll('[data-start-stage]').forEach(function (sl) { sl.dataset.stage = sl.dataset.startStage; });
+  if (/[?&](print|notes)\b/.test(location.search)) {
+    var scn = [].slice.call(document.querySelectorAll('.slide.layout-scene'));
+    var was = scn.map(function (sl) { return sl.classList.contains('active'); });
+    var bn = document.createElement('div');
+    bn.textContent = 'Drawing the animated slides for printing. Wait 5 seconds, then print.';
+    bn.setAttribute('style', 'position:fixed;left:0;right:0;top:0;z-index:99999;padding:12px;background:#f5a524;color:#000;font:600 16px Helvetica,Arial,sans-serif;text-align:center');
+    bn.className = 'no-print-banner';
+    document.body.appendChild(bn);
+    scn.forEach(function (sl) { sl.classList.add('active'); });
+    setTimeout(function () {
+      scn.forEach(function (sl, i) { if (!was[i]) sl.classList.remove('active'); });
+      bn.textContent = 'Ready. Print now (Cmd+P).';
+      setTimeout(function () { bn.remove(); }, 4000);
+    }, 5000);
+  }
+</script>
+</body>
+</html>

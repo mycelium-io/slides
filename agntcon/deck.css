@@ -1,0 +1,704 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Copyright 2026 Mycelium Contributors */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+/* ── Palette: Quiet night with a slate midground ──
+ * Flat: a near-black background, content on slate panels (the midground),
+ * one soft teal accent, and no glow, glass or moving background except the
+ * glass M on the title and closing slides. T switches to light for a bright
+ * room. */
+:root {
+  --bg: #14161a;
+  --text: #e8e9eb;
+  --muted: #8a9099;
+  --faint: #5d636c;
+  --accent: #8fc3cf;
+  --accent-ink: #14161a;
+  /* The deck has one accent; this is a second, neutral voice (the people in
+     the scenes, a prompt in a terminal), never a second colour. */
+  --accent2: #b4bac2;
+  --green: #9cc9a8;
+  --yellow: #d9b27c;
+  --red: #d98a84;
+  /* The midground: panels between the background and the words. */
+  --mid: #23272e;
+  --mid-on: #26303a;       /* the one panel being argued for */
+  --mid-line: #343a44;     /* lines drawn on a panel */
+  --accent-line: rgba(143, 195, 207, 0.45);
+  --border: #2c3038;       /* rules on the background */
+  --border-hi: #343a44;
+  --pane: var(--mid);
+  --pane-solid: var(--mid);
+  --code-cmd: #8fc3cf;
+  --code-flag: #b4bac2;
+  --code-str: #c9cdd3;
+  --code-arg: #b4bac2;
+  --code-comment: #6f757e;
+  --sheen: transparent;
+  --shadow: none;
+  --halo: none;
+
+  --display: "Cormorant Garamond", Georgia, serif;
+  --sans: "IBM Plex Sans", -apple-system, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+:root[data-theme="light"] {
+  --bg: #f4f5f6;
+  --text: #16191d;
+  --muted: #555b64;
+  --faint: #8c929a;
+  --accent: #2f6f7d;
+  --accent-ink: #ffffff;
+  --accent2: #555b64;
+  --green: #2f7a4f;
+  --yellow: #8a6410;
+  --red: #a8433c;
+  --mid: #e6e8eb;
+  --mid-on: #dde7ea;
+  --mid-line: #cfd3d8;
+  --accent-line: rgba(47, 111, 125, 0.5);
+  --border: #dcdfe3;
+  --border-hi: #cfd3d8;
+  --code-cmd: #2f6f7d;
+  --code-flag: #555b64;
+  --code-str: #16191d;
+  --code-arg: #555b64;
+  --code-comment: #7d838b;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#lens-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; z-index: 0; transition: opacity 0.7s ease; }
+/* Off a GLASS slide the background is flat: the canvas fades to the page. */
+body.flat #lens-bg { opacity: 0; }
+
+/* ── The stage: 1920x1080, scaled to fit by deck.js ── */
+.deck {
+  position: fixed; left: 0; top: 0;
+  width: 1920px; height: 1080px;
+  transform-origin: 0 0;
+  z-index: 1;
+}
+.slide {
+  position: absolute; inset: 0;
+  padding: 120px 150px 150px;
+  display: flex; flex-direction: column;
+  opacity: 0; visibility: hidden;
+  text-shadow: var(--halo);
+  transition: opacity 0.55s ease, visibility 0s linear 0.55s;
+}
+.slide.active { opacity: 1; visibility: visible; transition: opacity 0.55s ease, visibility 0s; }
+/* Only the glass slides have anything moving behind their words to lift them off. */
+.slide[data-glass] { text-shadow: 0 0 28px rgba(20, 22, 26, 0.95), 0 0 2px rgba(20, 22, 26, 0.8); }
+.slide .notes { display: none; }
+
+/* Everything marked .rise arrives in order when its slide does. */
+.rise { opacity: 0; transform: translateY(26px); filter: blur(8px); }
+.slide.active .rise {
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
+  animation-delay: calc(140ms + var(--i, 0) * 80ms);
+}
+@keyframes rise { to { opacity: 1; transform: none; filter: none; } }
+
+/* Steps reveal one press at a time, before the deck moves on. */
+.step { opacity: 0.06; transform: translateY(10px); filter: blur(3px); transition: opacity 0.5s, transform 0.5s, filter 0.5s; }
+.step.shown { opacity: 1; transform: none; filter: none; }
+.step.current .marker { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+
+/* ── Type ── */
+h1, h2, h3 { margin: 0; font-weight: 600; }
+/* Headings are plain and tight in the sans; the display serif, in italic, is
+ * only an accent: one phrase per slide, marked with <em>, as on the site. */
+.display { font: 500 150px/0.98 var(--sans); letter-spacing: -0.04em; }
+h2, .h2 { font: 500 84px/1.04 var(--sans); letter-spacing: -0.03em; }
+h2 em, .h2 em, .display em, blockquote em, .big em, .flat-caption em, .verdict em {
+  font: italic 500 1.14em/1 var(--display); letter-spacing: -0.01em; color: var(--accent);
+  /* Cormorant's small x-height and long descenders make it read low beside the
+   * sans on a shared baseline, so it sits a hair higher than the baseline. */
+  position: relative; top: -0.045em;
+}
+h3 { font: 500 40px/1.2 var(--sans); letter-spacing: -0.01em; }
+p, li { font-size: 34px; line-height: 1.45; font-weight: 400; }
+.lede { font-size: 40px; line-height: 1.4; font-weight: 400; color: var(--muted); max-width: 1000px; }
+.muted { color: var(--muted); }
+.accent { color: var(--accent); }
+em.glow { font-style: italic; color: var(--accent); }
+code, .mono { font-family: var(--mono); }
+p code, li code { font-size: 0.82em; padding: 0.08em 0.36em; border-radius: 8px; background: var(--mid); }
+.spacer { flex: 1; }
+
+/* ── Panes: flat slate panels on the midground ── */
+.pane {
+  text-shadow: none;
+  background: var(--mid);
+  border: 0;
+  border-radius: 20px;
+}
+
+/* ── Chrome on every slide ── */
+.chrome {
+  position: absolute; left: 150px; right: 150px; bottom: 60px;
+  display: flex; align-items: center; gap: 20px;
+  font: 500 20px/1 var(--sans);
+  color: var(--muted);
+  opacity: 0.7;
+  pointer-events: none;
+}
+.chrome img { width: 30px; height: 30px; }
+.chrome .talk { flex: 1; text-align: center; opacity: 0.8; }
+.chrome .count { font: 400 20px/1 var(--mono); color: var(--faint); }
+.chrome .count b { color: var(--muted); font-weight: 400; }
+.slide[data-bare] .chrome { display: none; }
+
+.progress { position: fixed; left: 0; bottom: 0; height: 2px; background: var(--accent); z-index: 3; transition: width 0.6s cubic-bezier(0.2, 0.7, 0.1, 1); }
+
+/* ── Layout: title ── */
+.layout-title { justify-content: center; }
+.layout-title .display { margin: 40px 0 44px; max-width: 1100px; font-size: 128px; }
+.layout-title .byline { margin-top: 70px; display: flex; gap: 28px; align-items: center; font: 500 24px/1.2 var(--sans); color: var(--muted); letter-spacing: 0.06em; }
+.layout-title .byline .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* ── Layout: section ── */
+.layout-section { justify-content: center; }
+.layout-section .num {
+  font: italic 500 560px/0.8 var(--display);
+  font-variant-numeric: lining-nums;
+  letter-spacing: -0.04em;
+  color: transparent;
+  text-shadow: none;   /* a halo would show through the hollow figures */
+  -webkit-text-stroke: 2.5px color-mix(in srgb, var(--text) 75%, transparent);
+  position: absolute; right: 190px; top: 210px;
+}
+.layout-section h2 { font-size: 150px; max-width: 900px; margin-top: 36px; }
+.layout-section .lede { margin-top: 40px; max-width: 760px; }
+
+/* ── Layout: statement ── */
+.layout-statement { justify-content: center; }
+.layout-statement blockquote { margin: 40px 0 0; font: 600 76px/1.1 var(--sans); letter-spacing: -0.03em; max-width: 1400px; }
+.layout-statement blockquote .accent { font-style: italic; }
+.layout-statement cite { display: block; margin-top: 56px; font: 400 26px/1.4 var(--sans); font-style: normal; color: var(--muted); letter-spacing: 0.04em; }
+.layout-statement cite.long { font-size: 36px; line-height: 1.45; letter-spacing: 0; max-width: 1300px; }
+
+/* ── Layout: agenda ── */
+/* Two columns of panels, read down each column. A finished step is an
+ * outline only; filled means still to do. */
+.agenda {
+  list-style: none; margin: auto 0 40px; padding: 0;
+  display: grid; grid-template-rows: repeat(3, auto); grid-auto-flow: column; grid-auto-columns: 1fr; gap: 18px 30px;
+}
+.agenda li {
+  display: grid; grid-template-columns: 70px 1fr auto; align-items: baseline; gap: 20px;
+  padding: 26px 32px; border-radius: 16px; background: var(--mid);
+  font-size: 34px; font-weight: 400;
+}
+.agenda time { font: 400 24px/1 var(--mono); color: var(--accent); }
+.agenda .tag { font: 400 20px/1 var(--mono); color: var(--muted); }
+.agenda li.now { font-weight: 500; }
+.agenda li.done { background: transparent; box-shadow: inset 0 0 0 2px var(--mid); color: var(--faint); }
+.agenda li.done time { color: var(--faint); }
+
+/* ── Layout: cards ── */
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 70px; }
+.card { padding: 48px 46px 52px; display: flex; flex-direction: column; gap: 22px; min-height: 420px; }
+/* A card's glyph was a glass orb; flat, the card's title carries it. */
+.card .glyph { display: none; }
+.card h3 { font: 500 48px/1.05 var(--sans); letter-spacing: -0.025em; }
+.card p { font-size: 29px; color: #c9cdd3; margin: 0; }
+.card .foot { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--mid-line); font: 400 21px/1.3 var(--mono); color: var(--muted); }
+.cards.people { grid-template-columns: repeat(2, 1fr); max-width: 1500px; }
+.cards.people .card { min-height: 0; }
+.card .photo { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; object-position: 50% 25%; border: 0; }
+
+/* ── Layout: diagram ── */
+.layout-diagram svg.diagram { position: absolute; inset: 0; width: 1920px; height: 1080px; pointer-events: none; }
+.layout-diagram .copy { max-width: 640px; }
+.layout-diagram .copy p { color: var(--muted); }
+.diagram .wire { stroke: color-mix(in srgb, var(--text) 30%, transparent); stroke-width: 2; fill: none; }
+.diagram .wire.live { stroke: var(--accent); stroke-width: 2.5; stroke-dasharray: 6 18; animation: flow 1.6s linear infinite; }
+.diagram .agent circle { fill: var(--pane-solid); stroke: var(--border-hi); stroke-width: 2; }
+.diagram .agent text { font: 500 26px var(--sans); fill: var(--text); text-anchor: middle; dominant-baseline: middle; }
+.diagram .agent .role { font: 400 20px var(--sans); fill: var(--muted); }
+.diagram .hub text { font: italic 600 64px var(--display); fill: var(--text); text-anchor: middle; dominant-baseline: middle; }
+.diagram .hub .sub { font: 500 22px var(--sans); fill: var(--accent); font-style: normal; }
+@keyframes flow { to { stroke-dashoffset: -48; } }
+
+/* ── Layout: terminal ── */
+.layout-terminal { flex-direction: row; gap: 90px; align-items: center; }
+.layout-terminal .copy { width: 560px; flex: none; }
+.layout-terminal .copy p { color: var(--muted); }
+.term { flex: 1; overflow: hidden; }
+.term .bar { display: flex; gap: 12px; align-items: center; padding: 24px 30px; border-bottom: 1px solid var(--mid-line); }
+.term .bar i { width: 15px; height: 15px; border-radius: 50%; background: var(--mid-line); }
+.term .bar span { margin-left: 18px; font: 400 20px var(--mono); color: var(--muted); }
+.term pre { margin: 0; padding: 38px 44px 46px; font: 400 27px/1.75 var(--mono); white-space: pre-wrap; }
+.layout-terminal.dense .copy { width: 440px; }
+.layout-terminal.dense .term pre { font-size: 24px; line-height: 1.7; }
+.term .xterm-wrap { padding: 32px 40px 38px; }
+.term .xterm-host .xterm { height: 100%; }
+.term .xterm-host .xterm-viewport { background: transparent !important; }
+.term .live-dot { margin-left: auto; font: 500 18px var(--sans); font-style: normal; color: var(--green); display: inline-flex; align-items: center; gap: 10px; }
+.term .live-dot::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
+.term.live:focus-within { box-shadow: inset 0 0 0 2px var(--accent-line); }
+.term .c { color: var(--code-comment); }
+.term .p { color: var(--accent2); user-select: none; }
+.term .k { color: var(--code-cmd); }
+.term .f { color: var(--code-flag); }
+.term .s { color: var(--code-str); }
+.term .a { color: var(--code-arg); }
+
+/* ── Layout: flow (steps across) ── */
+.flow { list-style: none; padding: 0; margin: 110px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; position: relative; }
+.flow::before { content: ""; position: absolute; left: 40px; right: 40px; top: 40px; height: 2px; background: var(--mid-line); }
+.flow li { position: relative; }
+.flow .marker { width: 82px; height: 82px; border-radius: 50%; display: grid; place-items: center; font: 400 26px var(--mono); background: var(--mid); border: 2px solid var(--mid-line); transition: all 0.4s; position: relative; z-index: 1; }
+.flow h3 { margin: 40px 0 16px; font: 500 46px/1.05 var(--sans); letter-spacing: -0.025em; }
+.flow p { font-size: 28px; color: var(--muted); margin: 0; }
+.flow .notice { display: inline-block; margin-top: 24px; font: 400 20px var(--mono); color: var(--accent); padding: 10px 16px; border-radius: 12px; background: var(--mid); }
+
+/* ── Layout: numbers ── */
+.numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; margin-top: auto; margin-bottom: 40px; }
+.numbers .n { text-shadow: none; font: 500 150px/0.9 var(--sans); font-variant-numeric: tabular-nums; letter-spacing: -0.05em; color: var(--text); }
+.numbers .label { margin-top: 26px; padding-top: 24px; border-top: 1px solid var(--border-hi); font-size: 30px; color: var(--muted); max-width: 420px; }
+.numbers.four { grid-template-columns: repeat(4, 1fr); gap: 50px; margin-top: 80px; margin-bottom: 0; }
+.numbers.four .n { font-size: 128px; }
+/* A section opener: one big line low on the slide, a short accent rule under
+ * it, and one large slate shape in the corner. "The room remembers", near the
+ * end, keeps the glass M instead of the shape. */
+.layout-statement.opener blockquote { font-size: 132px; font-weight: 500; line-height: 1; letter-spacing: -0.04em; max-width: 1100px; }
+.layout-statement.opener cite.long { max-width: 900px; }
+.layout-statement.opener:not([data-glass]) {
+  justify-content: flex-end; padding-bottom: 190px;
+  background: radial-gradient(120% 90% at 85% 0%, var(--mid) 0 45%, transparent 45.2%);
+}
+.layout-statement.opener:not([data-glass])::after { content: ""; order: 1; width: 130px; height: 3px; margin-top: 56px; background: var(--accent); }
+.layout-statement.opener:not([data-glass]) cite { order: 2; }
+.numbers.four .label { font-size: 28px; }
+
+/* ── Layout: three tall columns (a frame used twice) ── */
+.triad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; margin-top: 60px; }
+.triad .box { min-height: 380px; padding: 40px 40px 44px; display: flex; flex-direction: column; justify-content: center; gap: 20px; text-align: center; }
+.triad .box h3 { font: 600 46px/1.05 var(--sans); letter-spacing: -0.025em; }
+.triad .box p { margin: 0; font-size: 30px; line-height: 1.4; color: var(--muted); }
+.triad .box.warn h3 { color: var(--red); }
+/* A slide that turns over in place on one click (.step.flip): each .now
+ * gives way to the .then stacked in the same spot, and the boxes go red. */
+.turn .heads, .turn .say { display: grid; }
+.turn .heads > *, .turn .say > * { grid-area: 1 / 1; }
+.turn .now, .turn .then { transition: opacity 0.5s ease; }
+.turn .then { opacity: 0; }
+.turn:has(.flip.shown) .now { opacity: 0; }
+.turn:has(.flip.shown) .then { opacity: 1; }
+.turn .triad .box { transition: border-color 0.5s ease; }
+.turn .triad .box h3 { transition: color 0.5s ease; }
+.turn:has(.flip.shown) .triad .box { border-color: color-mix(in srgb, var(--red) 55%, transparent); }
+.turn:has(.flip.shown) .triad .box h3 { color: var(--red); }
+.turn .credit { margin-bottom: -70px; }
+.credit { margin-top: 26px; font: 400 24px var(--sans); color: var(--muted); }
+
+/* ── Media: an image or clip from media/, or a placeholder naming it ── */
+figure.media { margin: 0; text-shadow: none; }
+figure.media img, figure.media video { display: block; max-width: 100%; max-height: 100%; border-radius: 12px; border: 0; }
+figure.media figcaption { margin-top: 14px; font: 400 22px var(--sans); color: var(--muted); }
+.media-missing { display: grid; place-content: center; gap: 10px; min-height: 260px; padding: 30px; text-align: center; border: 2px solid var(--mid-line); border-radius: 16px; color: var(--muted); }
+.media-missing b { font: 500 22px var(--mono); color: var(--text); }
+.media-missing span { font-size: 22px; }
+
+/* A diagram beside a picture, and pictures overlapping like a pile of clippings. */
+.split { display: grid; grid-template-columns: 1fr 720px; gap: 50px; align-items: center; margin-top: 40px; }
+.split figure.media img { width: 720px; }
+.split .funnel { margin-top: 0; }
+/* Two organisations side by side: a logo, then the document each published. */
+.logos { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; margin-top: 10px; }
+.logos + .flat-caption { margin-top: 30px; text-align: center; max-width: none; }
+.logos .org { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.logos .org > * { flex: none; }
+.logos figure.logo { height: 150px; display: flex; align-items: center; }
+.logos figure.logo img { height: 130px; border: 0; border-radius: 0; box-shadow: none; }
+.logos figure.logo.wordmark img { height: 74px; }
+.logos .name { font: 600 54px/1 var(--sans); letter-spacing: -0.02em; min-height: 54px; }.logos figure.doc { width: 520px; margin-top: 6px; }
+.logos figure.doc img { width: 100%; height: 250px; object-fit: cover; object-position: left top; background: #fff; }
+.logos figure.doc figcaption { text-align: center; }
+
+/* ── Layout: what wakes an agent (sources → the hub → the agent) ── */
+.wakes { display: grid; grid-template-columns: 520px 1fr 420px; align-items: center; column-gap: 140px; margin-top: 50px; }
+.wakes .sources { display: grid; gap: 16px; }
+.wakes .sources .box { padding: 18px 26px; font-size: 27px; }
+.wakes .hub { text-align: center; padding: 34px; }
+.wakes .hub small { font-size: 22px; }
+
+/* What you need: three plain icons. */
+.needs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; margin-top: 70px; }
+.needs .box { padding: 44px 40px; display: flex; flex-direction: column; gap: 14px; min-height: 320px; }
+.needs svg { width: 72px; height: 72px; fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 10px; }
+.needs h3 { font: 600 40px/1.1 var(--sans); letter-spacing: -0.02em; }
+.needs p { margin: 0; font-size: 27px; color: var(--muted); }
+
+/* The three ways to write a mention, under the "asking" scene. */
+.marks { position: absolute; left: 150px; right: 150px; bottom: 150px; margin: 0; padding: 0; list-style: none; display: flex; justify-content: center; gap: 70px; }
+.marks li { font-size: 30px; color: var(--muted); }
+.marks code { font-size: 30px; color: var(--accent); padding: 4px 12px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 10%, transparent); margin-right: 8px; }
+
+/* ── Layout: waking is the hard part (two sides that pull against each other) ── */
+.tension { display: grid; grid-template-columns: 1fr 90px 1fr; gap: 26px 20px; margin-top: 50px; align-items: stretch; }
+.tension .box { padding: 34px 40px; }
+.tension .box h3 { font: 600 42px/1.1 var(--sans); letter-spacing: -0.02em; margin-bottom: 14px; }
+.tension .box p { margin: 0; font-size: 28px; line-height: 1.4; color: var(--muted); }
+.tension .pull { display: grid; place-items: center; font-size: 64px; color: var(--accent); }
+.tension .wide { grid-column: 1 / -1; }
+.answer { list-style: none; margin: 46px 0 0; padding: 0; display: flex; gap: 60px; }
+.answer li { font-size: 32px; color: var(--text); }
+.answer code { font-size: 32px; color: var(--accent); padding: 4px 12px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 10%, transparent); margin-right: 10px; }
+
+/* ── Layout: the wake, one section at a time ──
+ * Every section is lit until the first click; then only the one its step
+ * names is, with its callout. */
+.wake-tour .term { position: relative; flex: none; margin-top: 30px; }
+.wake-tour .term pre { font-size: 19px; line-height: 1.5; padding: 22px 34px 24px; white-space: pre; }
+.wake-tour .part { transition: opacity 0.35s; }
+.wake-tour .callout {
+  position: absolute; right: 26px; opacity: 0; transition: opacity 0.35s;
+  font: 500 24px/1.2 var(--sans); color: var(--accent-ink); background: var(--accent);
+  padding: 8px 16px; border-radius: 10px; text-shadow: none; white-space: nowrap;
+}
+.wake-tour:has(.beat.current) .part { opacity: 0.22; }
+.wake-tour:has(.beat[data-part="why"].current) [data-part="why"],
+.wake-tour:has(.beat[data-part="since"].current) [data-part="since"],
+.wake-tour:has(.beat[data-part="box"].current) [data-part="box"],
+.wake-tour:has(.beat[data-part="next"].current) [data-part="next"],
+.wake-tour:has(.beat[data-part="board"].current) [data-part="board"] { opacity: 1; }
+
+/* ── Layout: compaction (one agent's context over time, and the room's memory) ── */
+svg.timeline { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+svg.timeline .seg { fill: color-mix(in srgb, var(--accent) 55%, transparent); }
+svg.timeline .seg.old { fill: color-mix(in srgb, var(--text) 22%, transparent); }
+svg.timeline .track { fill: none; stroke: var(--border-hi); stroke-width: 2; }
+svg.timeline .fold { stroke: var(--yellow); stroke-width: 3; stroke-dasharray: 8 8; }
+svg.timeline text { font: 500 24px var(--sans); fill: var(--muted); }
+svg.timeline text.fold-label { fill: var(--yellow); }
+svg.timeline text.hi { fill: var(--accent); }
+.box.memory-box { position: absolute; left: 760px; top: 620px; width: 400px; text-align: center; }
+.honest { margin-top: 10px; font-size: 30px; color: var(--muted); }
+
+/* ── Layout: building blocks (someone else's list, then what a team adds) ── */
+.blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
+.blocks .panel { padding: 30px 34px; border-radius: 20px; background: var(--mid); }
+.blocks .panel.ours { background: var(--mid-on); box-shadow: inset 0 0 0 2px var(--accent-line); }
+.blocks .panel h3 { font: 500 30px/1.2 var(--sans); color: var(--muted); margin-bottom: 20px; }
+.blocks .panel.ours h3 { color: var(--accent); }
+.blocks .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.blocks .grid span { padding: 16px 20px; border-radius: 12px; border: 1px solid var(--mid-line); font-size: 26px; text-align: center; color: var(--muted); }
+.blocks .ours .grid span { color: var(--text); }
+
+/* ── Layout: memory (a folder tree beside one memory, rendered) ── */
+.memory { display: grid; grid-template-columns: 640px 1fr; gap: 50px; margin-top: 60px; align-items: start; }
+.memory .tree { margin: 0; padding: 34px 38px; font: 400 26px/1.9 var(--mono); white-space: pre; }
+.memory .tree .note { color: var(--muted); font-family: var(--sans); }
+.memory .doc { padding: 40px 46px; }
+.memory .doc .key { font: 400 22px var(--mono); color: var(--accent); }
+.memory .doc h3 { margin: 14px 0 18px; font: 600 40px/1.15 var(--sans); letter-spacing: -0.02em; }
+.memory .doc p { margin: 0 0 16px; font-size: 27px; line-height: 1.45; color: var(--muted); }
+.memory .doc .links { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); font: 400 22px var(--mono); color: var(--muted); }
+
+/* ── Layout: a 2×2 grid of boxes ── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin: 50px 0 40px; }
+.grid2 .box { padding: 40px 44px; display: flex; flex-direction: column; gap: 18px; min-height: 380px; }
+.grid2 .box code { margin-top: auto; }
+.grid2 .box h3 { font: 600 40px/1.05 var(--sans); letter-spacing: -0.02em; }
+.grid2 .box p { margin: 0; font-size: 27px; line-height: 1.4; color: var(--muted); }
+.grid2 .box code { align-self: flex-start; font-size: 21px; color: var(--accent); padding: 6px 12px; border-radius: 8px; background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.layout-app .head .sub { font-size: 30px; color: var(--muted); }
+
+/* ── Layout: exercise ── */
+.layout-exercise .steps { list-style: none; counter-reset: s; padding: 0; margin: 56px 0 0; max-width: 1020px; }
+.layout-exercise .steps li { counter-increment: s; display: grid; grid-template-columns: 70px 1fr; gap: 26px; padding: 22px 0; font-size: 33px; }
+.layout-exercise .steps li::before { content: counter(s, decimal-leading-zero); font: 400 24px/1.9 var(--mono); color: var(--accent); }
+.layout-exercise .steps code { display: inline-block; margin-top: 10px; font-size: 26px; }
+.timer {
+  position: absolute; width: 520px; height: 520px; left: calc(var(--x) - 260px); top: calc(var(--y) - 260px);
+  display: grid; place-items: center; border-radius: 50%; cursor: pointer; user-select: none;
+}
+.timer svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.timer .track { stroke: color-mix(in srgb, var(--text) 18%, transparent); stroke-width: 3; fill: none; }
+.timer .ring { stroke: var(--accent); stroke-width: 6; fill: none; stroke-linecap: round; transition: stroke-dashoffset 0.4s linear; }
+.timer .readout { text-align: center; }
+.timer .time { font: 500 128px/1 var(--sans); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.timer .hint { margin-top: 16px; font: 400 22px var(--sans); color: var(--muted); }
+.timer.done .time { color: var(--accent); animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0.35; } }
+
+/* ── Layout: image ── */
+.layout-image { flex-direction: row; align-items: center; gap: 80px; }
+.layout-image .copy { width: 520px; flex: none; }
+.layout-image .copy p { color: var(--muted); }
+.frame { flex: 1; padding: 16px; perspective: 1800px; }
+.frame img { display: block; width: 100%; border-radius: 18px; border: 1px solid var(--border); }
+.tilt { transform: rotateY(-9deg) rotateX(3deg); transform-origin: left center; }
+
+/* ── Layout: app (a live frame of the Mycelium app) ── */
+.layout-app { padding-top: 90px; gap: 34px; }
+.layout-app .head { display: flex; align-items: baseline; gap: 40px; }
+.layout-app .head h2 { font-size: 80px; }
+.app { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+.app .bar { display: flex; gap: 12px; align-items: center; padding: 20px 28px; border-bottom: 1px solid var(--border); }
+.app .bar i { width: 15px; height: 15px; border-radius: 50%; background: var(--border-hi); }
+.app .bar .addr { margin-left: 18px; flex: 1; max-width: 760px; font: 400 19px var(--sans); color: var(--muted); padding: 8px 18px; border-radius: 10px; background: var(--pane); border: 1px solid var(--border); text-shadow: none; }
+.app.live .bar::after { content: "Live"; margin-left: auto; font: 500 18px var(--sans); color: var(--green); }
+.app-view { position: relative; flex: 1; overflow: hidden; border-radius: 0 0 30px 30px; }
+.app-view img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+.app-view iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; background: var(--bg); opacity: 0; transition: opacity 0.5s; }
+.app.live .app-view iframe { opacity: 1; }
+.app.live .app-view img { visibility: hidden; }
+.app .app-zoom { display: none; margin-left: auto; align-items: center; gap: 2px; padding: 3px; border-radius: 11px; border: 1px solid var(--border); background: var(--pane); }
+.app.live .app-zoom { display: inline-flex; }
+.app.live .bar::after { margin-left: 18px; }
+.app-zoom button { font: 500 17px var(--sans); color: var(--text); background: transparent; border: 0; border-radius: 8px; padding: 5px 11px; cursor: pointer; text-shadow: none; }
+.app-zoom button:hover { background: var(--border); }
+.app .app-tour { display: none; margin-left: auto; font: 500 17px var(--sans); color: var(--text); background: var(--pane); border: 1px solid var(--border); border-radius: 11px; padding: 7px 16px; cursor: pointer; text-shadow: none; }
+.app.live .app-tour { display: inline-block; }
+.app .app-tour:hover { background: var(--border); }
+.app .app-tour.on { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.app-tour + .app-zoom { margin-left: 12px; }
+.app-zoom .pct { min-width: 70px; color: var(--muted); font-size: 15px; }
+.app.magnified .app-zoom .pct { color: var(--accent); }
+.app.magnified .app-shield { cursor: grab; }
+.app.magnified .app-shield:active { cursor: grabbing; }
+.app-shield { position: absolute; inset: 0; border: 0; padding: 0; background: transparent; cursor: pointer; display: none; }
+.app.live .app-shield { display: block; }
+.app.using .app-shield { display: none; }
+.app-shield span { position: absolute; right: 24px; bottom: 24px; font: 500 18px var(--sans); letter-spacing: 0.08em; color: var(--text); padding: 12px 18px; border-radius: 12px; background: var(--pane-solid); border: 1px solid var(--border); opacity: 0; transition: opacity 0.2s; }
+.app-shield:hover span { opacity: 1; }
+.app.using { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+
+/* ── Layout: compare ── */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 64px; align-items: start; }
+.compare .side { padding: 52px 56px; }
+.compare .side h3 { font: 600 30px var(--sans); color: var(--muted); margin-bottom: 30px; }
+.compare .side.with h3 { color: var(--accent); }
+.compare ul { margin: 0; padding: 0; list-style: none; }
+.compare li { padding: 18px 0 18px 54px; position: relative; font-size: 32px; border-top: 1px solid var(--border); }
+.compare li::before { content: "—"; position: absolute; left: 0; color: var(--faint); }
+.compare .with li::before { content: ""; top: 34px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); }
+.compare .without { background: transparent; box-shadow: inset 0 0 0 2px var(--mid); }
+
+/* ── Layout: what it isn't (two "not" panes and the line under them) ── */
+.layout-isnt .compare { flex: none; }
+.compare .side p { font-size: 34px; color: var(--muted); margin: 0; }
+.verdict { margin: 70px 0 0; font: 600 60px/1.15 var(--sans); letter-spacing: -0.025em; max-width: 1500px; }
+
+/* ── Layout: lanes (the room's chat over the tasks' threads) ── */
+.layout-lanes .lane-label { font: 500 22px var(--sans); fill: var(--muted); }
+.layout-lanes .lane.chat { stroke: var(--accent2); stroke-width: 3; stroke-dasharray: 2 16; stroke-linecap: round; fill: none; }
+.layout-lanes .who circle { fill: var(--accent2); }
+.layout-lanes .divider { stroke: var(--border-hi); stroke-width: 1.5; stroke-dasharray: 10 10; }
+.layout-lanes .agent-dot circle { fill: var(--pane-solid); stroke: var(--accent); stroke-width: 3; }
+.diagram .wire.live.slow { animation-duration: 2.3s; }
+.diagram .wire.live.slower { animation-duration: 3.1s; }
+
+/* ── Layout: points (a row of three under a statement) ── */
+.points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; margin-top: 90px; max-width: 1300px; }
+.points div { font-size: 28px; color: var(--muted); padding-top: 22px; border-top: 1px solid var(--border-hi); }
+.points b { display: block; margin-bottom: 8px; font: 600 38px/1.05 var(--sans); letter-spacing: -0.02em; color: var(--text); }
+
+/* ── Layout: trio (three big lines, one per press) ── */
+.layout-trio .trio { margin-top: 60px; display: flex; flex-direction: column; gap: 46px; }
+.layout-trio .line h2 { font-size: 112px; }
+.layout-trio .line p { margin: 10px 0 0; font-size: 30px; color: var(--muted); }
+.layout-trio .line.step { opacity: 0.08; }
+.layout-trio .line.step.shown { opacity: 1; }
+
+/* ── Layout: scene (a living diagram, words kept to a heading) ── */
+.layout-scene { isolation: isolate; }   /* the canvas sits behind the slide's words, over the lens */
+.layout-scene canvas.scene { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; z-index: -1; }
+.layout-scene h2 { margin-top: 30px; font-size: 80px; }
+.swap { position: relative; height: 130px; }
+.swap [data-at] { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; transform: translateY(14px); filter: blur(6px); transition: opacity 0.5s, transform 0.5s, filter 0.5s; }
+.slide:not([data-stage]) .swap [data-at="0"],
+.slide[data-stage="0"] .swap [data-at="0"], .slide[data-stage="1"] .swap [data-at="1"],
+.slide[data-stage="2"] .swap [data-at="2"], .slide[data-stage="3"] .swap [data-at="3"],
+.slide[data-stage="4"] .swap [data-at="4"] { opacity: 1; transform: none; filter: none; }
+.step.beat { display: none; }
+.stages { position: absolute; left: 150px; right: 150px; bottom: 140px; margin: 0; padding: 0; list-style: none; display: flex; justify-content: center; gap: 70px; font: italic 600 44px var(--display); color: var(--faint); }
+.stages li { transition: color 0.4s; }
+.stages .step { opacity: 1; transform: none; filter: none; }
+.layout-scene[data-stage="0"] .stages li:first-child, .stages .step.current { color: var(--accent); }
+.stages .step.shown:not(.current), .layout-scene:not([data-stage="0"]) .stages li:first-child { color: var(--muted); }
+/* The trust scene's cover over the swarm: a slate panel that lifts away. */
+.veil { position: absolute; left: 180px; top: 340px; width: 920px; height: 560px; border-radius: 20px; border: 2px solid transparent; transition: background 0.8s, border-color 0.8s; background: color-mix(in srgb, var(--mid) 94%, transparent); }
+.veil span { position: absolute; left: 28px; top: 22px; font: 500 22px var(--sans); color: var(--muted); opacity: 0; transition: opacity 0.6s; }
+.slide[data-stage="1"] .veil { background: transparent; border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.slide[data-stage="1"] .veil span { opacity: 1; color: var(--accent); }
+
+/* ── Flat diagrams: boxes, and the wires flat.js draws between them ──
+ * Most slides are plain diagrams on a flat background, in one style: a box
+ * is a thin outline with a label, a wire is a thin line with an arrowhead.
+ * Give a box data-node="name"; a <path data-from="a" data-to="b"> in the
+ * slide's svg.wires is drawn between them. */
+.box {
+  position: relative; text-shadow: none;
+  padding: 24px 30px; border-radius: 16px;
+  border: 2px solid transparent;
+  background: var(--mid);
+  font: 400 30px/1.3 var(--sans);
+}
+.box b { display: block; font-weight: 500; }
+.box small { display: block; margin-top: 8px; font-size: 22px; color: var(--muted); }
+/* The one box being argued for: a lighter slate with a thin accent line. */
+.box.hi { background: var(--mid-on); border-color: var(--accent-line); }
+.box.hi small { color: var(--accent); }
+.box.warn { border-color: color-mix(in srgb, var(--red) 55%, transparent); }
+.tag { font: 500 24px/1.3 var(--sans); color: var(--muted); }
+svg.wires { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; pointer-events: none; }
+svg.wires path { fill: none; stroke: color-mix(in srgb, var(--text) 45%, transparent); stroke-width: 2.5; marker-end: url(#wire-head); }
+svg.wires path.hi { stroke: var(--accent); marker-end: url(#wire-head-hi); }
+svg.wires path.plain { marker-end: none; }
+#wire-defs .head { fill: color-mix(in srgb, var(--text) 45%, transparent); }
+#wire-defs .head-hi { fill: var(--accent); }
+.flat-caption { margin-top: auto; margin-bottom: 30px; font: 600 46px/1.15 var(--sans); letter-spacing: -0.02em; max-width: 1500px; }
+.flat-source { position: absolute; right: 150px; bottom: 110px; font: 400 20px var(--sans); color: var(--muted); letter-spacing: 0.04em; }
+
+/* ── Layout: levelset (a few words, very large) ── */
+.layout-levelset { justify-content: center; }
+.layout-levelset .big { font: 600 128px/1.02 var(--sans); letter-spacing: -0.04em; max-width: 1500px; }
+.layout-levelset p { margin-top: 56px; max-width: 1180px; font-size: 40px; color: color-mix(in srgb, var(--text) 82%, transparent); }
+
+/* ── Layout: staircase (steps rising left to right) ── */
+.stair { position: relative; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; align-items: end; margin: 30px 0 70px 90px; }
+.stair .box { margin-bottom: calc(var(--n) * 100px); min-height: 150px; padding: 20px 22px 24px; }
+.stair .box figure.media { margin: 0 0 14px; }
+.stair .box figure.media img { width: 100%; border-radius: 10px; box-shadow: none; }
+/* Product marks are single-colour SVGs, black as published: light on the dark theme. */
+.stair .box figure.mark img { width: 64px; height: 64px; border: 0; border-radius: 0; }
+:root:not([data-theme="light"]) figure.mark img { filter: invert(0.92); }
+.stair .box .media-missing { min-height: 128px; padding: 10px; border-radius: 10px; gap: 4px; }
+.stair .box .media-missing b, .stair .box .media-missing span { font-size: 15px; }
+.stair .box time { display: block; margin-bottom: 10px; font: 400 21px var(--mono); color: var(--muted); }
+.stair .box.hi time { color: var(--accent); }
+.stair .axis { position: absolute; left: -70px; top: 10px; bottom: 0; width: 2px; background: var(--mid-line); }
+.stair .axis::before { content: ""; position: absolute; left: -8px; top: -4px; border: 9px solid transparent; border-bottom: 14px solid var(--mid-line); border-top: 0; }
+.stair .axis span { position: absolute; left: -26px; bottom: 0; transform: rotate(-90deg); transform-origin: left bottom; white-space: nowrap; }
+
+/* ── Layout: two rows joined by wires ── */
+.rows { display: grid; grid-template-columns: 300px repeat(3, 1fr); column-gap: 40px; row-gap: 150px; margin-top: 90px; align-items: center; }
+.rows .tag { line-height: 1.4; }
+.rows { grid-template-columns: 260px repeat(4, 1fr); column-gap: 30px; }
+.box.unknown { border-color: var(--accent-line); background: transparent; text-align: center; font: 500 44px/1 var(--sans); color: var(--accent); }
+
+/* ── Layout: funnel ── */
+.funnel { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 50px; position: relative; }
+.funnel .band {
+  width: var(--w); height: 128px; display: grid; place-items: center; text-align: center; text-shadow: none;
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--slant)) 100%, var(--slant) 100%);
+  background: color-mix(in srgb, var(--text) var(--fill), transparent);
+  font: 400 28px/1.25 var(--sans);
+}
+.funnel .band b { font-weight: 600; }
+.funnel .band { background: color-mix(in srgb, var(--mid) calc(40% + var(--fill) * 2), var(--bg)); }
+.funnel .band.hi { background: var(--mid-on); color: var(--accent); }
+.funnel .here { position: absolute; color: var(--accent); }
+
+/* ── Layout: close ── */
+.layout-close { align-items: center; justify-content: center; text-align: center; }
+.layout-close .display { font-size: 180px; margin-top: 360px !important; }
+.layout-close .links { margin-top: 60px; display: flex; gap: 26px; }
+.layout-close .links a { font: 500 26px var(--sans); color: var(--text); text-decoration: none; padding: 20px 30px; }
+.layout-close .links a span { color: var(--accent); }
+
+/* ── Overview (O): every slide as a tile ── */
+.deck.overview .slide { opacity: 1; visibility: visible; cursor: pointer; transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.1, 1); border-radius: 40px; outline: 2px solid var(--border); background: color-mix(in srgb, var(--bg) 55%, transparent); }
+.deck.overview .slide.active { outline: 6px solid var(--accent); }
+.deck.overview .rise, .deck.overview .step { opacity: 1; transform: none; filter: none; animation: none; }
+.deck.overview .pane { backdrop-filter: none; -webkit-backdrop-filter: none; }
+
+/* ── Overlays ── */
+#ink { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 6; pointer-events: none; touch-action: none; }
+body.inking #ink { pointer-events: auto; cursor: crosshair; }
+.ink-bar {
+  position: fixed; left: 50%; bottom: 22px; z-index: 7; display: flex; align-items: center; gap: 4px; padding: 7px;
+  border-radius: 16px; transform: translate(-50%, 12px); opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s;
+}
+.ink-bar.open { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.ink-bar button { font: 500 14px var(--sans); letter-spacing: 0.04em; color: var(--muted); background: transparent; border: 0; border-radius: 10px; padding: 9px 13px; cursor: pointer; }
+.ink-bar button:hover { background: var(--border); color: var(--text); }
+.ink-bar button.on { color: var(--text); background: var(--border-hi); }
+.ink-bar .swatch { width: 30px; height: 30px; padding: 0; border-radius: 50%; background: var(--swatch); box-shadow: inset 0 0 0 2px rgba(0,0,0,.25); }
+.ink-bar .swatch:hover { background: var(--swatch); transform: scale(1.1); }
+.ink-bar .swatch.on { background: var(--swatch); box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text); }
+.ink-bar .sep { width: 1px; height: 24px; background: var(--border-hi); margin: 0 6px; }
+
+.blackout { position: fixed; inset: 0; background: #000; z-index: 9; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+body.black .blackout { opacity: 1; }
+.help {
+  position: fixed; right: 28px; bottom: 28px; z-index: 8; padding: 26px 30px; min-width: 360px;
+  font: 400 15px/1.9 var(--sans); color: var(--text);
+  opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity 0.25s, transform 0.25s;
+  border-radius: 18px;
+}
+.help.open { opacity: 1; transform: none; }
+.help b { display: inline-block; min-width: 92px; color: var(--accent); font-weight: 500; }
+.help .title { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+.goto { position: fixed; left: 50%; top: 40px; transform: translateX(-50%); z-index: 8; padding: 14px 24px; font: 500 22px var(--sans); border-radius: 14px; display: none; }
+.goto.open { display: block; }
+
+/* ── No WebGL, and print: a still lens drawn in CSS from the slide's --lens-* ── */
+.no-webgl .slide[data-glass]::before {
+  content: ""; position: absolute; z-index: -1; border-radius: 50%;
+  left: calc(var(--lx, 1500px) - var(--lr, 300px)); top: calc(var(--ly, 540px) - var(--lr, 300px));
+  width: calc(var(--lr, 300px) * 2); height: calc(var(--lr, 300px) * 2);
+  background:
+    radial-gradient(circle at 32% 26%, rgba(255,255,255,.85) 0 2.5%, transparent 7%),
+    radial-gradient(circle at 50% 50%, transparent 58%, color-mix(in srgb, var(--accent2) 45%, transparent) 86%, color-mix(in srgb, var(--accent) 70%, #fff) 99%, transparent 100%),
+    radial-gradient(circle at 40% 36%, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, #1650d2 30%, transparent) 70%);
+  box-shadow: 40px 60px 120px rgba(0,0,0,.35);
+}
+.no-webgl .slide { isolation: isolate; }
+.no-webgl body:not(.flat), .no-webgl body:not(.flat) .deck {
+  background:
+    radial-gradient(ellipse at 88% -5%, rgba(22, 80, 210, .45), transparent 55%),
+    radial-gradient(ellipse at 6% 108%, rgba(106, 69, 199, .22), transparent 50%),
+    var(--bg);
+}
+
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  html, body { overflow: visible; height: auto; background: var(--bg); }
+  #lens-bg, .progress, .help, .goto, .blackout, #ink, .ink-bar { display: none !important; }
+  .deck { position: static; transform: none !important; width: 1920px; height: auto; }
+  .slide {
+    position: relative; width: 1920px; height: 1080px; opacity: 1; visibility: visible;
+    break-after: page; overflow: hidden; transform: none !important; isolation: isolate;
+    background: var(--bg);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .slide[data-glass] {
+    background:
+      radial-gradient(ellipse at 88% -5%, rgba(22, 80, 210, .45), transparent 55%),
+      radial-gradient(ellipse at 6% 108%, rgba(106, 69, 199, .22), transparent 50%),
+      var(--bg);
+  }
+  .slide[data-glass]::before {
+    content: ""; position: absolute; z-index: -1; border-radius: 50%;
+    left: calc(var(--lx, 1500px) - var(--lr, 300px)); top: calc(var(--ly, 540px) - var(--lr, 300px));
+    width: calc(var(--lr, 300px) * 2); height: calc(var(--lr, 300px) * 2);
+    background:
+      radial-gradient(circle at 32% 26%, rgba(255,255,255,.85) 0 2.5%, transparent 7%),
+      radial-gradient(circle at 50% 50%, transparent 58%, rgba(185,154,240,.45) 86%, rgba(160,232,240,.9) 99%, transparent 100%),
+      radial-gradient(circle at 40% 36%, rgba(93,212,224,.22), rgba(22,80,210,.3) 70%);
+  }
+  .rise, .step { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; }
+  .pane { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--pane-solid); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise { opacity: 1; transform: none; filter: none; }
+  .slide.active .rise { animation: none; }
+  .diagram .wire.live { animation: none; }
+}
