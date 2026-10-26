@@ -403,7 +403,7 @@
           d.bead(n.x, n.y, n.r * (1 + n.flash * 0.2), n.name === 'you' ? C.violet : C.accent, n.a);
           d.label(n.name, n.x, n.y + 56, n.a * (0.4 + 0.6 * (1 - vis.chat)), n.name === 'you' ? C.violet : C.muted, 18);
         });
-        d.label('one task runs a flow, giving each agent a turn', MID.x, MID.y + 330, vis.flow, C.accent, 18);
+        d.label('a flow gives each agent on the task a turn', MID.x, MID.y + 330, vis.flow, C.accent, 18);
       },
     };
   };
@@ -443,7 +443,7 @@
           awake = cycle < 3.2 ? Math.min(1, cycle * 2) : Math.max(0, 1 - (cycle - 3.2) * 1.2);
           d.edge(reviewer, down(reviewer), 0.3 + awake * 0.4, C.accent, 0, 2);
           if (cycle > 0.6 && cycle < 2.2) d.pulse(down(reviewer), down(builder), (cycle - 0.6) / 1.6, C.accent, 0.12, 9);
-          d.label('it wakes, answers in the thread, and goes back to waiting', 960, 420, 1, C.accent, 22);
+          d.label('it wakes, answers in the thread and goes back to waiting', 960, 420, 1, C.accent, 22);
         }
         if (awake > 0.05) d.ring(reviewer.x, reviewer.y, reviewer.r + 18, C.accent, awake * 0.9, 3);
         d.bead(builder.x, builder.y, builder.r, C.violet, 1);
@@ -568,13 +568,13 @@
     };
   };
 
-  // ── Outcomes, and the pane behind them ──
-  // A swarm works behind frosted glass (the slide's .veil); finished work
-  // comes out the side as outcomes. Stage 1 clears the glass (CSS) to show
-  // what was going on all along.
+  // ── Getting out of the way ──
+  // Stage 0: the swarm, all of it, messages crossing everywhere. Stage 1: it
+  // frosts over, and only the finished work comes out, in the middle.
   defs.trust = () => {
     const rnd = seeded(47);
-    const N = 22, box = { x: 180, y: 340, w: 920, h: 560 };
+    const N = 40, box = { x: 160, y: 330, w: 1600, h: 640 };
+    let stage = 0, frost = 0;
     const agents = [];
     for (let tries = 0; agents.length < N && tries < 3000; tries++) {
       const p = { x: box.x + 60 + rnd() * (box.w - 120), y: box.y + 60 + rnd() * (box.h - 120) };
@@ -582,33 +582,376 @@
     }
     const edges = [];
     for (let i = 0; i < agents.length; i++) for (let j = i + 1; j < agents.length; j++) if (dist(agents[i], agents[j]) < 190) edges.push([i, j]);
-    // The demo's checkout room, so the deck and the demo tell one story.
-    const TASKS = ['refund double charges', 'Apple Pay behind a switch', 'test orders on a real iPhone', 'alert when payments fail', 'move card payments to Stripe', 'review the double-charge fix', 'remove the old card form', 'Apple Pay for everyone'];
-    let pulses = [], next = 3, since = 0;
-    let outcomes = TASKS.slice(0, 3).reverse().map(text => ({ text, a: 1 }));
+    let pulses = [];
     return {
+      stage(s) { stage = s; },
       frame(d, dt) {
-        if (rnd() < dt * 7 && edges.length) { const [i, j] = edges[Math.floor(rnd() * edges.length)]; pulses.push(rnd() < 0.5 ? { a: agents[i], b: agents[j], u: 0 } : { a: agents[j], b: agents[i], u: 0 }); }
-        since += dt;
-        if (since > 2.2) {
-          since = 0;
-          outcomes.unshift({ text: TASKS[next++ % TASKS.length], a: 0 });
-          outcomes = outcomes.slice(0, 6);
-          const a = agents[Math.floor(rnd() * agents.length)]; a.flash = 1;
-        }
-        edges.forEach(([i, j]) => d.edge(agents[i], agents[j], 0.35, C.muted, 0.1));
-        pulses.forEach(p => { p.u += dt * 1.4; if (p.u >= 1) p.b.flash = 1; d.pulse(p.a, p.b, Math.min(1, p.u), C.accent, 0.1, 5); });
+        // Busy: many messages at once, crossing every way.
+        if (rnd() < dt * 22 && edges.length) { const [i, j] = edges[Math.floor(rnd() * edges.length)]; pulses.push(rnd() < 0.5 ? { a: agents[i], b: agents[j], u: 0 } : { a: agents[j], b: agents[i], u: 0 }); }
+        edges.forEach(([i, j]) => d.edge(agents[i], agents[j], 0.35, C.muted, 0.12));
+        pulses.forEach(p => { p.u += dt * 1.4; if (p.u >= 1) p.b.flash = 1; d.pulse(p.a, p.b, Math.min(1, p.u), C.accent, 0.12, 5); });
         pulses = pulses.filter(p => p.u < 1);
         agents.forEach(n => { n.flash = Math.max(0, n.flash - dt * 2); d.bead(n.x, n.y, n.r * (1 + n.flash * 0.25), n.flash > 0.3 ? C.green : C.accent, 1); });
-        // The outcomes, newest on top.
-        d.label('outcomes', 1275, 340, 1, C.muted, 19, 'left');
-        outcomes.forEach((o, i) => {
-          o.a = approach(o.a, 1 - i * 0.14, 5, dt);
-          const y = 400 + i * 86;
-          d.bead(1290, y, 13, C.green, o.a);
-          d.ctx.save(); d.ctx.globalAlpha = o.a; d.ctx.fillStyle = C.text; d.ctx.textBaseline = 'middle';
-          d.ctx.font = '400 30px "IBM Plex Sans", system-ui, sans-serif'; d.ctx.fillText(o.text, 1330, y); d.ctx.restore();
+
+        // Stage 1: frost over all of it.
+        frost = approach(frost, stage >= 1 ? 1 : 0, 3, dt);
+        if (frost > 0.01) {
+          const ctx = d.ctx;
+          ctx.save(); ctx.globalAlpha = 0.93 * frost; ctx.fillStyle = C.bg;
+          ctx.beginPath(); ctx.roundRect(box.x - 20, box.y - 20, box.w + 40, box.h + 40, 24); ctx.fill(); ctx.restore();
+        }
+        // Over the frost, the one thing to take away.
+        if (frost > 0.01) {
+          const ctx = d.ctx, cx = box.x + box.w / 2, cy = box.y + box.h / 2;
+          ctx.save(); ctx.globalAlpha = frost; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillStyle = C.text; ctx.font = '500 52px "IBM Plex Sans", system-ui, sans-serif';
+          ctx.fillText('Focus on the high-level tasks.', cx, cy - 40);
+          ctx.fillStyle = C.accent; ctx.font = 'italic 400 60px "Cormorant Garamond", Georgia, serif';
+          ctx.fillText('Leave the coordination to the agents.', cx, cy + 40);
+          ctx.restore();
+        }
+      },
+    };
+  };
+
+  // ── Waking agents is hard ──
+  // A room of agents and one person, all members alike. Stage 0: every
+  // message wakes everyone, and the woken answer, so the room fills with turns
+  // nobody needed. Stage 1: nothing wakes anyone, and an agent's question
+  // sits there. Stage 2: each message says who it wakes, written by agents to
+  // each other as much as by the person: @ wakes one, @~ names one without
+  // waking it, @! cuts in on one that's busy.
+  defs.wake = () => {
+    const rnd = seeded(23);
+    const NAMES = ['builder', 'reviewer', 'design', 'voice', 'research', 'you', 'desktop'];
+    const cx = 960, cy = 700, rx = 520, ry = 245;
+    const members = NAMES.map((name, i) => {
+      const ang = -Math.PI / 2 + i * (2 * Math.PI / NAMES.length);
+      return Object.assign(node(cx + Math.cos(ang) * rx, cy + Math.sin(ang) * ry, 26, 1), { name, person: name === 'you', tint: null, named: 0, spin: 0 });
+    });
+    const by = name => members.find(m => m.name === name);
+    const MODES = [
+      { from: 'builder', code: '@reviewer', says: 'agent to agent: wakes one', to: 'reviewer', tint: () => C.green, speed: 1.1 },
+      { from: 'you', code: '@research', says: 'person to agent: wakes one', to: 'research', tint: () => C.green, speed: 1.1 },
+      { from: 'reviewer', code: '@~design', says: 'agent to agent: names one without waking it', to: 'design', quiet: true },
+      { from: 'you', code: '@!builder', says: "person to agent: cuts in on one that's busy", to: 'builder', tint: () => C.yellow, speed: 2.2, busy: true },
+    ];
+    let stage = 0, pulses = [], clock = 0, mode = 0, modeT = 0, dim = 1, ask = 0, codeA = 0, noise = 1;
+    const send = (a, b, o = {}) => pulses.push({ a, b, u: 0, speed: o.speed || 1.3, color: o.color || C.accent, onArrive: o.onArrive });
+    const reset = () => { pulses = []; clock = 0; mode = 0; modeT = 0; MODES.forEach(m => { m.sent = false; }); members.forEach(m => { m.flash = 0; m.named = 0; m.hold = false; }); };
+    return {
+      stage(s) { stage = s; reset(); },
+      frame(d, dt) {
+        clock += dt;
+        // Stage 0: anyone posts, everyone wakes, and the woken answer.
+        if (stage === 0 && clock > 1.6) {
+          clock = 0;
+          const from = members[Math.floor(rnd() * members.length)];
+          members.filter(m => m !== from).forEach(m => send(from, m, { onArrive: () => {
+            m.flash = 1; m.tint = C.accent;
+            if (rnd() < 0.5) { const b = members[Math.floor(rnd() * members.length)]; if (b !== m) send(m, b, { speed: 1.6, onArrive: () => { b.flash = 1; } }); }
+          } }));
+        }
+        // Stages 2 to 5: one mention per press, mostly between agents. Each
+        // is sent once and its result held, so it can be talked through.
+        if (stage >= 2) {
+          mode = Math.min(stage - 2, MODES.length - 1);
+          modeT += dt;
+          const m = MODES[mode];
+          if (modeT > 0.6 && !m.sent) {
+            m.sent = true;
+            const t = by(m.to);
+            if (m.quiet) t.named = 1;
+            else send(by(m.from), t, { speed: m.speed, color: m.tint(), onArrive: () => { t.hold = true; t.tint = m.tint(); } });
+          }
+        }
+        dim = approach(dim, stage === 1 ? 0.35 : 1, 3, dt);
+        noise = approach(noise, stage === 0 ? 1 : 0, 3, dt);
+        ask = approach(ask, stage === 1 ? 1 : 0, 3, dt);
+        codeA = approach(codeA, stage >= 2 ? 1 : 0, 4, dt);
+
+        // The room: everyone can reach everyone.
+        members.forEach((a, i) => members.slice(i + 1).forEach(b => d.edge(a, b, (0.07 + 0.08 * noise) * dim, C.muted, 0.06)));
+
+        const asker = by('builder'), m = MODES[mode], sender = by(m.from);
+        members.forEach(a => {
+          a.flash = Math.max(0, a.flash - dt * 1.4);
+          const busy = stage >= 2 && m.busy && a.name === m.to && !a.hold;
+          if (busy) a.spin += dt * 4;
+          const lit = stage === 1 && a === asker ? 1 : dim;
+          if (a.person) {
+            d.ring(a.x, a.y, a.r + 2, C.text, lit, 3);
+          } else {
+            const color = a.hold || a.flash > 0.25 ? (a.tint || C.green) : C.accent;
+            d.bead(a.x, a.y, a.r * (1 + a.flash * 0.25), color, lit);
+          }
+          if (a.named) d.ring(a.x, a.y, a.r + 12, C.muted, 0.7, 2.5);
+          if (busy) {
+            const ctx = d.ctx;
+            ctx.save(); ctx.strokeStyle = C.muted; ctx.lineWidth = 3; ctx.globalAlpha = 0.8;
+            ctx.beginPath(); ctx.arc(a.x, a.y, a.r + 12, a.spin, a.spin + 1.6); ctx.stroke(); ctx.restore();
+          }
+          d.label(a.name, a.x, a.y + 54, lit, a.person ? C.text : C.muted, 18);
         });
+        // Stage 1: an agent's question, waiting.
+        if (ask > 0.01) {
+          d.label('Can someone review the fix?', asker.x, asker.y - 62, ask, C.text, 22);
+          d.label('…', asker.x, asker.y - 100, ask * (0.5 + 0.5 * Math.sin(clock * 3)), C.muted, 30);
+        }
+        // Stage 2: the mention being written, over whoever wrote it.
+        if (codeA > 0.01) {
+          const ctx = d.ctx, above = sender.y < cy ? -1 : 1, y = sender.y + above * (sender.y < cy ? 82 : 96);
+          ctx.save(); ctx.globalAlpha = codeA; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillStyle = C.accent; ctx.font = '500 32px "IBM Plex Mono", ui-monospace, monospace';
+          ctx.fillText(m.code, sender.x, y); ctx.restore();
+          d.label(m.says, sender.x, y + (above < 0 ? -36 : 36), codeA, C.muted, 19);
+        }
+        pulses.forEach(p => { p.u += dt * p.speed; if (p.u >= 1 && p.onArrive) { p.onArrive(); p.onArrive = null; } d.pulse(p.a, p.b, Math.min(1, p.u), p.color, 0.06, 7); });
+        pulses = pulses.filter(p => p.u < 1).slice(-90);
+      },
+    };
+  };
+
+  // A point or an option as the app shows one: a rounded card with an
+  // optional mono label before its text. x is its left edge, y its middle.
+  // `o.stroke` outlines it in a colour (a flag), `o.dash` dashes the outline.
+  const SANS = '500 26px "IBM Plex Sans", system-ui, sans-serif';
+  const MONO = '400 18px "IBM Plex Mono", ui-monospace, monospace';
+  function card(d, x, y, kind, text, a, o = {}) {
+    if (a < 0.01) return;
+    const ctx = d.ctx;
+    ctx.save(); ctx.globalAlpha = a; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+    ctx.font = MONO; const kw = kind ? ctx.measureText(kind).width + 16 : 0;
+    ctx.font = SANS; const w = 44 + kw + ctx.measureText(text).width, h = 56;
+    ctx.fillStyle = C.dark ? 'rgba(255,255,255,0.05)' : 'rgba(10,20,40,0.05)';
+    ctx.beginPath(); ctx.roundRect(x, y - h / 2, w, h, 12); ctx.fill();
+    ctx.strokeStyle = o.stroke || C.muted; ctx.lineWidth = o.stroke ? 3 : 1.5;
+    if (!o.stroke) ctx.globalAlpha = a * 0.45;
+    if (o.dash) ctx.setLineDash([9, 7]);
+    ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = a;
+    if (kind) { ctx.font = MONO; ctx.fillStyle = o.stroke || C.muted; ctx.fillText(kind, x + 22, y + 1); }
+    ctx.font = SANS; ctx.fillStyle = C.text; ctx.fillText(text, x + 22 + kw, y + 1);
+    ctx.restore();
+  }
+  // A bracket down the left of two rows, naming what's wrong between them.
+  function bracket(d, x, y0, y1, text, color, a) {
+    if (a < 0.01) return;
+    const ctx = d.ctx;
+    ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(x + 12, y0); ctx.lineTo(x, y0); ctx.lineTo(x, y1); ctx.lineTo(x + 12, y1); ctx.stroke(); ctx.restore();
+    d.label(text, x - 36, (y0 + y1) / 2, a, color, 19, 'right');
+  }
+
+  // A card's width, to lay cards out in a row before they are drawn.
+  function cardWidth(ctx, kind, text) {
+    ctx.save(); ctx.font = MONO; const kw = kind ? ctx.measureText(kind).width + 16 : 0;
+    ctx.font = SANS; const w = 44 + kw + ctx.measureText(text).width; ctx.restore();
+    return w;
+  }
+  // The agent from another company: its bead wears a dashed ring.
+  function outsider(d, x, y, r, a) {
+    if (a < 0.01) return;
+    const ctx = d.ctx;
+    ctx.save(); ctx.globalAlpha = a * 0.8; ctx.strokeStyle = C.violet; ctx.lineWidth = 2; ctx.setLineDash([6, 6]);
+    ctx.beginPath(); ctx.arc(x, y, r + 12, 0, 6.2832); ctx.stroke(); ctx.restore();
+  }
+
+  // ── Accord: one shared picture of the task, with another company in it ──
+  // The demo's checkout room: @builder and @qa start "Apple Pay for
+  // everyone" with @provider, the payment provider's agent, which belongs to
+  // another company and has rules of its own. Stage 0: each has its own
+  // picture: ours ships Friday, theirs only goes live Tuesday to Thursday.
+  // Stage 1: each writes its points, each under a label. Stage 2: code
+  // merges them into one summary; points that say the same thing combine
+  // and keep who said them, the contradiction is lit red, the points only
+  // @provider made stay, dashed, and a word used two ways is lit. Stage 3:
+  // the two who used "live" differently restate it, and it merges. Stage 4:
+  // the summary is saved with what's still open, and later work reads it.
+  defs.accord = () => {
+    const rnd = seeded(73);
+    const COLORS = ['accent', 'green', 'violet'];
+    const agents = [['@builder', 410], ['@qa', 630], ['@provider', 850]]
+      .map(([name, y], i) => Object.assign(node(230, y, 30, 1), { name, color: COLORS[i] }));
+    const OBJ = 'Apple Pay at checkout', SW = 'Behind a switch first';
+    const TERM = ['live: deployed', null, 'live: certified, real cards'];
+    const RESTATED = 'live: certified and taking real cards';
+    // [who, label, text, its row in the summary, shown on the first stage]
+    const pts = [
+      [0, 'objective', OBJ, 0], [0, 'constraint', SW, 1], [0, 'done', 'Merged and live Friday', 2, true], [0, 'term', TERM[0], 6],
+      [1, 'objective', OBJ, 0], [1, 'constraint', SW, 1],
+      [2, 'objective', OBJ, 0], [2, 'constraint', 'Live only Tue–Thu', 3, true], [2, 'constraint', 'Re-certify new integrations', 4],
+      [2, 'constraint', '100 test payments a minute', 5], [2, 'term', TERM[2], 7],
+    ].map(([who, kind, text, row, first]) => Object.assign(node(320, agents[who].y), { who, kind, text, row, first: !!first }));
+    const PANEL = { x: 1000, y: 304, w: 760, h: 612 };
+    const rowY = r => PANEL.y + 52 + r * 72;
+    const rowOf = (p, s) => (p.kind === 'term' && s >= 3 ? 6 : p.row);
+    // Before the merge: each agent's points flow in two lines beside it; on
+    // the first stage only its main point, level with it.
+    let laid = false;
+    const layout = ctx => {
+      [0, 1, 2].forEach(who => {
+        let x = 320, line = 0;
+        pts.filter(p => p.who === who).forEach(p => {
+          const w = cardWidth(ctx, p.kind, p.text);
+          if (x + w > 1800) { x = 320; line++; }
+          p.hx = x; p.hy = agents[who].y + (line === 0 ? -36 : 36); x += w + 22;
+        });
+      });
+      laid = true;
+    };
+    const home = (p, s) => (s === 0 ? { x: 320, y: agents[p.who].y } : { x: p.hx, y: p.hy });
+    const worker = Object.assign(node(560, 640, 0, 0), { name: 'later work' });
+    const vis = { panel: 0, flags: 0, terms: 0, saved: 0 };
+    let pulses = [], clock = 0;
+    return {
+      stage(s) {
+        pulses = []; clock = 0;
+        pts.forEach(p => { if (p.kind === 'term') p.text = s >= 3 ? RESTATED : TERM[p.who]; });
+      },
+      frame(d, dt, s) {
+        if (!laid) layout(d.ctx);
+        clock += dt;
+        ease(vis, 'panel', s >= 2 ? 1 : 0, 4, dt);
+        ease(vis, 'flags', s >= 2 ? 1 : 0, 3, dt);
+        ease(vis, 'terms', s === 2 ? 1 : 0, 4, dt);
+        ease(vis, 'saved', s >= 4 ? 1 : 0, 4, dt);
+        agents.forEach(n => { n.ta = s >= 4 ? 0.3 : 1; settle(n, dt); });
+        pts.forEach(p => {
+          const row = rowOf(p, s);
+          const t = s >= 2 ? { x: PANEL.x + 34, y: rowY(row) } : home(p, s);
+          p.tx = t.x; p.ty = t.y;
+          // In the summary a point several agents made is one card: the
+          // copies after the first fade once they land on it.
+          const first = pts.find(q => rowOf(q, s) === row) === p;
+          p.ta = s === 0 ? (p.first ? 1 : 0) : s >= 2 && !first && dist(p, t) < 8 ? 0 : 1;
+          settle(p, dt, 3.2);
+        });
+        worker.tr = s >= 4 ? 30 : 0; worker.ta = s >= 4 ? 1 : 0; settle(worker, dt);
+        const ctx = d.ctx;
+
+        // The summary's panel.
+        if (vis.panel > 0.01) {
+          ctx.save(); ctx.globalAlpha = vis.panel;
+          ctx.fillStyle = C.dark ? 'rgba(255,255,255,0.03)' : 'rgba(10,20,40,0.03)';
+          ctx.strokeStyle = vis.saved > 0.5 ? C.accent : C.muted; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.roundRect(PANEL.x, PANEL.y, PANEL.w, PANEL.h, 18); ctx.fill(); ctx.globalAlpha = vis.panel * 0.6; ctx.stroke();
+          ctx.restore();
+          d.label('merged by code, not a model', PANEL.x, PANEL.y - 30, vis.panel * (1 - vis.saved), C.muted, 18, 'left');
+          d.label('context/summary/apple-pay-for-everyone', PANEL.x, PANEL.y - 30, vis.saved, C.accent, 19, 'left');
+        }
+
+        // Who said each point, at the end of its row.
+        const rows = [...new Set(pts.map(p => rowOf(p, s)))];
+        rows.forEach(r => {
+          const who = [...new Set(pts.filter(p => rowOf(p, s) === r).map(p => p.who))];
+          who.forEach((w, j) => d.bead(PANEL.x + PANEL.w - 40 - j * 32, rowY(r), 10, C[COLORS[w]], vis.panel));
+        });
+
+        // The flags: never resolved, only shown.
+        bracket(d, PANEL.x + 16, rowY(2), rowY(3), 'contradicts', C.red, vis.flags);
+        bracket(d, PANEL.x + 16, rowY(4), rowY(5), 'only @provider', C.yellow, vis.flags);
+        bracket(d, PANEL.x + 16, rowY(6), rowY(7), 'used two ways', C.yellow, vis.terms);
+        d.label('restated', PANEL.x + 590, rowY(6), s === 3 ? Math.min(1, clock) : 0, C.green, 18, 'left');
+        d.label('still open: Friday or Tuesday to Thursday', PANEL.x, PANEL.y + PANEL.h + 40, vis.saved, C.muted, 19, 'left');
+
+        // Later work in the task reads the summary.
+        if (s >= 4 && clock > 1) {
+          clock = 0;
+          pulses.push({ a: { x: PANEL.x, y: rowY(Math.floor(rnd() * 6)) }, b: worker, u: 0 });
+        }
+        pulses.forEach(p => { p.u += dt * 1.1; if (p.u >= 1) worker.flash = 1; d.pulse(p.a, p.b, Math.min(1, p.u), C.accent, 0.1); });
+        pulses = pulses.filter(p => p.u < 1);
+
+        pts.forEach(p => {
+          const row = rowOf(p, s), inPanel = s >= 2;
+          const o = !inPanel ? {} : row === 2 || row === 3 ? { stroke: C.red } : row === 4 || row === 5 ? { stroke: C.yellow, dash: true } : (row === 6 || row === 7) && s === 2 ? { stroke: C.yellow } : {};
+          card(d, p.x, p.y, p.kind, p.text, p.a, o);
+        });
+        agents.forEach((n, i) => {
+          if (i === 2) outsider(d, n.x, n.y, n.r, n.a);
+          d.bead(n.x, n.y, n.r, C[n.color], n.a);
+          d.label(n.name, n.x, n.y + 62, n.a, C.muted, 18);
+        });
+        d.label('another company', agents[2].x, agents[2].y + 90, agents[2].a * 0.8, C.violet, 15);
+        d.bead(worker.x, worker.y, worker.r * (1 + worker.flash * 0.2), C.accent, worker.a);
+        d.label('later work in the task', worker.x, worker.y + 60, worker.a, C.accent, 18);
+        worker.flash = Math.max(0, worker.flash - dt * 2.5);
+      },
+    };
+  };
+
+  // ── Concord: one plan nobody is steamrolled by ──
+  // The same task: when does Apple Pay go live? @provider belongs to
+  // another company, so nobody in the room can overrule it. Stage 0: each
+  // member proposes one plan. Stage 1: everyone rates every plan at once.
+  // Stage 2: each plan's least happy rating is lit, and the pick is the plan
+  // whose least happy member is best off. Friday has the highest total, and
+  // @provider rates it 0, so it can't win. Stage 3: the pick is below the
+  // bar, so its least happy member, @builder, proposes a fix, which everyone
+  // rates. Stage 4: the fix clears the bar and is saved.
+  defs.concord = () => {
+    const MEMBERS = [['@builder', 'accent'], ['@qa', 'green'], ['@provider', 'violet']];
+    const COLX = [1110, 1290, 1470], MINX = 1640, BAR = 70, X0 = 250, X1 = 1730;
+    const rows = [
+      { letter: 'A', text: 'Ship Friday', by: 0, r: [95, 80, 0] },
+      { letter: 'B', text: 'Ship on Tuesday in the window', by: 2, r: [45, 70, 90] },
+      { letter: 'C', text: 'Ship behind a flag and certify later', by: 1, r: [85, 75, 30] },
+      { letter: 'B′', text: 'B, with the flag merged now', by: 0, r: [80, 82, 88], fix: true },
+    ].map(o => ({ ...o, a: 0, shown: [0, 0, 0], low: 0, lit: 0, min: Math.min(...o.r) }));
+    const rowY = i => 410 + i * 104;
+    const PICK = 1, FIX = 3;
+    let clock = 0;
+    return {
+      stage() { clock = 0; },
+      frame(d, dt, s) {
+        clock += dt;
+        const ctx = d.ctx;
+        // The header: who rates, and each option's least happy rating.
+        MEMBERS.forEach(([name, color], j) => {
+          if (j === 2) outsider(d, COLX[j], 300, 14, 1);
+          d.bead(COLX[j], 300, 14, C[color], 1);
+          d.label(name, COLX[j], 340, 1, C.muted, 18);
+        });
+        d.label('least happy', MINX, 340, s >= 2 ? 1 : 0.3, C.muted, 18);
+        d.label(`bar ${BAR}`, MINX, 300, s >= 3 ? 1 : 0, C.yellow, 17);
+
+        rows.forEach((o, i) => {
+          const here = o.fix ? s >= 3 : true;
+          // Proposals land one after another; ratings all at once.
+          o.a = approach(o.a, here && (o.fix || clock > i * 0.5 || s > 0) ? (s === 4 && !o.fix ? 0.35 : 1) : 0, 5, dt);
+          const rated = o.fix ? s >= 3 && clock > 1.2 : s >= 1;
+          o.rated = rated;
+          o.r.forEach((v, j) => { o.shown[j] = approach(o.shown[j], rated ? v : 0, 3, dt); });
+          ease(o, 'low', (o.fix ? s >= 3 && clock > 2.2 : s >= 2) ? 1 : 0, 4, dt);
+          ease(o, 'lit', (s === 2 && i === PICK) || (s >= 3 && o.fix && clock > 2.2) ? 1 : 0, 4, dt);
+          if (o.a < 0.01) return;
+          const y = rowY(i);
+          ctx.save(); ctx.globalAlpha = o.a;
+          ctx.fillStyle = C.dark ? 'rgba(255,255,255,0.04)' : 'rgba(10,20,40,0.04)';
+          ctx.beginPath(); ctx.roundRect(X0, y - 40, X1 - X0, 80, 14); ctx.fill();
+          if (o.lit > 0.01) { ctx.globalAlpha = o.a * o.lit; ctx.strokeStyle = C.accent; ctx.lineWidth = 3; ctx.stroke(); }
+          ctx.restore();
+          d.bead(X0 + 34, y, 11, C[MEMBERS[o.by][1]], o.a);
+          d.label(o.letter, X0 + 74, y, o.a, C.accent, 26, 'left');
+          ctx.save(); ctx.globalAlpha = o.a; ctx.font = SANS; ctx.fillStyle = C.text; ctx.textBaseline = 'middle';
+          ctx.fillText(o.text, X0 + 134, y + 1); ctx.restore();
+          o.r.forEach((v, j) => {
+            const isMin = v === o.min;
+            const ring = o.lit > 0.5 ? C.accent : i === 0 && s === 2 ? C.red : i === PICK && s >= 3 ? C.yellow : C.muted;
+            if (isMin) d.ring(COLX[j], y, 32, ring, o.a * o.low * 0.9, 2.5);
+            if (o.rated) d.label(String(Math.round(o.shown[j])), COLX[j], y, o.a, C.text, 26);
+          });
+          // The least happy rating, against the bar once there is one.
+          const col = s >= 3 && (i === PICK || o.fix) ? (o.min >= BAR ? C.green : C.yellow) : o.lit > 0.5 ? C.accent : C.text;
+          d.label(String(o.min) + (s >= 3 && o.fix && o.min >= BAR ? '  ✓' : ''), MINX, y, o.a * o.low, col, 28);
+        });
+
+        // What each stage leaves you with, under the table.
+        const below = rowY(FIX) + 110;
+        d.label('Friday has the highest total, and @provider rates it 0. Nobody here can overrule @provider.', X0, below, s === 2 ? 1 : 0, C.red, 21, 'left');
+        d.label('B is below the bar for @builder, so @builder proposes a fix and everyone rates it.', X0, below, s === 3 ? 1 : 0, C.yellow, 21, 'left');
+        d.label('Saved to context/decision/apple-pay-for-everyone.', X0, below, s === 4 ? 1 : 0, C.accent, 21, 'left');
+        d.label('If nothing clears the bar, it says so: no plan works for everyone.', X0, below + 44, s === 4 ? 0.8 : 0, C.muted, 19, 'left');
       },
     };
   };

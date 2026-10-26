@@ -303,6 +303,11 @@ p code, li code { font-size: 0.82em; padding: 0.08em 0.36em; border-radius: 8px;
 .turn:has(.flip.shown) .triad .box h3 { color: var(--red); }
 .turn .credit { margin-bottom: -70px; }
 .credit { margin-top: 26px; font: 400 24px var(--sans); color: var(--muted); }
+/* A credit line with a QR code to the source beside it. */
+.source { display: flex; align-items: center; justify-content: space-between; gap: 40px; max-width: 1500px; margin-top: 26px; }
+.source .credit { margin: 0; max-width: 900px; }
+.source .source-link { display: block; margin-top: 10px; font: 500 26px var(--mono); color: var(--accent); text-decoration: none; }
+.source .qr { width: 150px; height: 150px; padding: 10px; background: #fff; border-radius: 12px; flex-shrink: 0; }
 
 /* ── Media: an image or clip from media/, or a placeholder naming it ── */
 figure.media { margin: 0; text-shadow: none; }
@@ -336,7 +341,7 @@ figure.media figcaption { margin-top: 14px; font: 400 22px var(--sans); color: v
 .wakes .hub small { font-size: 22px; }
 
 /* What you need: three plain icons. */
-.needs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; margin-top: 70px; }
+.needs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px; margin-top: 70px; max-width: 1400px; }
 .needs .box { padding: 44px 40px; display: flex; flex-direction: column; gap: 14px; min-height: 320px; }
 .needs svg { width: 72px; height: 72px; fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 10px; }
 .needs h3 { font: 600 40px/1.1 var(--sans); letter-spacing: -0.02em; }
@@ -520,10 +525,14 @@ svg.timeline text.hi { fill: var(--accent); }
 .layout-scene canvas.scene { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; z-index: -1; }
 .layout-scene h2 { margin-top: 30px; font-size: 80px; }
 .swap { position: relative; height: 130px; }
+.swap .cap { margin: 0; font-size: 40px; color: var(--muted); }
+/* A caption that stays up through the steps after its own. */
+.slide[data-stage="3"] .swap .hold, .slide[data-stage="4"] .swap .hold, .slide[data-stage="5"] .swap .hold { opacity: 1; transform: none; filter: none; }
 .swap [data-at] { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; transform: translateY(14px); filter: blur(6px); transition: opacity 0.5s, transform 0.5s, filter 0.5s; }
 .slide:not([data-stage]) .swap [data-at="0"],
 .slide[data-stage="0"] .swap [data-at="0"], .slide[data-stage="1"] .swap [data-at="1"],
-.slide[data-stage="2"] .swap [data-at="2"], .slide[data-stage="3"] .swap [data-at="3"] { opacity: 1; transform: none; filter: none; }
+.slide[data-stage="2"] .swap [data-at="2"], .slide[data-stage="3"] .swap [data-at="3"],
+.slide[data-stage="4"] .swap [data-at="4"] { opacity: 1; transform: none; filter: none; }
 .step.beat { display: none; }
 .stages { position: absolute; left: 150px; right: 150px; bottom: 140px; margin: 0; padding: 0; list-style: none; display: flex; justify-content: center; gap: 70px; font: italic 600 44px var(--display); color: var(--faint); }
 .stages li { transition: color 0.4s; }
@@ -570,8 +579,8 @@ svg.wires path.plain { marker-end: none; }
 .layout-levelset p { margin-top: 56px; max-width: 1180px; font-size: 40px; color: color-mix(in srgb, var(--text) 82%, transparent); }
 
 /* ── Layout: staircase (steps rising left to right) ── */
-.stair { position: relative; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; align-items: end; margin: 30px 0 70px 90px; }
-.stair .box { margin-bottom: calc(var(--n) * 100px); min-height: 150px; padding: 20px 22px 24px; }
+.stair { position: relative; flex: 1; display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; align-items: end; margin: 30px 0 70px 90px; }
+.stair .box { margin-bottom: calc(var(--n) * 80px); min-height: 150px; padding: 20px 22px 24px; }
 .stair .box figure.media { margin: 0 0 14px; }
 .stair .box figure.media img { width: 100%; border-radius: 10px; box-shadow: none; }
 /* Product marks are single-colour SVGs, black as published: light on the dark theme. */
@@ -602,7 +611,6 @@ svg.wires path.plain { marker-end: none; }
 .funnel .band b { font-weight: 600; }
 .funnel .band { background: color-mix(in srgb, var(--mid) calc(40% + var(--fill) * 2), var(--bg)); }
 .funnel .band.hi { background: var(--mid-on); color: var(--accent); }
-.funnel .here { position: absolute; color: var(--accent); }
 
 /* ── Layout: close ── */
 .layout-close { align-items: center; justify-content: center; text-align: center; }
@@ -695,6 +703,24 @@ body.black .blackout { opacity: 1; }
   .rise, .step { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; }
   .pane { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--pane-solid); }
 }
+
+/* The room: a screenshot with numbered callouts, one per click (from Jodee's AGNTCon deck) */
+.step.beat { display: none; }
+.tour { display: grid; grid-template-columns: 1040px 1fr; gap: 40px; margin-top: 12px; align-items: start; }
+.tour .shot { position: relative; border: 2px solid var(--mid-line); border-radius: 12px; overflow: hidden; }
+.tour .shot img { display: block; width: 100%; height: auto; }
+.tour .mk { position: absolute; width: 46px; height: 46px; margin: -23px 0 0 -23px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 700 26px var(--sans); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 30%, transparent); opacity: 0; transition: opacity 0.4s; }
+.tour .legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.tour .lg { display: grid; grid-template-columns: 46px 1fr; gap: 18px; align-items: start; opacity: 0.12; transition: opacity 0.4s; }
+.tour .lg .num { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); font: 700 26px var(--sans); }
+.tour .lg h3 { margin: 0 0 2px; font: 600 32px/1.1 var(--sans); }
+.tour .lg p { margin: 0; font-size: 23px; line-height: 1.3; color: var(--muted); }
+.slide:has(.b1.shown) .m1, .slide:has(.b1.shown) .l1,
+.slide:has(.b2.shown) .m2, .slide:has(.b2.shown) .l2,
+.slide:has(.b3.shown) .m3, .slide:has(.b3.shown) .l3,
+.slide:has(.b4.shown) .m4, .slide:has(.b4.shown) .l4,
+.slide:has(.b5.shown) .m5, .slide:has(.b5.shown) .l5,
+.slide:has(.b6.shown) .m6, .slide:has(.b6.shown) .l6 { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .rise { opacity: 1; transform: none; filter: none; }

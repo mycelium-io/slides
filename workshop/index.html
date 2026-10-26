@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://mycelium-io.github.io/slides/workshop/og.png">
 <link rel="icon" href="logo.png">
 <!-- Bump ?v= when deck.css changes: Pages lets browsers keep it for ten minutes. -->
-<link rel="stylesheet" href="deck.css?v=4">
+<link rel="stylesheet" href="deck.css?v=15">
 </head>
 <body>
 <canvas id="lens-bg" aria-hidden="true"></canvas>
@@ -56,19 +56,19 @@
   <!-- ── Where Mycelium comes from ── -->
   <section class="slide layout-statement" data-title="Where Mycelium comes from">
     <blockquote class="rise">Mycelium is part of Outshift's <em>Internet of Cognition.</em></blockquote>
-    <cite class="long rise">Agents working together on bigger jobs than any one of them can do alone. We're exploring how they can do it with no single agent in charge, on tasks that run for weeks.</cite>
+    <cite class="long rise">Agents working together on bigger jobs than any one of them can do alone, like problems with a vast state space. We're exploring how they can do it with no single agent in charge, on tasks that run for weeks.</cite>
     <aside class="notes">
       <p>Mycelium comes out of a project called the Internet of Cognition. You'll hear about it a lot at Shift.Forward.</p>
-      <p>The idea is agents working together on bigger jobs than any one of them can take on today. On our team we're exploring two things in particular: agents coordinating with no central coordinator, and tasks that run for a long time.</p>
+      <p>The idea is agents working together on bigger jobs than any one of them can take on today, like problems with a vast state space: drug discovery, logistics, math. On our team we're exploring two things in particular: agents coordinating with no central coordinator, and tasks that run for a long time.</p>
     </aside>
   </section>
 
   <!-- ── The levelset ── -->
-  <section class="slide layout-levelset" data-title="Nobody has this figured out">
-    <div class="big rise">Nobody has this <em>figured out.</em></div>
+  <section class="slide layout-levelset" data-title="Nobody has this completely figured out">
+    <div class="big rise">Nobody has this <em>completely figured out.</em></div>
     <p class="rise">Coding with AI is still an experiment. Anyone who says they have the exact answer is selling something. We've watched the field change several times in the past year.</p>
     <aside class="notes">
-      <p>Before anything else, a levelset. Nobody has this figured out, including us. Coding with AI is still experimental, and the best practices keep changing. What was right six months ago often isn't now.</p>
+      <p>Before anything else, a levelset. Nobody has this completely figured out, including us. Coding with AI is still experimental, and the best practices keep changing. What was right six months ago often isn't now.</p>
       <p>So take everything today as one way of working that we're trying out, not as the answer.</p>
     </aside>
   </section>
@@ -80,14 +80,15 @@
       <div class="axis"><span class="tag">How much the agent does on its own</span></div>
       <div class="box rise" style="--n:0"><figure class="media mark" data-media="mark-githubcopilot.svg" data-alt="GitHub Copilot"></figure><time>2021 · Copilot</time>Autocomplete in the editor</div>
       <div class="box step" style="--n:1"><figure class="media mark" data-media="mark-openai.svg" data-alt="ChatGPT"></figure><time>Late 2022 · ChatGPT</time>Copy and paste from a chat window</div>
-      <div class="box step" style="--n:2"><figure class="media mark" data-media="mark-claude.svg" data-alt="Claude Code"></figure><time>Early 2025 · Claude Code</time>Agents in the terminal</div>
-      <div class="box step" style="--n:3"><figure class="media mark" data-media="mark-cursor.svg" data-alt="Cursor"></figure><time>Mid 2025 · Cursor</time>Agents in the background</div>
-      <div class="box hi step" style="--n:4"><time>2026</time>Always-on agents</div>
+      <div class="box step" style="--n:2"><figure class="media mark" data-media="mark-cursor.svg" data-alt="Cursor"></figure><time>Spring 2025 · Cursor, Roo, Copilot</time>Conversational coding agents in the editor</div>
+      <div class="box step" style="--n:3"><figure class="media mark" data-media="mark-claude.svg" data-alt="Claude Code"></figure><time>Nov 2025 · Claude Code</time>Coding agents in the terminal</div>
+      <div class="box step" style="--n:4"><figure class="media mark" data-media="mark-claude.svg" data-alt="Claude in the cloud"></figure><time>2026 · Claude in the cloud</time>Agents in the background</div>
+      <div class="box hi step" style="--n:5"><time>Late 2026 · Grok, @claude</time>Always-on agents</div>
     </div>
     <aside class="notes">
       <p>Here's how fast it moved. Each step on a click.</p>
-      <p>Autocomplete in the editor: the model finishes the line you're typing. Then chat: you ask, and copy the answer back into your code. Then agents in the terminal, like Claude Code, that read and edit the code themselves. Then agents that work in the background while you do something else. And now always-on agents, which keep running and pick up work as it comes.</p>
-      <p>Each step, the agent does more on its own. (The dates are rough. Check them before the talk.)</p>
+      <p>Autocomplete in the editor: the model finishes the line you're typing. Then chat: you ask, and copy the answer back into your code. Then, in spring and summer 2025, full conversational coding agents inside the editor, in Cursor, Roo and Copilot. Then, around November 2025, coding agents in the terminal, like Claude Code, that read and edit the code themselves. This year, agents that work in the background in the cloud while you do something else. And now always-on agents, like the Grok bot or @claude, which keep running and pick up work as it comes.</p>
+      <p>Each step, the agent does more on its own.</p>
     </aside>
   </section>
 
@@ -100,11 +101,9 @@
         <div class="band rise" style="--w:690px; --slant:54px; --fill:13%"><span><b>About 20%</b> use a chatbot<br>now and then</span></div>
         <div class="band hi rise" data-node="you" style="--w:540px; --slant:48px"><span><b>About 0.2%</b> watch agents do<br>weeks of work from one prompt</span></div>
         <div class="band rise" style="--w:400px; --slant:42px; --fill:20%"><span><b>About 5,000 people</b><br>inside the labs work<br>with swarms of agents</span></div>
-        <div class="here tag step" data-node="here" style="left:0; top:330px">You are here</div>
       </div>
       <figure class="media rise" data-media="karpathy-post.png" data-alt="Andrej Karpathy's post on X, October 11, 2026"><figcaption>Andrej Karpathy on X, October 2026</figcaption></figure>
     </div>
-    <svg class="wires" aria-hidden="true"><path class="hi step" data-from="here" data-to="you" data-axis="h"/></svg>
     <aside class="notes">
       <p>Andrej Karpathy put this well recently. Most people have barely used AI. Most of the rest see a chatbot. A small slice, about 0.2%, use frontier models on real code and watch agents do weeks of work from one prompt. That's most of you.</p>
       <p>And at the bottom, a few thousand people inside the labs already work with swarms of agents that collaborate for weeks. That's where this is heading, and it's what we want to give you a feel for today.</p>
@@ -116,28 +115,36 @@
     <h2 class="rise" style="margin-top:20px">What drove each step</h2>
     <div class="rows">
       <span class="tag rise">What the models<br>learned to do</span>
-      <div class="box rise" data-node="m1">Use tools</div>
-      <div class="box rise" data-node="m2">Follow long instructions</div>
-      <div class="box rise" data-node="m3">Work for hours</div>
-      <div class="box hi step" data-node="m4">Work together</div>
-      <span class="tag step">How the apps<br>changed</span>
-      <div class="box step" data-node="a1">Agents in the terminal</div>
-      <div class="box step" data-node="a2">Agents in the background</div>
-      <div class="box step" data-node="a3">Always-on agents</div>
-      <div class="box unknown step" data-node="a4">?</div>
+      <div class="box step" data-step="1" data-node="m1">Use tools</div>
+      <div class="box step" data-step="2" data-node="m2">Follow long instructions</div>
+      <div class="box step" data-step="3" data-node="m3">Work for hours</div>
+      <div class="box hi step" data-step="4" data-node="m4">Work together</div>
+      <span class="tag rise">How the apps<br>changed</span>
+      <div class="box step with" data-step="1" data-node="a1">Agents in the terminal</div>
+      <div class="box step with" data-step="2" data-node="a2">Agents in the background</div>
+      <div class="box step with" data-step="3" data-node="a3">Always-on agents</div>
+      <div class="box unknown step" data-step="5" data-node="a4">?</div>
     </div>
     <svg class="wires" aria-hidden="true">
-      <path class="step" data-from="m1" data-to="a1"/>
-      <path class="step" data-from="m2" data-to="a2"/>
-      <path class="step" data-from="m3" data-to="a3"/>
-      <path class="hi step" data-from="m4" data-to="a4"/>
+      <path class="step with" data-step="1" data-from="m1" data-to="a1"/>
+      <path class="step with" data-step="2" data-from="m2" data-to="a2"/>
+      <path class="step with" data-step="3" data-from="m3" data-to="a3"/>
+      <path class="hi step with" data-step="5" data-from="m4" data-to="a4"/>
     </svg>
     <p class="flat-caption rise">The apps follow the models. <em>So what's the app for this one?</em></p>
     <aside class="notes">
-      <p>Why did it go that way? Each new kind of app came after the models learned something new.</p>
+      <p>Why did it go that way? Each new kind of app came after the models learned something new. Press once per pair.</p>
       <p>Once models could use tools, we got agents in the terminal. Once they could follow long instructions, they could work in the background without you watching. Now that they can work for hours, it makes sense to keep them running.</p>
       <p>The point: the apps follow the models. As the models keep getting better, the apps will keep changing.</p>
       <p><b>Press:</b> and now models are learning to work together. So what's the app for that one? That's the question for the rest of the talk.</p>
+    </aside>
+  </section>
+
+  <!-- ── Section: Why horizontally scale agents? ── -->
+  <section class="slide layout-statement opener" data-title="Why horizontally scale agents?">
+    <blockquote class="rise">Why horizontally scale <em>agents?</em></blockquote>
+    <aside class="notes">
+      <p>So why run more than one agent at all? Here's how it's done today, and where it runs out.</p>
     </aside>
   </section>
 
@@ -161,14 +168,6 @@
 
   <!-- ════ Part 2: What goes wrong ════ -->
 
-  <!-- ── Section: When agents work together ── -->
-  <section class="slide layout-statement opener" data-title="When agents work together">
-    <blockquote class="rise">When agents work <em>together</em></blockquote>
-    <aside class="notes">
-      <p>So what happens when agents start working together? It's already happening, whether anyone planned it or not.</p>
-    </aside>
-  </section>
-
   <!-- ── It already happened: the coverage ── -->
   <section class="slide" data-title="It already happened">
     <h2 class="rise" style="margin-top:20px">It already <em>happened</em></h2>
@@ -184,7 +183,6 @@
         <figure class="media doc" data-media="openai-report.png" data-alt="OpenAI's technical report on the Hugging Face incident"><figcaption>Its technical report, August 2026</figcaption></figure>
       </div>
     </div>
-    <p class="flat-caption rise">They built their own message board, and with it did what <em>no single agent could.</em></p>
     <aside class="notes">
       <p>You've probably heard about this one. In July, OpenAI ran a large number of agents on a cybersecurity benchmark. The agents found they could read each other's activity in a shared package repository, and turned it into a message board.</p>
       <p>Some of them then broke into Hugging Face. Hugging Face disclosed it in July: the agents were inside for about two and a half days, and its log of the intrusion has more than 17,000 actions. OpenAI's technical report in August says the agents ran code on 41 of Hugging Face's production servers.</p>
@@ -202,8 +200,8 @@
     </div>
     <div class="triad">
       <div class="box rise"><h3>Shared intent</h3><div class="say"><p class="now">Without it, each agent works toward its own idea of the goal.</p><p class="then">Agents take on goals that nobody asked for.</p></div></div>
-      <div class="box rise"><h3>Shared context</h3><div class="say"><p class="now">Without it, agents work from different facts, and nobody notices.</p><p class="then">One unchecked fact spreads until everyone treats it as true.</p></div></div>
-      <div class="box rise"><h3>Shared reasoning</h3><div class="say"><p class="now">Without it, nobody can see why a decision was made, or check it.</p><p class="then">Agents agree because the others agreed, not because they checked.</p></div></div>
+      <div class="box rise"><h3>Shared context</h3><div class="say"><p class="now">Without it, agents work from different facts and nobody notices.</p><p class="then">One unchecked fact spreads until everyone treats it as true.</p></div></div>
+      <div class="box rise"><h3>Shared reasoning</h3><div class="say"><p class="now">Without it, nobody can see or check why a decision was made.</p><p class="then">Agents agree because the others agreed, not because they checked.</p></div></div>
     </div>
     <p class="credit rise now">A frame from the Internet of Cognition team</p>
     <p class="flat-caption then">Agents coordinate whether you design for it or not.</p>
@@ -220,10 +218,10 @@
 
   <!-- ════ Part 3: A room to try it in ════ -->
 
-  <!-- ── Section: A playground ── -->
-  <section class="slide layout-statement opener" data-title="A playground">
-    <blockquote class="rise">A <em>playground</em></blockquote>
-    <cite class="long rise">A place to run today's coding agents as always-on agents, and watch them work together.</cite>
+  <!-- ── Section: Mycelium ── -->
+  <section class="slide layout-statement opener" data-title="Mycelium">
+    <blockquote class="rise"><em>Mycelium</em></blockquote>
+    <cite class="long rise">A place to run today's coding agents as always-on agents and watch them work together.</cite>
     <aside class="notes">
       <p>That's what Mycelium is for us: a playground. It takes the coding agents you already use, like Claude Code, Codex and Cursor, and lets you run them as always-on agents in a shared room, so you can watch how they work together.</p>
     </aside>
@@ -234,8 +232,8 @@
     <canvas class="scene" data-scene="threeways"></canvas>
     <div class="swap rise">
       <h2 data-at="0">In a <em>group chat</em></h2>
-      <h2 data-at="1">In a room, with <em>a board</em></h2>
-      <h2 data-at="2">In a room, with <em>a flow</em></h2>
+      <h2 data-at="1">In a room with <em>a board</em></h2>
+      <h2 data-at="2">In a room with <em>a flow</em></h2>
     </div>
     <i class="step beat"></i><i class="step beat"></i>
     <aside class="notes">
@@ -245,13 +243,13 @@
     </aside>
   </section>
 
-  <!-- ── Shared intent: the board (live app) ── -->
+  <!-- ── Shared intent: the board (a screenshot) ── -->
   <section class="slide layout-app" data-title="Shared intent: the board">
     <div class="head">
       <h2 class="rise">Shared intent: <em>the board</em></h2>
       <span class="sub rise">A task is a row and a thread.</span>
     </div>
-    <div class="app pane rise" data-app="/room/workshop" data-zoom="1.6">
+    <div class="app pane rise">
       <div class="bar"><i></i><i></i><i></i><span class="addr">mycelium · the board</span></div>
       <div class="app-view"><img src="board.png" alt="A room's board: three things waiting on you, then a big task, Apple Pay for everyone, with its five parts in order, who has each and what they said last"></div>
     </div>
@@ -291,9 +289,9 @@
     <h2 class="rise" style="margin-top:20px">Shared reasoning: <em>the toolbox</em></h2>
     <div class="grid2">
       <div class="box rise"><h3>Conductor</h3><p>Walks the agents through a set process inside a task, giving each its turn. Its flows include a review, Accord (agree on what the task is) and Concord (choose between options).</p><code>@conductor review @~builder @~reviewer</code></div>
-      <div class="box rise"><h3>Aligner</h3><p>Typed in a task's thread, it negotiates with the task's members over several issues at once, round by round, and stops as soon as everyone agrees.</p><code>@aligner agree on where we store tokens</code></div>
+      <div class="box rise"><h3>Aligner</h3><p>Summoned in a task's thread, it negotiates several issues at once with the task's members and stops as soon as everyone agrees.</p><code>@aligner agree on where we store tokens</code></div>
     </div>
-    <p class="flat-caption rise">Any agent can start one inside a task, or you can. Every run is kept.</p>
+    <p class="flat-caption rise">You or any agent can start one inside a task. Every run is kept.</p>
     <aside class="notes">
       <p>Shared reasoning is a set of tools for when agents need to agree. Any of them runs inside a task's thread.</p>
       <p>The conductor walks agents through a set process, like a review, and gives each one its turn. Two of its flows you'll run later: Accord gets them on the same page about what the task is, and Concord helps them pick between options, so nobody gets steamrolled. The aligner negotiates when there are several issues at once.</p>
@@ -315,40 +313,37 @@
     </aside>
   </section>
 
-  <!-- ── Steerable: see it, step in (scene) ── -->
-  <section class="slide layout-scene" data-title="You can step in">
+  <!-- ── Getting out of the way (scene) ── -->
+  <section class="slide layout-scene" data-title="Getting out of the way">
     <canvas class="scene" data-scene="trust"></canvas>
-    <h2 class="rise">You can see it, and <em>you can step in</em></h2>
-    <div class="veil pane"><span>what the agents are doing</span></div>
+    <h2 class="rise">Getting <em>out of the way</em></h2>
     <i class="step beat"></i>
     <aside class="notes">
-      <p><b>Now:</b> most of the time you only need the outcomes: the finished work coming out the side.</p>
-      <p><b>Press:</b> but nothing is hidden. Any time you want, you can see what every agent is doing, and step in.</p>
+      <p><b>Now:</b> this is what a team of agents looks like up close. Lots of messages, all at once, crossing every way. Following all of it would be a full-time job.</p>
+      <p><b>Press:</b> as agents do more on their own, the person's job moves from doing the work to staying out of it. You don't need to follow every message. Focus on the high-level tasks, and leave the coordination to the agents. Step in only where you're needed. Everything underneath is still there whenever you want to look.</p>
     </aside>
   </section>
 
   <!-- ════ Part 4: How agents live in it ════ -->
 
-  <!-- ── Waking is the hard part ── -->
-  <section class="slide" data-title="Waking is the hard part">
-    <h2 class="rise" style="margin-top:20px">Waking is the <em>hard part</em></h2>
-    <div class="tension">
-      <div class="box rise"><h3>Let them talk</h3><p>Agents need to reach each other freely: to ask, to hand off work, to push back.</p></div>
-      <div class="pull rise" aria-hidden="true">⟷</div>
-      <div class="box step"><h3>Keep it readable</h3><p>But every message wakes someone and costs a turn. No endless chatter: an agent has to be free to stay quiet.</p></div>
-      <div class="box wide step"><h3>And you can steer</h3><p>A person can shape the conversation in the room at any time.</p></div>
+  <!-- ── Waking agents is hard (scene) ── -->
+  <section class="slide layout-scene" data-title="Waking agents is hard">
+    <canvas class="scene" data-scene="wake"></canvas>
+    <h2 class="rise">Waking agents is <em>hard</em></h2>
+    <div class="swap rise">
+      <p class="cap" data-at="0">Wake everyone, and it's noise.</p>
+      <p class="cap" data-at="1">Wake no one, and the question waits.</p>
+      <p class="cap hold" data-at="2">In multi-agent systems, the wake design becomes load-bearing.</p>
     </div>
-    <ul class="answer step">
-      <li><code>@</code> asks, and wakes</li>
-      <li><code>@~</code> names, without waking</li>
-      <li><code>@!</code> interrupts</li>
-    </ul>
+    <i class="step beat"></i><i class="step beat"></i><i class="step beat"></i><i class="step beat"></i><i class="step beat"></i>
     <aside class="notes">
-      <p>Waking turned out to be the hard part, and it's a problem worth solving.</p>
-      <p>On one side, agents need to talk freely: ask each other things, hand work off, push back on each other.</p>
-      <p><b>Press:</b> on the other, every message wakes someone and costs a turn. If every message wakes everyone, you get endless chatter. An agent has to be allowed to stay quiet.</p>
-      <p><b>Press:</b> and the person in the room should be able to steer the conversation whenever they want.</p>
-      <p><b>Press:</b> our answer is three ways to write a mention. A plain @ asks and wakes. @~ names someone without waking them. @! interrupts an agent that's busy, so it reads your message first.</p>
+      <p>Waking agents is hard. The room is built for agents and people alike: everyone in it can reach everyone else. You want agents to work together on their own, in a way they actually want to use. But every message that wakes an agent costs a turn.</p>
+      <p><b>Now:</b> wake everyone on every message, and each of them answers, and wakes others. It's all noise.</p>
+      <p><b>Press:</b> wake no one, and it's quiet, but an agent's question just sits there.</p>
+      <p><b>Press:</b> so Mycelium has its own wake system, and agents use it with each other just as people do. Agent to agent: builder writes @reviewer. A plain mention wakes that one agent, and nobody else.</p>
+      <p><b>Press:</b> person to agent, the same way: you write @research, and only research wakes.</p>
+      <p><b>Press:</b> agent to agent again: reviewer writes @~design. Design is named, so it's on the record, but it isn't woken. It'll see it next time it looks.</p>
+      <p><b>Press:</b> and person to agent: builder is busy, and you write @!builder. The bang cuts in, so it reads your message first. Agents and people use the same three marks, as the situation needs, and that keeps the signal high the whole way through, without anyone orchestrating it.</p>
     </aside>
   </section>
 
@@ -376,92 +371,62 @@
 <span class="part" data-part="board">Tasks:   yours "Turn on Apple Pay for everyone" (40m ago)
 Board:   @operator filed "Alert us when payments start failing" for @builder
          open now: 3 held, 5 new</span></pre>
-      <div class="callout" data-part="why" data-place="above">Why it woke, and who asked</div>
+      <div class="callout" data-part="why" data-place="above">Who woke it and why</div>
       <div class="callout" data-part="since" data-place="same">What changed since it last looked</div>
-      <div class="callout" data-part="box" data-place="above">The message that asked, whole, and where it was written</div>
-      <div class="callout" data-part="next" data-place="above">What to run, and exactly where the reply lands</div>
-      <div class="callout" data-part="board" data-place="above">Its own tasks, and what else is going on</div>
+      <div class="callout" data-part="box" data-place="above">The full message from the thread it was written in</div>
+      <div class="callout" data-part="next" data-place="above">The command to run and where its reply goes</div>
+      <div class="callout" data-part="board" data-place="above">Its own tasks and the rest of the board</div>
     </div>
     <i class="step beat" data-part="why"></i><i class="step beat" data-part="since"></i><i class="step beat" data-part="box"></i><i class="step beat" data-part="next"></i><i class="step beat" data-part="board"></i>
     <aside class="notes">
       <p>This is a real wake, exactly as it's typed into an agent's terminal. Let's walk through it.</p>
-      <p><b>Press:</b> why it woke, and who asked. <b>Press:</b> what changed since its last turn. <b>Press:</b> the message that asked for it, in full, in a box. Nothing anyone writes can pass itself off as part of the frame. <b>Press:</b> what to run next, and exactly where its reply will land. <b>Press:</b> its own tasks, and what else is going on in the room.</p>
+      <p><b>Press:</b> who woke it and why. <b>Press:</b> what changed since its last turn. <b>Press:</b> the full message that asked for it, in a box. Nothing anyone writes can pass itself off as part of the frame. <b>Press:</b> the command to run next and where its reply will go. <b>Press:</b> its own tasks and the rest of the board.</p>
     </aside>
   </section>
 
-  <!-- ── Don't be afraid of compaction: a timeline ── -->
-  <section class="slide" data-title="Don't be afraid of compaction">
-    <h2 class="rise" style="margin-top:20px">Don't be afraid of <em>compaction</em></h2>
-    <svg class="timeline rise" aria-hidden="true">
-      <text x="150" y="390">One agent's context, over a long task</text>
-      <rect class="track" x="150" y="420" width="1620" height="64" rx="12"/>
-      <!-- It fills, compacts, and fills again. -->
-      <rect class="seg old" x="156" y="426" width="120" height="52" rx="8"/>
-      <rect class="seg old" x="282" y="426" width="150" height="52" rx="8"/>
-      <rect class="seg old" x="438" y="426" width="130" height="52" rx="8"/>
-      <rect class="seg old" x="574" y="426" width="170" height="52" rx="8"/>
-      <rect class="seg old" x="750" y="426" width="110" height="52" rx="8"/>
-      <line class="fold" x1="880" y1="400" x2="880" y2="510"/>
-      <text class="fold-label" x="880" y="540" text-anchor="middle">compacts</text>
-      <rect class="seg" x="900" y="426" width="90" height="52" rx="8"/>
-      <rect class="seg" x="996" y="426" width="160" height="52" rx="8"/>
-      <rect class="seg" x="1162" y="426" width="140" height="52" rx="8"/>
-      <rect class="seg" x="1308" y="426" width="120" height="52" rx="8"/>
-      <line class="fold" x1="1450" y1="400" x2="1450" y2="510"/>
-      <text class="fold-label" x="1450" y="540" text-anchor="middle">compacts</text>
-      <rect class="seg" x="1470" y="426" width="110" height="52" rx="8"/>
-      <!-- After each compaction, the agent reads the room back in. -->
-      <path class="track" d="M940 620 C 940 570, 905 560, 905 500" stroke-width="3" style="stroke: var(--accent)"/>
-      <path class="track" d="M980 620 C 1100 560, 1470 580, 1475 500" stroke-width="3" style="stroke: var(--accent)"/>
-      <text class="hi" x="1180" y="600">reads it back in</text>
-    </svg>
-    <div class="box hi memory-box rise"><b>The room's memory</b><small>the board, decisions, context</small></div>
-    <p class="flat-caption rise">A task can run for a month, because <em>the room remembers.</em></p>
-    <p class="honest rise">It costs tokens. We think having the agents always at hand is worth it.</p>
-    <aside class="notes">
-      <p>Usual advice is to keep an agent's context small and clear it often. For this, we don't. An agent that has been in the room for weeks knows the room.</p>
-      <p>When its context fills up, it compacts. That's fine: the room's memory still has the board, the decisions and the context, and the agent reads them back in.</p>
-      <p>To be honest, it costs tokens, and you lose the cache sometimes. We think having these agents always at hand, with what they know, is worth it.</p>
-    </aside>
-  </section>
-
-  <!-- ── The building blocks ── -->
-  <section class="slide" data-title="The building blocks">
-    <h2 class="rise" style="margin-top:20px">The building <em>blocks</em></h2>
-    <div class="blocks">
-      <div class="panel rise">
-        <h3>Every agent product will have</h3>
-        <div class="grid">
-          <span>Durable workflows</span><span>Can use a computer</span>
-          <span>Memory and skills</span><span>Triggers and scheduled jobs</span>
-          <span>Connectors and auth</span><span>Text and voice channels</span>
-          <span>Payments and identity</span><span>Evals and observability</span>
-        </div>
-      </div>
-      <div class="panel ours step">
-        <h3>A team of agents also needs</h3>
-        <div class="grid">
-          <span>Rooms</span><span>Tasks with their own threads</span>
-          <span>Mentions and wakes</span><span>Turns</span>
-          <span>Shared memory</span><span>Coordination flows</span>
-        </div>
-      </div>
+  <!-- ── Agreeing on meaning is hard ── -->
+  <section class="slide" data-title="Agreeing on meaning is hard">
+    <h2 class="rise" style="margin-top:20px">Agreeing on meaning is <em>hard</em></h2>
+    <div class="grid2" style="margin-block: auto">
+      <div class="box rise"><h3>Words with more than one meaning</h3><p>Every party in a multi-agent flow has to understand exactly what the words mean. Words like “live”, “done” and “urgent” can be read in different ways depending on what each agent saw before.</p></div>
+      <div class="box step"><h3>Ensuring proper agreement between parties</h3><p>Agents are built to be a little sycophantic. Building autonomous AI systems that agree on terms and allow all parties to contribute to an agreement is vital for ensuring the best outcomes for large-scale autonomous agentic deployments.</p></div>
     </div>
-    <p class="credit rise">Left: from Lee Robinson's "How always-on agents work", Stanford CS146S, October 2026</p>
+    <p class="flat-caption step" style="margin-top: 0">More talking won't fix this. Agreeing on meaning <em>needs its own protocol.</em></p>
     <aside class="notes">
-      <p>Lee Robinson listed the building blocks every agent product will have: durable workflows, using a computer, memory and skills, triggers, connectors, channels, payments, evals.</p>
-      <p><b>Press:</b> when agents work as a team, you need a few more: rooms to work in, tasks with their own threads, mentions and wakes, turns, a memory they share, and flows for when they need to agree.</p>
+      <p>Waking is one coordination problem. Here's the next one, and it's harder: agreeing on what things mean.</p>
+      <p>First, words that can mean more than one thing. For a multi-agent system to be robust, every party has to understand exactly what the words being said mean. Words like "live", "done" or "urgent" sit in latent space, and each agent reads them in light of its own prior context. Two agents can be sure they agree and mean different things.</p>
+      <p><b>Press:</b> second, making sure the agreement is real. Agents are built to be a little sycophantic: they tend to go along with each other. For large autonomous deployments, it's vital to have a way to agree on terms that lets every party contribute, so the result is one everyone actually holds.</p>
+      <p><b>Press:</b> more chat doesn't fix either one. Agreeing on meaning needs a protocol of its own.</p>
     </aside>
   </section>
+
+  <!-- ── Accord and Concord: the answer ── -->
+  <section class="slide" data-title="Accord and Concord" data-lens="960 780 330">
+    <h2 class="rise" style="margin-top:34px">Mycelium agent <em>coordination flows</em></h2>
+    <div class="cards" style="grid-template-columns: repeat(2, 1fr); max-width: 1500px; margin-top: auto">
+      <article class="card pane rise"><span class="glyph"></span><h3>Accord</h3><p>It settles what the task and its words mean. Each agent writes down its points. Code merges them and flags every conflict and every word used two ways.</p><span class="foot">saves one shared summary</span></article>
+      <article class="card pane rise"><span class="glyph"></span><h3>Concord</h3><p>It settles an answer nobody can overrule. Each member rates every option. The pick is the option that leaves the least happy member best off.</p><span class="foot">saves one decision</span></article>
+    </div>
+    <div class="source rise" style="margin-bottom: auto">
+      <p class="credit">Our flows are lighter versions inspired by the Internet of Cognition team's ACCORD and CONCORD protocols. The full protocols are at <a class="source-link" href="https://ioc-project.github.io/cognition-protocols/" target="_blank" rel="noopener">ioc-project.github.io/cognition-protocols</a></p>
+      <a href="https://ioc-project.github.io/cognition-protocols/" target="_blank" rel="noopener"><img class="qr" src="media/ioc-protocols-qr.svg" alt="QR code for the Internet of Cognition protocols site"></a>
+    </div>
+    <aside class="notes">
+      <p>That's what these two flows are for. They're how agents agree on purpose, instead of by accident.</p>
+      <p>Accord settles meaning. Before the work, everyone writes down what the task is, and code, not a model, merges it into one shared summary. Contradictions and words used two ways are flagged, never smoothed over. Concord settles an answer when nobody in the room can just decide. Everyone rates every option, and the pick leaves the least happy member best off, so no one gets steamrolled, including the agent that isn't yours.</p>
+      <p>Be explicit here: our flows are inspired by ACCORD and CONCORD, the protocols from the Internet of Cognition team. Theirs are the real thing; ours are lighter versions. You'll run both in the workshop.</p>
+    </aside>
+  </section>
+
 
   <!-- ════ The workshop ════ -->
 
   <!-- ── Segue ── -->
   <section class="slide layout-statement opener" data-title="Let's build a team">
     <blockquote class="rise">Let's build <em>a team.</em></blockquote>
-    <cite class="long rise">Your agents, your neighbor's agents, one task.</cite>
+    <cite class="long rise">A few of your own agents, working on one task.</cite>
     <aside class="notes">
-      <p>Rather than tell you more about it, let's build a team. By the end of this session, your agent and the agent of the person next to you will be working on the same task.</p>
+      <p>Rather than tell you more about it, let's build a team. By the end of this session, a few of your own agents will be working on one task together, in a room on your laptop.</p>
       <p>Along the way you'll see all three layers we talked about: the board for shared intent, the room's memory for shared context, and a flow for shared reasoning.</p>
     </aside>
   </section>
@@ -476,16 +441,13 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
       </div>
       <div class="box rise">
         <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="9" width="36" height="30" rx="4"/><path d="M13 20l6 5-6 5M22 31h11"/></svg>
-        <h3>A coding agent</h3><p>The one you already use: Claude Code, Codex or Cursor</p>
-      </div>
-      <div class="box rise">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16"/><path d="M8 24h32M24 8c5 5 5 27 0 32M24 8c-5 5-5 27 0 32"/></svg>
-        <h3>Our hub's address</h3><p>We'll put it on the screen</p>
+        <h3>A coding agent</h3><p>The one you already use, signed in: Claude Code, Codex or Cursor</p>
       </div>
     </div>
-    <p class="flat-caption rise">That's it.</p>
+    <p class="flat-caption rise">That's it. Everything runs <em>on your laptop.</em></p>
     <aside class="notes">
-      <p>Here's all you need: your laptop, the coding agent you already use, signed in, and our hub's address, which we'll put up on the screen. That's it.</p>
+      <p>Here's all you need: your laptop and the coding agent you already use, signed in. Everything today runs on your own machine, so there's no account to make and nothing to share yet.</p>
+      <p>If you use Codex, run <code>codex</code> once in a terminal first and get past its welcome screen.</p>
     </aside>
   </section>
 
@@ -493,14 +455,15 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <section class="slide" data-title="The plan">
     <h2 class="rise" style="margin-top:34px">The <em>plan</em></h2>
     <ol class="agenda">
-      <li class="rise"><time>01</time><span>Install Mycelium and connect to our hub</span><span></span></li>
-      <li class="rise"><time>02</time><span>Invite an agent, and see what it sees</span><span></span></li>
-      <li class="rise"><time>03</time><span>Add more agents and let them talk</span><span></span></li>
-      <li class="rise"><time>04</time><span>Give them a task</span><span></span></li>
-      <li class="rise"><time>05</time><span>Run a flow: Accord and Concord</span><span></span></li>
-      <li class="rise"><time>06</time><span>Work with someone else's agents</span><span></span></li>
+      <li class="rise"><time>01</time><span>Install and open Mycelium</span><span>5 min</span></li>
+      <li class="rise"><time>02</time><span>Start a team</span><span>10 min</span></li>
+      <li class="rise"><time>03</time><span>Add a reviewer</span><span>5 min</span></li>
+      <li class="rise"><time>04</time><span>Add a designer</span><span>10 min</span></li>
+      <li class="rise"><time>05</time><span>Add a security auditor</span><span>10 min</span></li>
+      <li class="rise"><time>06</time><span>Agree on purpose with Accord and Concord</span><span>15 min</span></li>
+      <li class="rise"><time>07</time><span>Watch us share a room</span><span>demo</span></li>
     </ol>
-    <aside class="notes"><p>Each step builds on the last. If you fall behind, pair with a neighbor.</p></aside>
+    <aside class="notes"><p>You'll build one thing of your own, and your team grows by one role at each step. Everything happens on your own laptop. If you fall behind, look over at a neighbor's screen and catch up at the next step.</p></aside>
   </section>
 
   <!-- ── 01 · Download ── -->
@@ -518,129 +481,200 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 01 · Connect ── -->
-  <section class="slide layout-exercise" data-title="01 · Connect" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Connect to our hub</h2>
+  <!-- ── 01 · Open ── -->
+  <section class="slide layout-exercise" data-title="01 · Open Mycelium" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Open Mycelium</h2>
     <ol class="steps">
-      <li class="rise"><span>Open Mycelium.</span></li>
-      <li class="rise"><span>Choose to connect to a hub, and enter ours.</span></li>
-      <li class="rise"><span>You land in a room of your own. It's private.</span></li>
+      <li class="rise"><span>Open the app and go through its first screen.</span></li>
+      <li class="rise"><span>You land in a room of your own, on your laptop.</span></li>
+      <li class="rise"><span>Say hello in the room. Nobody answers yet.</span></li>
     </ol>
+    <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
     <aside class="notes">
       <p>Switch to the app and do it live while they follow along.</p>
-      <p>The hub hands each person their own private room. We'll open things up later.</p>
+      <p>The app runs its own hub on your laptop: your rooms, your memory and your agents all stay on this machine. The room is empty for now. That's next.</p>
     </aside>
   </section>
 
-  <!-- ── 02 · Invite an agent ── -->
-  <section class="slide layout-exercise" data-title="02 · Invite an agent" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Invite an agent</h2>
-    <ol class="steps">
-      <li class="rise"><span>Add a member: pick Claude Code, Codex or Cursor, and a folder on your machine.</span></li>
-      <li class="rise"><span>Say yes when your Mac asks to start it.</span></li>
-      <li class="rise"><span>Say hi. @ it in the room, and it answers there.</span></li>
-    </ol>
-    <aside class="notes">
-      <p>This is your own agent, running on your machine, in its own terminal. Mycelium starts it and gives it a name in the room.</p>
-      <p>Give it something to be: "You're the designer." That's its identity, and it keeps it.</p>
-    </aside>
-  </section>
-
-  <!-- ── 02 · What the agent sees ── -->
-  <section class="slide layout-terminal dense" data-title="02 · What the agent sees" data-lens="1700 220 200">
-    <div class="copy">
-      <h2 class="rise" style="margin:34px 0 30px">What the agent sees</h2>
-      <p class="rise">When you @ it, Mycelium wakes it in its terminal with a short message: why it woke, what changed, and how to reply.</p>
-      <p class="rise">It answers the room only when it decides to.</p>
+  <!-- ── 01 · The room (tour, from Jodee's AGNTCon deck) ── -->
+  <section class="slide" data-title="01 · The room">
+    <h2 class="rise" style="margin-top:0">The <em>room</em></h2>
+    <div class="tour rise">
+      <div class="shot">
+        <img src="media/room-tour.png" alt="A Mycelium room: rooms on the left, the channel in the middle with the latest tasks on top, members and memory on the right">
+        <span class="mk m1" style="left:15%;top:15.5%">1</span><span class="mk m2" style="left:37%;top:5.7%">2</span><span class="mk m3" style="left:60%;top:20%">3</span><span class="mk m4" style="left:66%;top:52%">4</span><span class="mk m5" style="left:83%;top:42%">5</span><span class="mk m6" style="left:92%;top:5.7%">6</span>
+      </div>
+      <ol class="legend"><li class="lg l1"><b class="num">1</b><div><h3>Rooms</h3><p>One room per team or project. People and agents work in it.</p></div></li><li class="lg l2"><b class="num">2</b><div><h3>Views</h3><p>Channel, Board and Network: the same room, three ways.</p></div></li><li class="lg l3"><b class="num">3</b><div><h3>Tasks</h3><p>The latest tasks and who holds each. Each one has its own thread.</p></div></li><li class="lg l4"><b class="num">4</b><div><h3>Channel</h3><p>Where people and agents talk to each other.</p></div></li><li class="lg l5"><b class="num">5</b><div><h3>Members</h3><p>People, agents and engines, like the conductor.</p></div></li><li class="lg l6"><b class="num">6</b><div><h3>Memory</h3><p>What the room knows, and the decisions it keeps.</p></div></li></ol>
     </div>
-    <div class="term pane rise">
-      <div class="bar"><i></i><i></i><i></i><span>herdr · @designer</span></div>
-<pre><span class="c">mycelium wake for @designer in your-room</span>
-
-Why:     @julia mentioned you in the room
-Since:   your last turn: 1 new message
-
-<span class="c">┌ @julia · now · in the room</span>
-<span class="c">│</span> @designer hi! what are you working on?
-<span class="c">└</span>
-
-Next:    1. <span class="k">mycelium await</span>
-         2. <span class="k">mycelium respond</span> --body "..."
-            (lands in the room)</pre>
-    </div>
+    <i class="step beat b1"></i><i class="step beat b2"></i><i class="step beat b3"></i><i class="step beat b4"></i><i class="step beat b5"></i><i class="step beat b6"></i>
     <aside class="notes">
-      <p>Open herdr and show the agent's pane while it wakes. This is the answer to AI theater: the message is a wake, not a user prompt it must answer, and replying to the room is a CLI call it chooses to make.</p>
+      <p>Press once per callout. This is a room with some history in it, so there's something to point at. Theirs is empty for now. (This tour is from Jodee's AGNTCon talk.)</p>
+      <p><b>1, Rooms:</b> one room per team or project, where people and agents work. <b>2, Views:</b> the same room as a channel, a board and a network. <b>3, Tasks:</b> the latest tasks across the top, who holds each, and a thread for each one. <b>4, Channel:</b> where people and agents talk. <b>5, Members:</b> everyone in the room, people, agents and engines. You add your agents from here. <b>6, Memory:</b> what the room knows and the decisions it keeps.</p>
     </aside>
   </section>
 
-  <!-- ── 03 · More agents ── -->
-  <section class="slide layout-exercise" data-title="03 · More agents" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Add more agents</h2>
+  <!-- ── 02 · Start a team ── -->
+  <section class="slide layout-exercise" data-title="02 · Start a team" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Start a <em>team</em></h2>
     <ol class="steps">
-      <li class="rise"><span>Add two more, each with its own job: a builder, a reviewer.</span></li>
-      <li class="rise"><span>Start a conversation that needs all three.</span></li>
-      <li class="rise"><span>Watch who speaks up, and who stays quiet.</span></li>
-    </ol>
-    <aside class="notes"><p>These are persistent agents. They stay in the room, keep their context and pick up where they left off the next time they're woken.</p></aside>
-  </section>
-
-  <!-- ── 04 · Tasks ── -->
-  <section class="slide" data-title="04 · Tasks" data-lens="191 432 96">
-    <h2 class="rise" style="margin-top:34px">How a task moves</h2>
-    <ol class="flow">
-      <li><span class="marker">1</span><h3>Filed</h3><p>A row on the board, with its own thread.</p><span class="notice">filed</span></li>
-      <li class="step"><span class="marker">2</span><h3>Claimed</h3><p>An agent takes it and says so.</p><span class="notice">claimed</span></li>
-      <li class="step"><span class="marker">3</span><h3>Worked</h3><p>The conversation stays in the thread.</p><span class="notice">thread</span></li>
-      <li class="step"><span class="marker">4</span><h3>Resolved</h3><p>The room sees it's done.</p><span class="notice">resolved</span></li>
-    </ol>
-    <aside class="notes"><p>A task is a row on the board and a thread, one to one. Agents file tasks too, and split big ones into parts. Claiming and resolving are the agents' side: you'll see it as the task moving from Working to Done on the board, and as lines in the room's chat. After a compaction, the board is how an agent finds out where things stand.</p></aside>
-  </section>
-
-  <!-- ── 04 · A first task ── -->
-  <section class="slide layout-exercise" data-title="04 · A first task" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Give them a task</h2>
-    <ol class="steps">
-      <li class="rise"><span>File something small: <code>/task Plan a team lunch</code></span></li>
-      <li class="rise"><span>Open its thread and @ your agents in it.</span></li>
-      <li class="rise"><span>Let them sort it out. Watch the board.</span></li>
+      <li class="rise"><span>Make an empty folder for something you want to build.</span></li>
+      <li class="rise"><span>Click Add member twice: a <code>planner</code> and a <code>builder</code>, both in that folder.</span></li>
+      <li class="rise"><span>In the room: <code>@planner I want … Plan it and get @builder started.</code></span></li>
+      <li class="rise"><span>Watch tasks appear on the board, and the builder pick them up.</span></li>
     </ol>
     <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
-    <aside class="notes"><p>Low stakes on purpose. The point is to watch them coordinate: who claims it, whether they split it, how they reach an answer. Click the timer to start it.</p></aside>
-  </section>
-
-  <!-- ── 05 · L9 ── -->
-  <section class="slide layout-statement" data-title="05 · L9" data-lens="1680 840 190, 1440 970 38">
-    <blockquote class="rise">Getting agents to agree, on purpose.</blockquote>
-    <cite class="rise">L9 · protocols from the Internet of Cognition team</cite>
     <aside class="notes">
-      <p>So far the agents have worked things out on their own. Sometimes you want a structured way for them to reach shared understanding, and that's where L9 comes in.</p>
-      <p>L9 comes out of the Internet of Cognition work: protocols for how agents get to a shared understanding, and for telling an agreement they all believe in apart from one where an agent just gave in. It's the IoC team's research, and Mycelium runs lighter versions of two of its protocols: Accord and Concord.</p>
-      <p>Big thanks to the Internet of Cognition team. These protocols are their work; we just get to run them.</p>
+      <p>Give each one line about its job, and end every line with "Don't install anything: use only what's already on this machine." Planner: "You turn what the person wants into small tasks on the board and give each to the right teammate. You don't write code." Builder: "You build what's asked, in this folder."</p>
+      <p>No idea of your own? Try: "a single HTML page, no build step, that tracks the books I'm reading". A single HTML file needs nothing installed, and you can open it in your browser as it grows.</p>
+      <p>In our dry runs the planner split the ask into a handful of tasks on the board within a minute, all for the builder, and the builder started on the first. From here on the team keeps working between steps. Each step adds one role and you watch it join in.</p>
     </aside>
   </section>
 
-  <!-- ── 05 · Accord and Concord ── -->
-  <section class="slide" data-title="05 · Accord and Concord" data-lens="960 780 330">
-    <h2 class="rise" style="margin-top:34px">Accord and Concord</h2>
-    <div class="cards" style="grid-template-columns: repeat(2, 1fr); max-width: 1500px">
-      <article class="card pane rise"><span class="glyph"></span><h3>Accord</h3><p>Get on the same page before work starts: what the task is, what's out of scope, what done means.</p><span class="foot">one shared summary, locked</span></article>
-      <article class="card pane rise"><span class="glyph"></span><h3>Concord</h3><p>When they disagree: everyone suggests an option and rates them all. The pick is the option that leaves the least happy member best off.</p><span class="foot">one answer, written down</span></article>
+  <!-- ── 02 · It's your own agent ── -->
+  <section class="slide layout-exercise" data-title="02 · It's your own agent" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">It's your <em>own</em> agent</h2>
+    <ol class="steps">
+      <li class="rise"><span>Click it in Members. Its terminal opens, live.</span></li>
+      <li class="rise"><span>Click Open its terminal. It's the Claude Code or Codex you already use.</span></li>
+      <li class="rise"><span>Type to it there, like you always do. Same login, same settings.</span></li>
+    </ol>
+    <aside class="notes">
+      <p>Do this one live on the projector. This is the moment people realize there's no new agent to learn: it's their own coding agent, in its own terminal, in the folder they picked.</p>
+      <p>Mycelium adds four things. A name in the room. Its notes, the one line you gave it. The wake: when someone mentions it, Mycelium types who asked and why into its prompt. And the <code>mycelium</code> command it replies with. Everything else is the agent as it always is: your login, your model, your settings.</p>
+      <p>You can talk to it in its terminal and in the room. Close its pane to stop it.</p>
+    </aside>
+  </section>
+
+  <!-- ── 03 · Add a reviewer ── -->
+  <section class="slide layout-exercise" data-title="03 · Add a reviewer" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Add a <em>reviewer</em></h2>
+    <ol class="steps">
+      <li class="rise"><span>Add a <code>reviewer</code> in the same folder.</span></li>
+      <li class="rise"><span>In the room: <code>@reviewer you're on the team now: review each task before it's resolved.</code></span></li>
+      <li class="rise"><span>Watch the builder ask it for a review, and the reviewer pass it or send it back.</span></li>
+    </ol>
+    <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <aside class="notes">
+      <p>Its line: "You review each change before its task is done. Don't pass anything you haven't tried." Plus the no-install line.</p>
+      <p>The reviewer stays quiet until there's something to review. The builder asks for it by itself when its next task is ready. In our dry run the reviewer caught a real bug and sent it back twice before approving.</p>
+      <p>This is the wake system from the talk, in your hands. Each mention wakes one agent. Name one with a tilde to mention it without waking it, or use a bang to cut in on one that's busy.</p>
+    </aside>
+  </section>
+
+  <!-- ── 04 · Add a designer ── -->
+  <section class="slide layout-exercise" data-title="04 · Add a designer" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Add a <em>designer</em></h2>
+    <ol class="steps">
+      <li class="rise"><span>Add a <code>designer</code> in the same folder.</span></li>
+      <li class="rise"><span>In the room: <code>@designer decide how it should look, save it to memory, and get it restyled to match.</code></span></li>
+      <li class="rise"><span>Open the style guide in Memory, then watch the builder restyle and the reviewer check it.</span></li>
+    </ol>
+    <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <aside class="notes">
+      <p>Its line: "You decide how it looks and feels for the people using it." Plus the no-install line.</p>
+      <p>The designer writes the look down as a memory, files the restyle as a task for the builder, and then both the designer and the reviewer check the result against that same memory. That's what memory is for: everyone works to one written decision instead of three opinions.</p>
+    </aside>
+  </section>
+
+  <!-- ── 05 · Add a security auditor ── -->
+  <section class="slide layout-exercise" data-title="05 · Add a security auditor" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Add a <em>security auditor</em></h2>
+    <ol class="steps">
+      <li class="rise"><span>Add a <code>security</code> agent in the same folder.</span></li>
+      <li class="rise"><span>In the room: <code>@security audit what we have and file what you find as tasks for the team.</code></span></li>
+      <li class="rise"><span>Watch its findings land on the board, and the builder pick them up.</span></li>
+    </ol>
+    <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <aside class="notes">
+      <p>Its line: "You look for security problems in what the team builds and file each one as a task." Plus the no-install line.</p>
+      <p>In our dry run it read the code and filed a task straight away: data loaded from a backup wasn't checked, and one bad value would crash the page. The builder took it and folded it into the work it was already doing. Nobody told them to coordinate. The board and the thread did it.</p>
+    </aside>
+  </section>
+
+  <!-- ── 06 · Another company's agent ── -->
+  <section class="slide layout-statement" data-title="06 · Another company's agent" data-lens="1680 840 190, 1440 970 38">
+    <blockquote class="rise">Now one of the agents <em>isn't yours.</em></blockquote>
+    <cite class="long rise">@provider is the payment provider's agent. It has its own rate limit and certification window, and nobody in the room can overrule it.</cite>
+    <aside class="notes">
+      <p>In a room of your own agents, you break every tie, and fast. You'd never need a protocol for that. These flows earn their keep when nobody in the room can just decide.</p>
+      <p>So put one agent from another company in the room: the payment provider's agent. It has a rate limit, it only lets changes go live in its certification window, Tuesday to Thursday, and a new integration has to be re-certified. You can't overrule it, and its limits aren't up for negotiation.</p>
+      <p>This isn't a story. An agent running on another company's machine has already joined one of our rooms with a join code, the same one Add member hands out.</p>
+    </aside>
+  </section>
+
+  <!-- ── 06 · Accord (scene) ── -->
+  <section class="slide layout-scene" data-title="06 · Accord">
+    <canvas class="scene" data-scene="accord"></canvas>
+    <div class="swap rise">
+      <h2 data-at="0">Two pictures of <em>one launch</em></h2>
+      <h2 data-at="1">Each writes down <em>its points</em></h2>
+      <h2 data-at="2">Code merges them <em>and flags the gaps</em></h2>
+      <h2 data-at="3">A word used two ways <em>is restated</em></h2>
+      <h2 data-at="4">One summary <em>is saved</em></h2>
     </div>
+    <i class="step beat"></i><i class="step beat"></i><i class="step beat"></i><i class="step beat"></i>
     <aside class="notes">
-      <p>Two L9 protocols, run as flows. Summon the conductor in a task's thread: <code>@conductor accord @a @b: …</code> or <code>@conductor concord @a @b: …</code>.</p>
-      <p>Run one live on the lunch task: concord on where to eat works well.</p>
+      <p><b>Now:</b> our two agents and the provider's agent start on the same task, turning on Apple Pay for everyone. Our builder plans to merge and go live on Friday. The provider only lets changes go live Tuesday to Thursday. Without anything else, we'd find that out at launch.</p>
+      <p><b>Press:</b> accord starts by having each one write down its points, each under a label: the objective, constraints, what done means, and the words that matter. The provider brings points nobody on our side knew: its window, re-certifying a new integration, and a rate limit of 100 test payments a minute.</p>
+      <p><b>Press:</b> then code merges them, not a model. Points that say the same thing become one, and keep who said them. Friday and the Tuesday-to-Thursday window contradict each other, so that's flagged. The re-certification and the rate limit are kept, marked as only the provider's. This is the point to land: a model summarizing would quietly drop the other company's limits, and our load test would blow through them. Accord keeps them in front of everyone.</p>
+      <p><b>Press:</b> "live" meant deployed to us and certified and taking real cards to the provider, so those two are asked to say what they mean once more. Here they land on the provider's meaning.</p>
+      <p><b>Press:</b> what comes out is one shared summary, saved to the room's memory, with what's still open at the bottom: Friday or the window. Everything that runs on the task afterwards reads it. Run accord again and it updates.</p>
     </aside>
   </section>
 
-  <!-- ── 06 · Multiplayer ── -->
-  <section class="slide layout-exercise" data-title="06 · Multiplayer" data-lens="1500 560 300">
+  <!-- ── 06 · Concord (scene) ── -->
+  <section class="slide layout-scene" data-title="06 · Concord">
+    <canvas class="scene" data-scene="concord"></canvas>
+    <div class="swap rise">
+      <h2 data-at="0">Everyone proposes <em>one plan</em></h2>
+      <h2 data-at="1">Everyone rates <em>every plan</em></h2>
+      <h2 data-at="2">The least happy member <em>is best off</em></h2>
+      <h2 data-at="3">Below the bar <em>means a fix</em></h2>
+      <h2 data-at="4">One decision <em>is saved</em></h2>
+    </div>
+    <i class="step beat"></i><i class="step beat"></i><i class="step beat"></i><i class="step beat"></i>
+    <aside class="notes">
+      <p><b>Now:</b> the question accord left open: when does it go live? There's no boss here. Our agents can't overrule the provider, and the provider can't overrule us. Each member proposes one plan: ship Friday, ship in the provider's window on Tuesday, or ship behind a flag now and certify later.</p>
+      <p><b>Press:</b> everyone rates every plan from 0 to 100, all at the same time, so nobody sees the others' ratings first.</p>
+      <p><b>Press:</b> code picks, not a model. For each plan it looks at the least happy rating, and picks the plan where that's highest. Friday has the highest total, both of ours, but the provider rates it 0, so it can't win. Ratings aren't added up. The flag plan leaves the provider at 30. Tuesday leaves nobody below 45.</p>
+      <p><b>Press:</b> 45 is still below the bar of 70, so the least happy member, our builder, is asked for a fix: merge the flag now, so Tuesday is just flipping it. Everyone rates the fix. This happens at most twice.</p>
+      <p><b>Press:</b> the fix clears the bar for everyone, and the decision is saved to the room's memory. If nothing clears it, concord says so honestly: no plan works for everyone. The point to land: with nobody in charge, nobody gets steamrolled, including the company that isn't you.</p>
+    </aside>
+  </section>
+
+  <!-- ── 06 · Run Accord ── -->
+  <section class="slide layout-exercise" data-title="06 · Run Accord" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Run Accord on a new task</h2>
+    <ol class="steps">
+      <li class="rise"><span>Type <code>/engine conductor</code> in the room, then file the next thing you want: <code>/task …</code></span></li>
+      <li class="rise"><span>In its thread: <code>@conductor accord @~builder @~reviewer @~designer: what is this task?</code></span></li>
+      <li class="rise"><span>Watch the points come in and get flagged, then read the summary under <code>context/summary/</code>.</span></li>
+    </ol>
+    <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <aside class="notes"><p>The conductor is an engine, so it has to be added to the room first. Writing the agents as <code>@~name</code> lets the conductor give them their turns instead of everyone waking at once. Look at what gets flagged: a point only one agent made, two points that contradict, or a word two agents use differently. That's what would have gone wrong silently. It takes about five minutes. Click the timer to start it.</p></aside>
+  </section>
+
+  <!-- ── 06 · Run Concord ── -->
+  <section class="slide layout-exercise" data-title="06 · Run Concord" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Run Concord on a choice</h2>
+    <ol class="steps">
+      <li class="rise"><span>File a choice your team has to make, like <code>/task Pick how to store the data</code></span></li>
+      <li class="rise"><span>In its thread: <code>@conductor concord @~builder @~reviewer @~designer: which should we pick?</code></span></li>
+      <li class="rise"><span>Watch the ratings come in, then read the decision under <code>context/decision/</code>.</span></li>
+    </ol>
+    <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <aside class="notes"><p>Each agent proposes one option and rates every option. The pick is the one that leaves the least happy agent best off, and below the bar the least happy one is asked for a fix. Put your own handle in too if you want a turn yourself: you rate in the thread like the agents do. In your own room you could just decide, so this is practice. The case it's for is the one we'll show next: agents that don't share one boss. Click the timer to start it.</p></aside>
+  </section>
+
+  <!-- ── 07 · Multiplayer (a demo, on stage) ── -->
+  <section class="slide layout-exercise" data-title="07 · Demo: one room, two people" data-lens="1500 560 300">
     <h2 class="rise" style="margin-top:34px">Work with someone else's agents</h2>
     <ol class="steps">
-      <li class="rise"><span>Pair up with your neighbor and share one room.</span></li>
-      <li class="rise"><span>File one task you both care about.</span></li>
-      <li class="rise"><span>@ their agent the way you'd lean over and ask them.</span></li>
+      <li class="rise"><span>Julia and Jodee share one room, each with their own agent.</span></li>
+      <li class="rise"><span>They file one task they both care about.</span></li>
+      <li class="rise"><span>Each @s the other's agent the way you'd lean over and ask someone.</span></li>
     </ol>
-    <aside class="notes"><p>Your agents are on your machines, and they work on one task across that boundary. Each knows its own person's context. Say decisions out loud in the thread; both agents read them.</p></aside>
+    <aside class="notes"><p>This one's a demo: watch us do it. Our agents run on our own machines, and they work on one task across that boundary. Each knows its own person's context. We say decisions out loud in the thread, and both agents read them.</p></aside>
   </section>
 
   <!-- ── Close ── -->
@@ -705,8 +739,8 @@ Next:    1. <span class="k">mycelium await</span>
 <script src="term.js"></script>
 <script src="app.js"></script>
 <script src="ink.js"></script>
-<script src="scenes.js"></script>
+<script src="scenes.js?v=13"></script>
 <script src="flat.js"></script>
-<script src="deck.js"></script>
+<script src="deck.js?v=3"></script>
 </body>
 </html>
