@@ -36,7 +36,7 @@
     <p class="lede rise">A hands-on workshop with Mycelium.</p>
     <div class="byline rise"><span>Julia Valenti</span><span class="dot"></span><span>Jodee Varney</span><span class="dot"></span><span>Shift.Forward</span></div>
     <aside class="notes">
-      <p>Welcome. Today is about agents working together, and you'll try it yourself: by the end, your agent and your neighbor's agent will be working on the same task.</p>
+      <p>Welcome. Today is about agents working together, and you'll try it yourself: by the end, you'll have a small team of agents building something of yours, and you'll watch two people's agents agree on a plan.</p>
     </aside>
   </section>
 
@@ -275,7 +275,7 @@
     <p class="flat-caption rise">You or any agent can start one inside a task. Every run is kept.</p>
     <aside class="notes">
       <p>Shared reasoning is a set of tools for when agents need to agree. Any of them runs inside a task's thread.</p>
-      <p>The conductor walks agents through a set process, like a review, and gives each one its turn. Two of its flows you'll run later: Accord gets them on the same page about what the task is, and Concord helps them pick between options, so nobody gets steamrolled.</p>
+      <p>The conductor walks agents through a set process, like a review, and gives each one its turn. Two of its flows you'll see later: Accord gets them on the same page about what the task is, and Concord helps them pick between options, so nobody gets steamrolled.</p>
       <p>Accord and Concord are lighter versions of two protocols from the Internet of Cognition project. Every run is saved, so you can see who took part, each step, and what they agreed.</p>
     </aside>
   </section>
@@ -395,7 +395,7 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     <aside class="notes">
       <p>That's what these two flows are for. They're how agents agree on purpose, instead of by accident.</p>
       <p>Accord settles meaning. Before the work, everyone writes down what the task is, and code, not a model, merges it into one shared summary. Contradictions and words used two ways are flagged, never smoothed over. Concord settles an answer when nobody in the room can just decide. Everyone rates every option, and the pick leaves the least happy member best off, so no one gets steamrolled, including the agent that isn't yours.</p>
-      <p>Be explicit here: our flows are inspired by ACCORD and CONCORD, the protocols from the Internet of Cognition team. Theirs are the real thing; ours are lighter versions. You'll run both in the workshop.</p>
+      <p>Be explicit here: our flows are inspired by ACCORD and CONCORD, the protocols from the Internet of Cognition team. Theirs are the real thing; ours are lighter versions. You'll see both in the demo at the end.</p>
     </aside>
   </section>
 
@@ -442,8 +442,7 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
       <li class="rise"><time>02</time><span>Start a team</span><span>10 min</span></li>
       <li class="rise"><time>03</time><span>Add a reviewer</span><span>5 min</span></li>
       <li class="rise"><time>04</time><span>Add a designer</span><span>10 min</span></li>
-      <li class="rise"><time>05</time><span>Accord and Concord</span><span>15 min</span></li>
-      <li class="rise"><time>06</time><span>Watch us share a room</span><span>demo</span></li>
+      <li class="rise"><time>05</time><span>Multiplayer: Accord and Concord</span><span>demo</span></li>
     </ol>
     <aside class="notes"><p>You'll build one thing of your own, and your team grows by one role at each step. Everything happens on your own laptop. If you fall behind, look over at a neighbor's screen and catch up at the next step.</p></aside>
   </section>
@@ -560,13 +559,13 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 05 · Another company's agent ── -->
-  <section class="slide layout-statement" data-title="05 · Another company's agent" data-lens="1680 840 190, 1440 970 38">
-    <blockquote class="rise">Now the agents <em>don't share a boss.</em></blockquote>
+  <!-- ── 05 · Multiplayer ── -->
+  <section class="slide layout-statement" data-title="05 · Multiplayer" data-lens="1680 840 190, 1440 970 38">
+    <blockquote class="rise">Now it's <em>multiplayer.</em></blockquote>
     <cite class="long rise">An engineering agent and a product agent plan one release. Neither can overrule the other.</cite>
     <aside class="notes">
-      <p>In a room of your own agents, you break every tie. These flows are for when nobody in the room can just decide: two people's agents, or two teams'.</p>
-      <p>Our example, and the demo you'll see: an engineering agent and a product agent plan the next release together.</p>
+      <p>Hands off your laptops for this one: watch us. In a room of your own agents, you break every tie. Accord and Concord are for when nobody in the room can just decide: two people's agents, or two teams'.</p>
+      <p>Our example, and the demo you're about to see: Julia's engineering agent and Jodee's product agent plan the next release together, each on its own laptop.</p>
     </aside>
   </section>
 
@@ -604,39 +603,15 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
-  <!-- ── 05 · Run Accord ── -->
-  <section class="slide layout-exercise" data-title="05 · Run Accord" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Run Accord on a new task</h2>
+  <!-- ── 05 · Multiplayer demo (on stage) ── -->
+  <section class="slide layout-exercise" data-title="05 · Demo: one room, two people" data-lens="1500 560 300">
+    <h2 class="rise" style="margin-top:34px">Watch two people's agents <em>agree</em></h2>
     <ol class="steps">
-      <li class="rise"><span>Type <code>/engine conductor</code> in the room, then file the next thing you want: <code>/task …</code></span></li>
-      <li class="rise"><span>In its thread: <code>@conductor accord @~builder @~reviewer @~designer: what is this task?</code></span></li>
-      <li class="rise"><span>Watch the points come in and get flagged, then read the summary under <code>context/summary/</code>.</span></li>
+      <li class="rise"><span>Julia and Jodee share one room, each with their own agent: <code>eng</code> and <code>product</code>.</span></li>
+      <li class="rise"><span>They file one task: plan the next release. Each agent states its position.</span></li>
+      <li class="rise"><span>Accord flags what doesn't line up. Concord picks, with how satisfied each agent is.</span></li>
     </ol>
-    <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
-    <aside class="notes"><p>The conductor is an engine, so it has to be added to the room first. Writing the agents as <code>@~name</code> lets the conductor give them their turns instead of everyone waking at once. Look at what gets flagged: a point only one agent made, two points that contradict, or a word two agents use differently. That's what would have gone wrong silently. It takes about five minutes. Click the timer to start it.</p></aside>
-  </section>
-
-  <!-- ── 05 · Run Concord ── -->
-  <section class="slide layout-exercise" data-title="05 · Run Concord" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Run Concord on a choice</h2>
-    <ol class="steps">
-      <li class="rise"><span>File a choice your team has to make, like <code>/task Pick how to store the data</code></span></li>
-      <li class="rise"><span>In its thread: <code>@conductor concord @~builder @~reviewer @~designer: which should we pick?</code></span></li>
-      <li class="rise"><span>Watch the ratings come in, then read the decision under <code>context/decision/</code>.</span></li>
-    </ol>
-    <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
-    <aside class="notes"><p>Each agent proposes one option and rates every option. The pick is the one that leaves the least happy agent best off, and below the bar the least happy one is asked for a fix. Put your own handle in too if you want a turn yourself: you rate in the thread like the agents do. In your own room you could just decide, so this is practice. The case it's for is the one we'll show next: agents that don't share one boss. Click the timer to start it.</p></aside>
-  </section>
-
-  <!-- ── 06 · Multiplayer (a demo, on stage) ── -->
-  <section class="slide layout-exercise" data-title="06 · Demo: one room, two people" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Work with someone else's agents</h2>
-    <ol class="steps">
-      <li class="rise"><span>Julia and Jodee share one room, each with their own agent.</span></li>
-      <li class="rise"><span>They file one task they both care about.</span></li>
-      <li class="rise"><span>Each @s the other's agent the way you'd lean over and ask someone.</span></li>
-    </ol>
-    <aside class="notes"><p>This one's a demo: watch us do it. Our agents run on our own machines, and they work on one task across that boundary. Each knows its own person's context. We say decisions out loud in the thread, and both agents read them.</p></aside>
+    <aside class="notes"><p>This one's a demo: watch us do it. Our agents run on our own laptops and work on one task across that boundary. Each knows its own person's context. Point at what Accord flagged (what "done" means), then Concord's pick and each agent's bar. The summary and the decision are both saved to the room's memory. If the live run stalls, switch to the recording.</p></aside>
   </section>
 
   <!-- ── Close ── -->
