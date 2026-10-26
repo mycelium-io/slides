@@ -38,8 +38,19 @@ for (let n = 1; n <= count; n++) {
   // A fresh page per slide, so every slide starts from its first step and
   // the scenes' WebGL and canvases don't pile up in one tab.
   // Web fonts can hold up "load" on a slow network, so wait for the DOM and then a beat.
-  page = await open();
-  await page.goto(`${deck}?print=${n}#${n}`, { waitUntil: "domcontentloaded", timeout: 60000 });
+  // A load now and then never finishes (a web font that never answers), so
+  // try a slide again on a fresh page before giving up on the build.
+  for (let attempt = 1; ; attempt++) {
+    page = await open();
+    try {
+      await page.goto(`${deck}?print=${n}#${n}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+      break;
+    } catch (e) {
+      await page.close();
+      if (attempt === 3) throw e;
+      console.log(`${n}/${count} load timed out, trying again`);
+    }
+  }
   await page.evaluate(() => document.fonts.ready);
   await wait(1600);
   await page.mouse.click(5, 5);
