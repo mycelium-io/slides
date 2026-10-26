@@ -306,6 +306,7 @@ p code, li code { font-size: 0.82em; padding: 0.08em 0.36em; border-radius: 8px;
 /* A credit line with a QR code to the source beside it. */
 .source { display: flex; align-items: center; justify-content: space-between; gap: 40px; max-width: 1500px; margin-top: 26px; }
 .source .credit { margin: 0; max-width: 900px; }
+.source .source-link { display: block; margin-top: 10px; font: 500 26px var(--mono); color: var(--accent); text-decoration: none; }
 .source .qr { width: 150px; height: 150px; padding: 10px; background: #fff; border-radius: 12px; flex-shrink: 0; }
 
 /* ── Media: an image or clip from media/, or a placeholder naming it ── */
