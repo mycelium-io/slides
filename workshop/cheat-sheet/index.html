@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Workshop cheat sheet</title>
+<style>
+  @page { size: Letter; margin: 0.5in 0.55in; }
+  :root { --text: #16191d; --muted: #555b64; --accent: #2f6f7d; --line: #d6dadf; --code: #eef1f3; --warn: #8a6410; }
+  * { box-sizing: border-box; }
+  body { font: 10pt/1.42 "IBM Plex Sans", -apple-system, system-ui, sans-serif; color: var(--text); margin: 0; }
+  h1 { font-size: 19pt; margin: 0 0 2pt; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); margin: 0 0 8pt; }
+  h2 { font-size: 11.5pt; margin: 13pt 0 4pt; color: var(--accent); border-bottom: 1px solid var(--line); padding-bottom: 3pt; break-after: avoid; }
+  h2 .slide { float: right; font-weight: 400; color: var(--muted); font-size: 9pt; }
+  section { break-inside: avoid; }
+  ol, ul { margin: 0; padding-left: 16pt; }
+  li { margin: 0 0 3.5pt; }
+  code, .cmd { font: 9pt/1.4 "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--code); border-radius: 4px; padding: 1px 4px; }
+  .cmd { display: block; padding: 4pt 7pt; margin: 3pt 0 2pt; white-space: pre-wrap; }
+  .point { color: var(--accent); font-weight: 600; }
+  .stall { color: var(--warn); font-weight: 600; }
+  .note { color: var(--muted); font-size: 9pt; }
+  .box { border: 1px solid var(--line); border-radius: 6px; padding: 6pt 9pt; margin: 6pt 0; }
+  .page { break-before: page; }
+  table { border-collapse: collapse; width: 100%; font-size: 9pt; }
+  td { border-top: 1px solid var(--line); padding: 3pt 6pt 3pt 0; vertical-align: top; }
+  td:first-child { width: 30%; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Workshop cheat sheet</h1>
+<p class="sub">What to do on your laptop, step by step, for steps 01 to 07. Slide numbers are on the right. Every prompt here was tested with fresh agents.</p>
+
+<div class="box">
+  <b>Before you go on stage</b>
+  <ul>
+    <li>Your app is on <b>On this computer</b> (Settings → Where rooms live) for steps 01 to 06. The shared hub is only for the 07 recording.</li>
+    <li>An empty folder for the live build: <code>~/workshop-live</code>. Claude Code signed in, and its folder trust already answered once.</li>
+    <li>The deck running: <code>uv run workshop/serve.py</code> in the slides repo. The 07 video is ready to play, and the recorded room is open in a browser tab as the backup.</li>
+    <li>Tell the room they can watch instead of building (slide 24 says so too).</li>
+  </ul>
+</div>
+
+<section>
+<h2>01 · Download and open <span class="slide">slides 26 to 28 · 5 min</span></h2>
+<ol>
+  <li><b>Download (26):</b> show the site's install section. The agent prompt is the easiest path for anyone with a coding agent:
+    <div class="cmd">Use curl to read https://mycelium-io.github.io/mycelium/agents.md and follow its steps to install Mycelium</div></li>
+  <li><b>Open (27):</b> open your app live, and go to a fresh room. Say hello in the room; nobody answers yet.</li>
+  <li><b>The room (28):</b> click once per callout: rooms, views, tasks, channel, members, memory.</li>
+</ol>
+<p><span class="stall">If stuck:</span> someone's install fails, so pair them with a neighbor and move on. They can watch.</p>
+</section>
+
+<section>
+<h2>02 · Start a team <span class="slide">slides 29 and 30 · 10 min</span></h2>
+<ol>
+  <li><b>Add member</b> → Your machine → Claude Code → folder <code>~/workshop-live</code> → name <code>planner</code> → instructions:
+    <div class="cmd">You turn what the person wants into small tasks on the board and give each to the right teammate. You don't write code. Don't install anything: use only what's already on this machine.</div></li>
+  <li>Again, named <code>builder</code>:
+    <div class="cmd">You build what's asked, in this folder. Don't install anything: use only what's already on this machine.</div></li>
+  <li>In the room:
+    <div class="cmd">@planner I want a single HTML page, no build step, that tracks the books I'm reading. Plan it and get @builder started.</div></li>
+  <li><span class="point">Point at:</span> tasks appearing on the board within a minute, all for the builder, and the builder picking up the first one in its thread.</li>
+  <li><b>It's your own agent (30):</b> click <code>builder</code> in Members to show its live terminal, then <b>Open its terminal</b>: it's plain Claude Code. Type nothing that interrupts it.</li>
+</ol>
+<p><span class="stall">If stuck:</span> an agent sits at a question in its terminal (trust, sign-in), so answer it there. No tasks after a couple of minutes? Post <code>@!planner</code> and the line again.</p>
+</section>
+
+<section>
+<h2>03 · Add a reviewer <span class="slide">slide 31 · 5 min</span></h2>
+<ol>
+  <li>Add member → <code>reviewer</code>, same folder:
+    <div class="cmd">You review each change before its task is done. Don't pass anything you haven't tried. Don't install anything: use only what's already on this machine.</div></li>
+  <li>In the room:
+    <div class="cmd">@reviewer you're on the team now: review each task before it's resolved.</div></li>
+  <li><span class="point">Point at:</span> the reviewer stays quiet until the builder asks it, by itself, to review its next task. Then it passes it or sends it back.</li>
+</ol>
+<p class="note">Mention the wake system here: a mention wakes one agent; <code>@~name</code> names one without waking it; <code>@!name</code> cuts in.</p>
+</section>
+
+<section>
+<h2>04 · Add a designer <span class="slide">slide 32 · 10 min</span></h2>
+<ol>
+  <li>Add member → <code>designer</code>, same folder:
+    <div class="cmd">You decide how it looks and feels for the people using it. Don't install anything: use only what's already on this machine.</div></li>
+  <li>In the room:
+    <div class="cmd">@designer decide how it should look, save it to memory, and get it restyled to match.</div></li>
+  <li><span class="point">Point at:</span> open the style guide in <b>Memory</b>, then the restyle task: the builder builds to it, and the designer and reviewer check against the same memory. Open <code>index.html</code> in a browser to show the page.</li>
+</ol>
+</section>
+
+<section>
+<h2>05 · Add a security auditor <span class="slide">slide 33 · 10 min</span></h2>
+<ol>
+  <li>Add member → <code>security</code>, same folder:
+    <div class="cmd">You look for security problems in what the team builds and file each one as a task. Don't install anything: use only what's already on this machine.</div></li>
+  <li>In the room:
+    <div class="cmd">@security audit what we have and file what you find as tasks for the team.</div></li>
+  <li><span class="point">Point at:</span> its findings land on the board as tasks, and the builder picks them up into the work it's already doing. Nobody told them to coordinate.</li>
+</ol>
+</section>
+
+<section>
+<h2>06 · Accord and Concord <span class="slide">slides 34 to 38 · 15 min</span></h2>
+<ol>
+  <li><b>34 to 36:</b> one sentence per click; read the heading. 35 is Accord, 36 is Concord.</li>
+  <li><b>Run Accord (37):</b> type <code>/engine conductor</code>, then file the next thing you want, e.g. <code>/task Let people rate each book</code>. In its thread:
+    <div class="cmd">@conductor accord @~builder @~reviewer @~designer: what is this task?</div>
+    <span class="point">Point at:</span> the main chat's <i>Accord started</i> / <i>ended</i> lines, then the summary at the top of the thread and its open items.</li>
+  <li><b>Run Concord (38):</b> <code>/task Pick how to store the books</code>, then in its thread:
+    <div class="cmd">@conductor concord @~builder @~reviewer @~designer: which should we pick?</div>
+    <span class="point">Point at:</span> <i>Picked …</i>, a bar per agent, and who's least satisfied. <b>Open decision</b> shows it in memory.</li>
+</ol>
+<p><span class="stall">If stuck:</span> <code>@conductor</code> does nothing, so it wasn't added: <code>/engine conductor</code> and send again. Lots of "only one person said this" is fine; point at the "said in different words" items instead.</p>
+</section>
+
+<section>
+<h2>07 · Demo: one room, two people <span class="slide">slide 39 · demo</span></h2>
+<ol>
+  <li>Play the recorded video of you and Jodee's agents planning a release on the shared hub (how it was recorded: last page).</li>
+  <li>Narrate over it: your <code>eng</code> agent and Jodee's <code>product</code> agent; Accord flags what doesn't line up; Concord picks, with each one's satisfaction.</li>
+  <li>If someone asks whether it's real, switch to the browser tab with the room.</li>
+</ol>
+</section>
+
+<section>
+<h2>Close <span class="slide">slides 40 and 41</span></h2>
+<p>The room remembers; your agents stay yours. Leave <b>Questions</b> up. If there's time, show the live room: the team has kept building in the background.</p>
+</section>
+
+<div class="page"></div>
+<h1 style="font-size:16pt">The 07 recording (do this Monday, with Jodee)</h1>
+<p class="sub">Real agents, one each, on mycelium.outshift.com. It took 10 to 12 minutes in the dry runs.</p>
+<ol>
+  <li><b>Point the app at the shared hub:</b> Settings → <i>Where rooms live</i> → <b>On my team's hub</b> → <code>https://mycelium.outshift.com</code>. Sign in if asked, and run <code>mycelium login</code> in a terminal so the hub lists your laptop.</li>
+  <li><b>Make the room</b> <code>release-planning</code>, click <b>Invite</b> and send Jodee the link (<b>Open in the Mycelium app</b>).</li>
+  <li><b>Add your agent</b> <code>eng</code> (Your machine → Claude Code → empty folder <code>~/demo</code>), and click <b>Start</b> on the dialog:
+    <div class="cmd">You speak for engineering: what's built, what's risky and what it costs. Nothing ships half done. Don't install anything or change any files: this is a planning task.</div></li>
+  <li><b>Jodee adds</b> <code>product</code> on her laptop:
+    <div class="cmd">You speak for product: what users asked for, the date we announced (November 10), and what the announcement needs. Don't install anything or change any files: this is a planning task.</div></li>
+  <li><code>/engine conductor</code>, then <code>/task Plan the next release</code> with this description:
+    <div class="cmd">Our team task app ships one release before the November 10 announcement. Candidates:
+1. Calendar sync: tasks with due dates show up in Google and Outlook calendars
+2. Offline mode: use the app on a plane, sync when back online
+3. Two-factor login
+4. CSV export of any task list
+5. Dark mode
+6. Home-screen widgets on iOS and Android
+There's room for about three of these.</div></li>
+  <li>Start recording, then in the task's thread, one at a time, waiting for each to finish:
+    <div class="cmd">@eng @product what's your position on this release?</div>
+    <div class="cmd">@conductor accord @~eng @~product: what is this release?</div>
+    <div class="cmd">@conductor concord @~eng @~product: which should we pick?</div></li>
+  <li><b>Afterwards:</b> leave the room up (it's the backup), and switch the app back to <b>On this computer</b>.</li>
+</ol>
+<table style="margin-top:8pt">
+  <tr><td>Add to room just waits</td><td>Every start from the shared hub asks first: look for <b>Start</b> / <b>Decline</b> on that laptop.</td></tr>
+  <tr><td>Your laptop isn't listed</td><td>Run <code>mycelium login</code>; make sure no <code>mycelium runner</code> is running in a terminal.</td></tr>
+  <tr><td>An agent never answers</td><td>Open its terminal from Members and answer any question there, then <code>@!eng</code> or <code>@!product</code> and the message again.</td></tr>
+</table>
+
+</body>
+</html>
