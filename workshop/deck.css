@@ -332,6 +332,12 @@ figure.zoomed .clip-stage { cursor: zoom-out; }
 .clip-play { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--mid-line); background: transparent; color: var(--text); font-size: 16px; cursor: pointer; }
 .clip-scrub { flex: 1; accent-color: var(--accent); cursor: pointer; }
 .clip-time { flex: none; min-width: 130px; text-align: right; }
+/* What to watch for in the clip below, in order. */
+.watch { display: flex; gap: 40px; margin: 18px 0 0; padding: 0; list-style: none; counter-reset: watch; font-size: 23px; color: var(--muted); }
+.watch li { counter-increment: watch; white-space: nowrap; }
+.watch li::before { content: counter(watch, decimal-leading-zero); margin-right: 12px; font: 500 20px var(--mono); color: var(--accent); }
+.watch + figure.media.clip { margin-top: 18px; }
+.watch + figure.media.clip .clip-stage { height: 580px; }
 
 /* A diagram beside a picture, and pictures overlapping like a pile of clippings. */
 .split { display: grid; grid-template-columns: 1fr 720px; gap: 50px; align-items: center; margin-top: 40px; }
