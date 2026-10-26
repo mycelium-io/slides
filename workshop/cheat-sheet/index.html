@@ -38,23 +38,23 @@
     <li>Your app is on <b>On this computer</b> (Settings → Where rooms live) for steps 01 to 06. The shared hub is only for the 07 recording.</li>
     <li>An empty folder for the live build: <code>~/workshop-live</code>. Claude Code signed in, and its folder trust already answered once.</li>
     <li>The deck running: <code>uv run workshop/serve.py</code> in the slides repo. The 07 video is ready to play, and the recorded room is open in a browser tab as the backup.</li>
-    <li>Tell the room they can watch instead of building (slide 24 says so too).</li>
+    <li>Tell the room they can watch instead of building (slide 23 says so too).</li>
   </ul>
 </div>
 
 <section>
-<h2>01 · Download and open <span class="slide">slides 26 to 28 · 5 min</span></h2>
+<h2>01 · Download and open <span class="slide">slides 25 to 27 · 5 min</span></h2>
 <ol>
-  <li><b>Download (26):</b> show the site's install section. The agent prompt is the easiest path for anyone with a coding agent:
+  <li><b>Download (25):</b> show the site's install section. The agent prompt is the easiest path for anyone with a coding agent:
     <div class="cmd">Use curl to read https://mycelium-io.github.io/mycelium/agents.md and follow its steps to install Mycelium</div></li>
-  <li><b>Open (27):</b> open your app live, and go to a fresh room. Say hello in the room; nobody answers yet.</li>
-  <li><b>The room (28):</b> click once per callout: rooms, views, tasks, channel, members, memory.</li>
+  <li><b>Open (26):</b> open your app live, and go to a fresh room. Say hello in the room; nobody answers yet.</li>
+  <li><b>The room (27):</b> click once per callout: rooms, views, tasks, channel, members, memory.</li>
 </ol>
 <p><span class="stall">If stuck:</span> someone's install fails, so pair them with a neighbor and move on. They can watch.</p>
 </section>
 
 <section>
-<h2>02 · Start a team <span class="slide">slides 29 and 30 · 10 min</span></h2>
+<h2>02 · Start a team <span class="slide">slides 28 and 29 · 10 min</span></h2>
 <ol>
   <li><b>Add member</b> → Your machine → Claude Code → folder <code>~/workshop-live</code> → name <code>planner</code> → instructions:
     <div class="cmd">You turn what the person wants into small tasks on the board and give each to the right teammate. You don't write code. Don't install anything: use only what's already on this machine.</div></li>
@@ -63,13 +63,13 @@
   <li>In the room:
     <div class="cmd">@planner I want a single HTML page, no build step, that tracks the books I'm reading. Plan it and get @builder started.</div></li>
   <li><span class="point">Point at:</span> tasks appearing on the board within a minute, all for the builder, and the builder picking up the first one in its thread.</li>
-  <li><b>It's your own agent (30):</b> click <code>builder</code> in Members to show its live terminal, then <b>Open its terminal</b>: it's plain Claude Code. Type nothing that interrupts it.</li>
+  <li><b>It's your own agent (29):</b> click <code>builder</code> in Members to show its live terminal, then <b>Open its terminal</b>: it's plain Claude Code. Type nothing that interrupts it.</li>
 </ol>
 <p><span class="stall">If stuck:</span> an agent sits at a question in its terminal (trust, sign-in), so answer it there. No tasks after a couple of minutes? Post <code>@!planner</code> and the line again.</p>
 </section>
 
 <section>
-<h2>03 · Add a reviewer <span class="slide">slide 31 · 5 min</span></h2>
+<h2>03 · Add a reviewer <span class="slide">slide 30 · 5 min</span></h2>
 <ol>
   <li>Add member → <code>reviewer</code>, same folder:
     <div class="cmd">You review each change before its task is done. Don't pass anything you haven't tried. Don't install anything: use only what's already on this machine.</div></li>
@@ -81,7 +81,7 @@
 </section>
 
 <section>
-<h2>04 · Add a designer <span class="slide">slide 32 · 10 min</span></h2>
+<h2>04 · Add a designer <span class="slide">slide 31 · 10 min</span></h2>
 <ol>
   <li>Add member → <code>designer</code>, same folder:
     <div class="cmd">You decide how it looks and feels for the people using it. Don't install anything: use only what's already on this machine.</div></li>
@@ -92,7 +92,7 @@
 </section>
 
 <section>
-<h2>05 · Add a security auditor <span class="slide">slide 33 · 10 min</span></h2>
+<h2>05 · Add a security auditor <span class="slide">slide 32 · 10 min</span></h2>
 <ol>
   <li>Add member → <code>security</code>, same folder:
     <div class="cmd">You look for security problems in what the team builds and file each one as a task. Don't install anything: use only what's already on this machine.</div></li>
@@ -103,13 +103,13 @@
 </section>
 
 <section>
-<h2>06 · Accord and Concord <span class="slide">slides 34 to 38 · 15 min</span></h2>
+<h2>06 · Accord and Concord <span class="slide">slides 33 to 37 · 15 min</span></h2>
 <ol>
-  <li><b>34 to 36:</b> one sentence per click; read the heading. 35 is Accord, 36 is Concord.</li>
-  <li><b>Run Accord (37):</b> type <code>/engine conductor</code>, then file the next thing you want, e.g. <code>/task Let people rate each book</code>. In its thread:
+  <li><b>33 to 35:</b> one sentence per click; read the heading. 34 is Accord, 35 is Concord.</li>
+  <li><b>Run Accord (36):</b> type <code>/engine conductor</code>, then file the next thing you want, e.g. <code>/task Let people rate each book</code>. In its thread:
     <div class="cmd">@conductor accord @~builder @~reviewer @~designer: what is this task?</div>
     <span class="point">Point at:</span> the main chat's <i>Accord started</i> / <i>ended</i> lines, then the summary at the top of the thread and its open items.</li>
-  <li><b>Run Concord (38):</b> <code>/task Pick how to store the books</code>, then in its thread:
+  <li><b>Run Concord (37):</b> <code>/task Pick how to store the books</code>, then in its thread:
     <div class="cmd">@conductor concord @~builder @~reviewer @~designer: which should we pick?</div>
     <span class="point">Point at:</span> <i>Picked …</i>, a bar per agent, and who's least satisfied. <b>Open decision</b> shows it in memory.</li>
 </ol>
@@ -117,7 +117,7 @@
 </section>
 
 <section>
-<h2>07 · Demo: one room, two people <span class="slide">slide 39 · demo</span></h2>
+<h2>07 · Demo: one room, two people <span class="slide">slide 38 · demo</span></h2>
 <ol>
   <li>Play the recorded video of you and Jodee's agents planning a release on the shared hub (how it was recorded: last page).</li>
   <li>Narrate over it: your <code>eng</code> agent and Jodee's <code>product</code> agent; Accord flags what doesn't line up; Concord picks, with each one's satisfaction.</li>
@@ -126,7 +126,7 @@
 </section>
 
 <section>
-<h2>Close <span class="slide">slides 40 and 41</span></h2>
+<h2>Close <span class="slide">slides 39 and 40</span></h2>
 <p>The room remembers; your agents stay yours. Leave <b>Questions</b> up. If there's time, show the live room: the team has kept building in the background.</p>
 </section>
 
