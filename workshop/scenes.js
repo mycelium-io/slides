@@ -968,8 +968,8 @@
     const agents = A.map(o => Object.assign(node(260, o.y, 34, 1), o));
     // [who, text, row in the merged column (shared rows fold), is the clash]
     const notes = [
-      [0, 'Ship three features', 0], [0, '"Done" means merged', 1, true], [0, 'Settings is risky', 3],
-      [1, 'Ship three features', 0], [1, '"Done" means announced', 2, true], [1, 'Users want asks', 4],
+      [0, 'Ship three features', 0], [0, '"Done" means merged', 1, true], [0, 'Offline mode is risky', 3],
+      [1, 'Ship three features', 0], [1, '"Done" means announced', 2, true], [1, 'Users want calendar sync', 4],
     ].map(([who, text, row, clash], i) => Object.assign(node(380, agents[who].y, 0, 0), { who, text, row, clash: !!clash, col: i % 3 }));
     const COL = { x: 900, y: 400, gap: 88 };
     const vis = { flag: 0, saved: 0 };
@@ -1006,7 +1006,7 @@
           ctx.strokeStyle = C.accent; ctx.lineWidth = 2.5; ctx.stroke(); ctx.restore();
           d.label('Shared summary', x + 40, y + 60, vis.saved, C.accent, 26, 'left');
           d.label('Ship three features', x + 40, y + 140, vis.saved, C.text, 26, 'left');
-          d.label('Settings is risky · users want asks', x + 40, y + 200, vis.saved, C.muted, 24, 'left');
+          d.label('Offline mode is risky · users want calendar sync', x + 40, y + 200, vis.saved, C.muted, 24, 'left');
           d.label('Open: what "done" means', x + 40, y + 260, vis.saved, C.yellow, 26, 'left');
         }
       },
@@ -1023,9 +1023,9 @@
     const M = [{ name: 'eng', color: 'accent' }, { name: 'product', color: 'green' }];
     const COLX = [1380, 1580], X0 = 260, X1 = 1720;
     const rows = [
-      { letter: 'A', text: 'Asks, Windows polish, satisfaction view', r: [80, 70] },
-      { letter: 'B', text: 'Several hubs, Settings, memory versions', r: [40, 95] },
-      { letter: 'C', text: 'Asks, Settings, Windows polish', r: [75, 60] },
+      { letter: 'A', text: 'Two-factor login, CSV export, dark mode', r: [80, 70] },
+      { letter: 'B', text: 'Calendar sync, offline mode, widgets', r: [40, 95] },
+      { letter: 'C', text: 'Two-factor login, offline mode, dark mode', r: [75, 60] },
     ].map(o => ({ ...o, a: 0, shown: [0, 0], min: Math.min(...o.r) }));
     const PICK = 0, rowY = i => 420 + i * 120;
     const vis = { rated: 0, low: 0, saved: 0 };
