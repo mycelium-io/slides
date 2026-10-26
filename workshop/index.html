@@ -271,14 +271,11 @@
   <!-- ── Shared reasoning: the toolbox ── -->
   <section class="slide" data-title="Shared reasoning: the toolbox">
     <h2 class="rise" style="margin-top:20px">Shared reasoning: <em>the toolbox</em></h2>
-    <div class="grid2">
-      <div class="box rise"><h3>Conductor</h3><p>Walks the agents through a set process inside a task, giving each its turn. Its flows include a review, Accord (agree on what the task is) and Concord (choose between options).</p><code>@conductor review @~builder @~reviewer</code></div>
-      <div class="box rise"><h3>Aligner</h3><p>Summoned in a task's thread, it negotiates several issues at once with the task's members and stops as soon as everyone agrees.</p><code>@aligner agree on where we store tokens</code></div>
-    </div>
+    <div class="box rise" style="max-width:1100px; margin-top:56px"><h3>Conductor</h3><p>Walks the agents through a set process inside a task, giving each its turn. Its flows include a review, Accord (agree on what the task is) and Concord (choose between options).</p><code>@conductor review @~builder @~reviewer</code></div>
     <p class="flat-caption rise">You or any agent can start one inside a task. Every run is kept.</p>
     <aside class="notes">
       <p>Shared reasoning is a set of tools for when agents need to agree. Any of them runs inside a task's thread.</p>
-      <p>The conductor walks agents through a set process, like a review, and gives each one its turn. Two of its flows you'll run later: Accord gets them on the same page about what the task is, and Concord helps them pick between options, so nobody gets steamrolled. The aligner negotiates when there are several issues at once.</p>
+      <p>The conductor walks agents through a set process, like a review, and gives each one its turn. Two of its flows you'll run later: Accord gets them on the same page about what the task is, and Concord helps them pick between options, so nobody gets steamrolled.</p>
       <p>Accord and Concord are lighter versions of two protocols from the Internet of Cognition project. Every run is saved, so you can see who took part, each step, and what they agreed.</p>
     </aside>
   </section>
