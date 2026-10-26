@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://mycelium-io.github.io/slides/workshop/og.png">
 <link rel="icon" href="logo.png">
 <!-- Bump ?v= when deck.css changes: Pages lets browsers keep it for ten minutes. -->
-<link rel="stylesheet" href="deck.css?v=16">
+<link rel="stylesheet" href="deck.css?v=17">
 </head>
 <body>
 <canvas id="lens-bg" aria-hidden="true"></canvas>
@@ -559,59 +559,76 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </aside>
   </section>
 
+  <!-- ── 04 · More agents you can add ── -->
+  <section class="slide" data-title="04 · More agents you can add">
+    <h2 class="rise" style="margin-top:20px">More agents <em>you can add</em></h2>
+    <dl class="roles rise">
+      <dt>security</dt><dd>Looks for security problems in what the team builds, and files each one as a task.</dd>
+      <dt>tester</dt><dd>Writes and runs tests for each change, and sends back what fails.</dd>
+      <dt>docs</dt><dd>Keeps the README and the how-tos true to what was built.</dd>
+      <dt>accessibility</dt><dd>Checks every screen works with a keyboard and a screen reader.</dd>
+      <dt>researcher</dt><dd>Finds out how others solved it before the team starts, and saves what it found to memory.</dd>
+      <dt>release</dt><dd>Writes the changelog, and holds the release until every task in it is done.</dd>
+    </dl>
+    <p class="flat-caption rise">Same folder, one line about its job, and the no-install line.</p>
+    <aside class="notes">
+      <p>Keep growing the team after today. Each of these is one more Add member, in the same folder, with its line plus "Don't install anything: use only what's already on this machine."</p>
+      <p>They find their place the same way the reviewer and the designer did: through the board, the threads and the room's memory.</p>
+    </aside>
+  </section>
+
   <!-- ── 05 · Multiplayer ── -->
   <section class="slide layout-statement" data-title="05 · Multiplayer" data-lens="1680 840 190, 1440 970 38">
     <blockquote class="rise">Now it's <em>multiplayer.</em></blockquote>
-    <cite class="long rise">An engineering agent and a product agent plan one release. Neither can overrule the other.</cite>
+    <cite class="long rise">Three people's agents, on three laptops, in one room. Nobody's agent can overrule another's.</cite>
     <aside class="notes">
-      <p>Hands off your laptops for this one: watch us. In a room of your own agents, you break every tie. Accord and Concord are for when nobody in the room can just decide: two people's agents, or two teams'.</p>
-      <p>Our example, and the demo you're about to see: Julia's engineering agent and Jodee's product agent plan the next release together, each on its own laptop.</p>
+      <p>Hands off your laptops for this one: watch us. In a room of your own agents, you break every tie. When the agents belong to different people, nobody in the room can just decide.</p>
     </aside>
   </section>
 
-  <!-- ── 05 · Accord (scene) ── -->
-  <section class="slide layout-scene" data-title="05 · Accord">
-    <canvas class="scene" data-scene="accord3"></canvas>
-    <div class="swap rise">
-      <h2 data-at="0">Each agent writes down <em>what the task is</em></h2>
-      <h2 data-at="1">Code lines them up <em>and flags what doesn't match</em></h2>
-      <h2 data-at="2">One summary <em>is saved</em></h2>
-    </div>
-    <i class="step beat"></i><i class="step beat"></i>
+  <!-- ── 05 · Multiplayer (video) ── -->
+  <section class="slide" data-title="05 · Agents on different laptops">
+    <h2 class="rise" style="margin-top:0">One room, <em>different laptops</em></h2>
+    <figure class="media clip rise" data-media="multiplayer.mp4" data-alt="Julia asks Jodee's product agent a question, and it answers from Jodee's laptop"></figure>
     <aside class="notes">
-      <p>Read the heading on each click. That's the whole explanation.</p>
-      <p><b>Now:</b> each agent writes down what it thinks the task is. Engineering and product both want three features, but they've each got their own idea of the details.</p>
-      <p><b>Press:</b> code lines their points up. The point they both made becomes one. "Done" means merged to engineering and announced to product, so that's flagged. Nobody would have noticed until the release.</p>
-      <p><b>Press:</b> one shared summary is saved to the room's memory, with what's still open. Everything that runs on the task afterwards reads it.</p>
+      <p>Click the video or press K to play and pause. J and L jump 5 seconds; Z zooms where you point; D draws on it.</p>
+      <p>Julia's agent runs on Julia's laptop, Jodee's on Jodee's. Julia asks Jodee's agent something, and it answers from Jodee's machine, with Jodee's context. Nobody shares a screen or a login.</p>
     </aside>
   </section>
 
-  <!-- ── 05 · Concord (scene) ── -->
-  <section class="slide layout-scene" data-title="05 · Concord">
-    <canvas class="scene" data-scene="concord3"></canvas>
-    <div class="swap rise">
-      <h2 data-at="0">Everyone <em>rates every option</em></h2>
-      <h2 data-at="1">The pick leaves the least happy agent <em>best off</em></h2>
-      <h2 data-at="2">The decision is saved, <em>with how satisfied each is</em></h2>
-    </div>
-    <i class="step beat"></i><i class="step beat"></i>
+  <!-- ── 05 · The scenario ── -->
+  <section class="slide" data-title="05 · The scenario">
+    <h2 class="rise" style="margin-top:20px">When does <em>offline mode ship?</em></h2>
+    <dl class="roles cast rise">
+      <dt>eng <span>Julia's agent</span></dt><dd>What's built, what's risky, what it costs. Nothing ships half done.</dd>
+      <dt>product <span>Jodee's agent</span></dt><dd>What customers asked for, the November 10 announcement, and what sales promised.</dd>
+      <dt>design <span>Marc's agent</span></dt><dd>What people see offline, when sync fails and when two edits collide.</dd>
+    </dl>
+    <p class="flat-caption rise">First Accord: agree on what we're deciding. Then Concord: pick the date.</p>
     <aside class="notes">
-      <p>Read the heading on each click. That's the whole explanation.</p>
-      <p><b>Now:</b> three options for what goes in the release, and both agents rate every one from 0 to 100.</p>
-      <p><b>Press:</b> code picks, not a model. For each option it looks at the lowest rating, and picks the option where that's highest. B has the highest total, but engineering rates it 40, so A wins. Nobody gets steamrolled.</p>
-      <p><b>Press:</b> the decision is saved, with how close it came to what each agent wanted. That's the view you'll see in the app.</p>
+      <p>Our most requested feature, and an announcement on November 10. Offline storage is built; what happens when two people edit the same task offline isn't. Sales has promised a pilot customer "this fall".</p>
+      <p>Three agents, each speaking for its own person. Watch what Accord flags first, then what Concord picks.</p>
     </aside>
   </section>
 
-  <!-- ── 05 · Multiplayer demo (on stage) ── -->
-  <section class="slide layout-exercise" data-title="05 · Demo: one room, two people" data-lens="1500 560 300">
-    <h2 class="rise" style="margin-top:34px">Watch two people's agents <em>agree</em></h2>
-    <ol class="steps">
-      <li class="rise"><span>Julia and Jodee share one room, each with their own agent: <code>eng</code> and <code>product</code>.</span></li>
-      <li class="rise"><span>They file one task: plan the next release. Each agent states its position.</span></li>
-      <li class="rise"><span>Accord flags what doesn't line up. Concord picks, with how satisfied each agent is.</span></li>
-    </ol>
-    <aside class="notes"><p>This one's a demo: watch us do it. Our agents run on our own laptops and work on one task across that boundary. Each knows its own person's context. Point at what Accord flagged (what "done" means), then Concord's pick and each agent's bar. The summary and the decision are both saved to the room's memory. If the live run stalls, switch to the recording.</p></aside>
+  <!-- ── 05 · Accord (video) ── -->
+  <section class="slide" data-title="05 · Accord">
+    <h2 class="rise" style="margin-top:0">Accord: <em>agree on what we're deciding</em></h2>
+    <figure class="media clip rise" data-media="accord.mp4" data-alt="Accord in the task's thread: the flow steps through, each agent's points arrive, and what doesn't line up is flagged"></figure>
+    <aside class="notes">
+      <p>The flow at the top is the conductor walking the agents through Accord, step by step. Each agent writes down its points; code, not a model, lines them up and flags what doesn't match. Pause on what's flagged.</p>
+      <p>The shared summary is saved to the room's memory, and everything that runs on the task afterwards reads it.</p>
+    </aside>
+  </section>
+
+  <!-- ── 05 · Concord (video) ── -->
+  <section class="slide" data-title="05 · Concord">
+    <h2 class="rise" style="margin-top:0">Concord: <em>pick the date</em></h2>
+    <figure class="media clip rise" data-media="concord.mp4" data-alt="Concord in the task's thread: each agent proposes and rates options with reasons, and the pick shows each agent's satisfaction"></figure>
+    <aside class="notes">
+      <p>Each agent proposes an option and rates every option from 0 to 100, with its reason. Code picks the option that leaves the least happy agent best off. Nobody gets steamrolled.</p>
+      <p>Pause on the pick and the bars: how close it came to what each agent wanted. The decision is saved to memory with every reason.</p>
+    </aside>
   </section>
 
   <!-- ── Close ── -->
@@ -666,7 +683,9 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
   <div><b>T</b>light / dark</div>
   <div><b>B</b>blackout</div>
   <div><b>D</b>draw on the slide (U undo, C clear)</div>
-  <div><b>+ − 0</b>zoom the live app at the pointer, fit</div>
+  <div><b>K</b>play or pause a video (or click it)</div>
+  <div><b>J L</b>video back or forward 5s (Shift: one frame)</div>
+  <div><b>Z + − 0</b>zoom a video where you point, fit</div>
   <div><b>12 ⏎</b>go to slide 12</div>
   <div><b>?</b>this panel</div>
 </div>
@@ -677,6 +696,7 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
 <script src="ink.js"></script>
 <script src="scenes.js?v=16"></script>
 <script src="flat.js"></script>
-<script src="deck.js?v=3"></script>
+<script src="clip.js?v=1"></script>
+<script src="deck.js?v=4"></script>
 </body>
 </html>

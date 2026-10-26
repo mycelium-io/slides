@@ -316,6 +316,22 @@ figure.media figcaption { margin-top: 14px; font: 400 22px var(--sans); color: v
 .media-missing { display: grid; place-content: center; gap: 10px; min-height: 260px; padding: 30px; text-align: center; border: 2px solid var(--mid-line); border-radius: 16px; color: var(--muted); }
 .media-missing b { font: 500 22px var(--mono); color: var(--text); }
 .media-missing span { font-size: 22px; }
+/* A list of roles: a handle, then its one line. */
+.roles { display: grid; grid-template-columns: 300px 1fr; gap: 26px 40px; margin: 56px 0 40px; max-width: 1500px; }
+.roles dt { font: 500 30px var(--mono); color: var(--accent); }
+.roles dt span { display: block; margin-top: 6px; font: 400 22px var(--sans); color: var(--muted); }
+.roles dd { margin: 0; font-size: 32px; line-height: 1.35; }
+.roles.cast { gap: 40px 40px; }
+/* A recorded clip (clip.js): the video, then a bar to play and scrub it. */
+figure.media.clip { width: 1610px; margin-top: 24px; }
+figure.media.clip .media-missing { min-height: 600px; }
+.clip-stage { height: 640px; overflow: hidden; border-radius: 12px; border: 1px solid var(--mid-line); cursor: pointer; background: #000; }
+figure.media.clip .clip-stage video { width: 100%; height: 100%; max-height: none; object-fit: contain; border-radius: 0; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+figure.zoomed .clip-stage { cursor: zoom-out; }
+.clip-bar { display: flex; align-items: center; gap: 18px; margin-top: 14px; font: 400 20px var(--mono); color: var(--muted); }
+.clip-play { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--mid-line); background: transparent; color: var(--text); font-size: 16px; cursor: pointer; }
+.clip-scrub { flex: 1; accent-color: var(--accent); cursor: pointer; }
+.clip-time { flex: none; min-width: 130px; text-align: right; }
 
 /* A diagram beside a picture, and pictures overlapping like a pile of clippings. */
 .split { display: grid; grid-template-columns: 1fr 720px; gap: 50px; align-items: center; margin-top: 40px; }

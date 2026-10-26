@@ -47,7 +47,9 @@
     const name = fig.dataset.media, alt = fig.dataset.alt || '';
     const show = () => { fig.classList.add('missing'); fig.innerHTML = `<div class="media-missing"><b>media/${name}</b><span>${alt}</span></div>`; };
     const media = /\.(mp4|webm)$/i.test(name) ? document.createElement('video') : document.createElement('img');
-    if (media.tagName === 'VIDEO') { Object.assign(media, { muted: true, loop: true, autoplay: true, playsInline: true }); media.addEventListener('error', show, true); }
+    // A clip (clip.js) waits for the presenter; any other video loops quietly.
+    const clip = fig.classList.contains('clip');
+    if (media.tagName === 'VIDEO') { Object.assign(media, { muted: true, loop: !clip, autoplay: !clip, playsInline: true, preload: 'auto' }); media.addEventListener('error', show, true); }
     else { media.alt = alt; media.addEventListener('error', show); }
     media.src = `media/${name}`;
     fig.prepend(media);
@@ -109,6 +111,7 @@
     if (started === null && index > 0) started = Date.now();
     window.DeckTerm?.activate(s);
     window.DeckApp?.activate(s);
+    window.DeckClip?.activate(s);
     pushLens();
     syncSpeaker();
   }
@@ -230,9 +233,13 @@
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (window.DeckTerm?.focused()) return;   // keys belong to the shell until Esc
     const k = e.key;
-    // + − 0 zoom a live app on the slide (0 only before a slide number is typed).
-    if ((k === '+' || k === '=' || k === '-' || k === '_' || (k === '0' && !typed)) && !overview
-        && window.DeckApp?.zoomKey(slides[index], k === '0' ? 0 : (k === '-' || k === '_') ? -1 : 1, e.repeat)) { e.preventDefault(); return; }
+    // + − 0 zoom a live app or a clip on the slide (0 only before a slide number is typed).
+    if ((k === '+' || k === '=' || k === '-' || k === '_' || (k === '0' && !typed)) && !overview) {
+      const dir = k === '0' ? 0 : (k === '-' || k === '_') ? -1 : 1;
+      if (window.DeckApp?.zoomKey(slides[index], dir, e.repeat) || window.DeckClip?.zoomKey(slides[index], dir)) { e.preventDefault(); return; }
+    }
+    // K J L Z play, seek and zoom a clip on the slide.
+    if (!overview && !typed && window.DeckClip?.key(slides[index], e)) { e.preventDefault(); return; }
     if (/^[0-9]$/.test(k)) { typed += k; gotoBox.textContent = `Go to ${typed}`; gotoBox.classList.add('open'); return; }
     if (k === 'Enter' && typed) { go(parseInt(typed, 10) - 1); typed = ''; gotoBox.classList.remove('open'); return; }
     if (typed && k !== 'Enter') { typed = ''; gotoBox.classList.remove('open'); }
