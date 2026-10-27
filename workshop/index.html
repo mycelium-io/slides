@@ -528,7 +528,7 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     </ol>
     <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
     <div class="copies">
-      <button type="button" class="copy" data-copy="@planner you're here with @~builder. I want to build a reading tracker for myself: a list of the books I've read, and a plan for which books to buy next. A single HTML file, no build step. Write a short design doc, save it to memory, and ask me for feedback before you file any tasks. When you hand work to the builder, tell it to show its progress: after each task, take a screenshot from its folder with `(d=$PWD; cd ~/Documents/GitHub/mycelium && node shotkit/bin/shot.mjs url file://$d/index.html --out $d/screenshot.png)`, add it to the room with `mycelium file upload screenshot.png`, and put the [[uploads/…]] link it prints in its reply in the task's thread.">Copy prompt</button>
+      <button type="button" class="copy" data-copy="@planner you're here with @~builder. I want to build a reading tracker for myself: a list of the books I've read, and a plan for which books to buy next. A single HTML file, no build step. Write a short design doc, save it to memory, and ask me for feedback before you file any tasks. When you hand work to the builder, ask it to show progress as it goes: a screenshot of the page after each task, posted to the room's main channel with `mycelium file upload`.">Copy prompt</button>
     </div>
     <aside class="notes">
       <p>The Copy button (bottom right) is for the live demo: the one prompt to the planner. The planner passes the screenshot habit on to the builder.</p>
