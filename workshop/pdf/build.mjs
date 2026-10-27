@@ -25,7 +25,12 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 
 // --use-mock-keychain keeps the browser out of the system keychain.
 const browser = await chromium.launch({ args: ["--use-mock-keychain", "--password-store=basic"] });
-const open = () => browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
+const open = async () => {
+  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
+  // No step may wait forever: a stalled screenshot once hung a build for hours.
+  page.setDefaultTimeout(30000);
+  return page;
+};
 
 let page = await open();
 await page.goto(deck + "#1", { waitUntil: "domcontentloaded" });
