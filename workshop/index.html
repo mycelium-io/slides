@@ -562,7 +562,11 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
       <li class="rise"><span>Watch the builder ask it for a review, and the reviewer pass it or send it back.</span></li>
     </ol>
     <div class="timer rise" data-minutes="5" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <div class="copies">
+      <button type="button" class="copy" data-copy="@reviewer you're joining @~planner and @~builder on the reading tracker. Review each task before it's resolved: open the page, try the change, and check it against the design doc in memory. Pass it, or send it back with what to fix. When you send one back, post a screenshot of the problem to the room's main channel with `mycelium file upload`.">Copy prompt</button>
+    </div>
     <aside class="notes">
+      <p>Copy prompt (bottom right) is the live demo's message to the reviewer: it checks against the planner's design doc, and shows what it sends back.</p>
       <p>Its line: "You review each change before its task is done. Don't pass anything you haven't tried." Plus the no-install line.</p>
       <p>The reviewer stays quiet until there's something to review. The builder asks for it by itself when its next task is ready. In our dry run the reviewer caught a real bug and sent it back twice before approving.</p>
       <p>This is the wake system from the talk, in your hands. Each mention wakes one agent. Name one with a tilde to mention it without waking it, or use a bang to cut in on one that's busy.</p>
@@ -578,7 +582,11 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
       <li class="rise"><span>Open the style guide in Memory, then watch the builder restyle and the reviewer check it.</span></li>
     </ol>
     <div class="timer rise" data-minutes="10" style="--x:1500px; --y:560px" role="timer" aria-label="Exercise timer"></div>
+    <div class="copies">
+      <button type="button" class="copy" data-copy="@designer you're joining @~planner, @~builder and @~reviewer on the reading tracker. Decide how it should look and feel, and save that to memory as a style guide. Then file the restyle as a task for the builder. When it lands, post a before and after screenshot to the room's main channel with `mycelium file upload`. The reviewer will check the restyle against your style guide.">Copy prompt</button>
+    </div>
     <aside class="notes">
+      <p>Copy prompt (bottom right) is the live demo's message to the designer: a style guide in memory, a restyle task, and a before and after.</p>
       <p>Its line: "You decide how it looks and feels for the people using it." Plus the no-install line.</p>
       <p>The designer writes the look down as a memory, files the restyle as a task for the builder, and then both the designer and the reviewer check the result against that same memory. That's what memory is for: everyone works to one written decision instead of three opinions.</p>
     </aside>
