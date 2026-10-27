@@ -201,14 +201,14 @@
     <div class="triad">
       <div class="box rise"><h3>Shared intent</h3><div class="say"><p class="now">Without it, each agent works toward its own idea of the goal.</p><p class="then">Agents take on goals that nobody asked for.</p></div></div>
       <div class="box rise"><h3>Shared context</h3><div class="say"><p class="now">Without it, agents work from different facts and nobody notices.</p><p class="then">One unchecked fact spreads until everyone treats it as true.</p></div></div>
-      <div class="box rise"><h3>Shared reasoning</h3><div class="say"><p class="now">Without it, nobody can see or check why a decision was made.</p><p class="then">Agents agree because the others agreed, not because they checked.</p></div></div>
+      <div class="box rise"><h3>Collective reasoning</h3><div class="say"><p class="now">Without it, nobody can see or check why a decision was made.</p><p class="then">Agents agree because the others agreed, not because they checked.</p></div></div>
     </div>
     <p class="credit rise now">A frame from the Internet of Cognition team</p>
     <p class="flat-caption then">Agents coordinate whether you design for it or not.</p>
     <i class="step beat flip"></i>
     <aside class="notes">
       <p>Our colleagues on the Internet of Cognition team describe what agents need to work together in three layers.</p>
-      <p><b>Shared intent:</b> everyone agrees on what they're trying to do. <b>Shared context:</b> everyone works from the same facts. <b>Shared reasoning:</b> everyone can see how a decision was reached, and check it.</p>
+      <p><b>Shared intent:</b> everyone agrees on what they're trying to do. <b>Shared context:</b> everyone works from the same facts. <b>Collective reasoning:</b> everyone can see how a decision was reached, and check it.</p>
       <p>The rest of the talk hangs on these three.</p>
       <p><b>Click:</b> turn the same frame around, and it shows where things go wrong.</p>
       <p>Intent breaks when agents take on goals nobody authorized. Context breaks when one unchecked fact spreads until everyone treats it as true. Reasoning breaks as false consensus: agents agreeing because the others did.</p>
@@ -268,13 +268,13 @@
     </aside>
   </section>
 
-  <!-- ── Shared reasoning: the toolbox ── -->
-  <section class="slide" data-title="Shared reasoning: the toolbox">
-    <h2 class="rise" style="margin-top:20px">Shared reasoning: <em>the toolbox</em></h2>
+  <!-- ── Collective reasoning: the toolbox ── -->
+  <section class="slide" data-title="Collective reasoning: the toolbox">
+    <h2 class="rise" style="margin-top:20px">Collective reasoning: <em>the toolbox</em></h2>
     <div class="box rise" style="max-width:1100px; margin-top:56px"><h3>Conductor</h3><p>Walks the agents through a set process inside a task, giving each its turn. Its flows include a review, Accord (agree on what the task is) and Concord (choose between options).</p><code>@conductor review @~builder @~reviewer</code></div>
     <p class="flat-caption rise">You or any agent can start one inside a task. Every run is kept.</p>
     <aside class="notes">
-      <p>Shared reasoning is a set of tools for when agents need to agree. Any of them runs inside a task's thread.</p>
+      <p>Collective reasoning is a set of tools for when agents need to agree. Any of them runs inside a task's thread.</p>
       <p>The conductor walks agents through a set process, like a review, and gives each one its turn. Two of its flows you'll see later: Accord gets them on the same page about what the task is, and Concord helps them pick between options, so nobody gets steamrolled.</p>
       <p>Accord and Concord are lighter versions of two protocols from the Internet of Cognition project. Every run is saved, so you can see who took part, each step, and what they agreed.</p>
     </aside>
@@ -408,7 +408,7 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     <cite class="long rise">A few of your own agents, working on one task.</cite>
     <aside class="notes">
       <p>Rather than tell you more about it, let's build a team. By the end of this session, a few of your own agents will be working on one task together, in a room on your laptop.</p>
-      <p>Along the way you'll see all three layers we talked about: the board for shared intent, the room's memory for shared context, and a flow for shared reasoning.</p>
+      <p>Along the way you'll see all three layers we talked about: the board for shared intent, the room's memory for shared context, and a flow for collective reasoning.</p>
     </aside>
   </section>
 
