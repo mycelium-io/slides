@@ -749,3 +749,15 @@ body.black .blackout { opacity: 1; }
   .slide.active .rise { animation: none; }
   .diagram .wire.live { animation: none; }
 }
+
+/* The app's first-run screens: the list on the left, the screen for the
+   newest step on the right. */
+.setup .steps { max-width: 860px; }
+.setup .screens { position: absolute; right: 120px; top: 230px; width: 760px; height: 640px; }
+.setup .screens img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity .4s; }
+.setup .screens img.s0 { opacity: 1; }
+.setup:has(li.step.current) .screens img.s0 { opacity: 0; }
+.setup:has(li.s1.current) .screens img.s1,
+.setup:has(li.s2.current) .screens img.s2,
+.setup:has(li.s3.current) .screens img.s3 { opacity: 1; }
+.setup .screens img { border-radius: 20px; }

@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://mycelium-io.github.io/slides/workshop/og.png">
 <link rel="icon" href="logo.png">
 <!-- Bump ?v= when deck.css changes: Pages lets browsers keep it for ten minutes. -->
-<link rel="stylesheet" href="deck.css?v=19">
+<link rel="stylesheet" href="deck.css?v=21">
 </head>
 <body>
 <canvas id="lens-bg" aria-hidden="true"></canvas>
@@ -459,6 +459,27 @@ Board:   @operator filed "Alert us when payments start failing" for @builder
     <aside class="notes">
       <p>Scroll to the install section. On a Mac it's one command, and it installs and opens Mycelium for Mac.</p>
       <p>Anyone using an agent can paste: "Use curl to read https://mycelium-io.github.io/mycelium/agents.md and perform the setup to install Mycelium."</p>
+    </aside>
+  </section>
+
+  <!-- ── 01 · The first screens (the app's own first-run wizard) ── -->
+  <section class="slide layout-exercise setup" data-title="01 · The first screens">
+    <h2 class="rise" style="margin-top:34px">The <em>first screens</em></h2>
+    <ol class="steps">
+      <li class="rise s0"><span>Where rooms live: <b>On this Mac</b>.</span></li>
+      <li class="step s1"><span>A model key: add one if you have it, or <b>Skip for now</b>.</span></li>
+      <li class="step s2"><span>Agents on this Mac: your agent CLIs are found for you. Pick a working folder.</span></li>
+      <li class="step s3"><span>Skip voice and experiences, then <b>Start Mycelium</b>.</span></li>
+    </ol>
+    <div class="screens rise">
+      <img class="s0" src="media/wizard-place.png" alt="First screen: where should your rooms live? On this Mac, or on my team's hub">
+      <img class="s1" src="media/wizard-model.png" alt="Give Mycelium's own agents a model: provider, API key, and Skip for now">
+      <img class="s2" src="media/wizard-agents.png" alt="Agents on this Mac: the agent programs found, the working folder, and bringing agents back after a restart">
+      <img class="s3" src="media/wizard-ready.png" alt="Ready to start: rooms on this Mac, model with no key yet, voice off, Start Mycelium">
+    </div>
+    <aside class="notes">
+      <p>Click once per screen. This is what they'll see the first time the app opens.</p>
+      <p><b>Where rooms live:</b> On this Mac. Everything stays on their laptop. <b>Model:</b> only Mycelium's own agents use it; their coding agent signs in on its own. No key? Skip for now: nothing today needs one. <b>Agents:</b> the app finds Claude Code and the others on their machine; the working folder is where agents it starts may work. <b>Then</b> skip voice and experiences, and Start Mycelium.</p>
     </aside>
   </section>
 

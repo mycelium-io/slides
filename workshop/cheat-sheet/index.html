@@ -37,24 +37,25 @@
   <ul>
     <li>Your app is on <b>On this computer</b> (Settings → Where rooms live) for the whole session. Step 05 is videos in the deck.</li>
     <li>An empty folder for the live build: <code>~/workshop-live</code>. Claude Code signed in, and its folder trust already answered once.</li>
-    <li>The deck running: <code>uv run workshop/serve.py</code> in the slides repo. Click through slides 34, 36 and 37 once so the three videos are loaded.</li>
+    <li>The deck running: <code>uv run workshop/serve.py</code> in the slides repo. Click through slides 35, 37 and 38 once so the three videos are loaded.</li>
     <li>Tell the room they can watch instead of building (slide 23 says so too).</li>
   </ul>
 </div>
 
 <section>
-<h2>01 · Download and open <span class="slide">slides 25 to 27 · 5 min</span></h2>
+<h2>01 · Download and open <span class="slide">slides 25 to 28 · 5 min</span></h2>
 <ol>
   <li><b>Download (25):</b> show the site's install section. The agent prompt is the easiest path for anyone with a coding agent:
     <div class="cmd">Use curl to read https://mycelium-io.github.io/mycelium/agents.md and follow its steps to install Mycelium</div></li>
-  <li><b>Open (26):</b> open your app live, and go to a fresh room. Say hello in the room; nobody answers yet. Tell them: the first screen asks for an LLM key. If you have one, you can set it up there. If not, choose <b>Skip for now</b>. Nothing today needs one.</li>
-  <li><b>The room (27):</b> click once per callout: rooms, views, tasks, channel, members, memory.</li>
+  <li><b>The first screens (26):</b> click once per screen: <b>On this Mac</b>; the model key (add one if you have it, otherwise <b>Skip for now</b>, nothing today needs one); agents found on this Mac and a working folder; then skip voice and experiences and <b>Start Mycelium</b>.</li>
+  <li><b>Open (27):</b> open your app live, and go to a fresh room. Say hello in the room; nobody answers yet.</li>
+  <li><b>The room (28):</b> click once per callout: rooms, views, tasks, channel, members, memory.</li>
 </ol>
 <p><span class="stall">If stuck:</span> someone's install fails, so pair them with a neighbor and move on. They can watch.</p>
 </section>
 
 <section>
-<h2>02 · Start a team <span class="slide">slides 28 and 29 · 10 min</span></h2>
+<h2>02 · Start a team <span class="slide">slides 29 and 30 · 10 min</span></h2>
 <ol>
   <li><b>Add member</b> → Your machine → Claude Code → folder <code>~/workshop-live</code> → name <code>planner</code> → instructions:
     <div class="cmd">You turn what the person wants into small tasks on the board and give each to the right teammate. You don't write code. Don't install anything: use only what's already on this machine.</div></li>
@@ -63,13 +64,13 @@
   <li>In the room:
     <div class="cmd">@planner I want a single HTML page, no build step, that tracks the books I'm reading. Plan it and get @builder started.</div></li>
   <li><span class="point">Point at:</span> tasks appearing on the board within a minute, all for the builder, and the builder picking up the first one in its thread.</li>
-  <li><b>It's your own agent (29):</b> click <code>builder</code> in Members to show its live terminal, then <b>Open its terminal</b>: it's plain Claude Code. Type nothing that interrupts it.</li>
+  <li><b>It's your own agent (30):</b> click <code>builder</code> in Members to show its live terminal, then <b>Open its terminal</b>: it's plain Claude Code. Type nothing that interrupts it.</li>
 </ol>
 <p><span class="stall">If stuck:</span> an agent sits at a question in its terminal (trust, sign-in), so answer it there. No tasks after a couple of minutes? Post <code>@!planner</code> and the line again.</p>
 </section>
 
 <section>
-<h2>03 · Add a reviewer <span class="slide">slide 30 · 5 min</span></h2>
+<h2>03 · Add a reviewer <span class="slide">slide 31 · 5 min</span></h2>
 <ol>
   <li>Add member → <code>reviewer</code>, same folder:
     <div class="cmd">You review each change before its task is done. Don't pass anything you haven't tried. Don't install anything: use only what's already on this machine.</div></li>
@@ -81,32 +82,32 @@
 </section>
 
 <section>
-<h2>04 · Add a designer <span class="slide">slide 31 · 10 min</span></h2>
+<h2>04 · Add a designer <span class="slide">slide 32 · 10 min</span></h2>
 <ol>
   <li>Add member → <code>designer</code>, same folder:
     <div class="cmd">You decide how it looks and feels for the people using it. Don't install anything: use only what's already on this machine.</div></li>
   <li>In the room:
     <div class="cmd">@designer decide how it should look, save it to memory, and get it restyled to match.</div></li>
   <li><span class="point">Point at:</span> open the style guide in <b>Memory</b>, then the restyle task: the builder builds to it, and the designer and reviewer check against the same memory. Open <code>index.html</code> in a browser to show the page.</li>
-  <li><b>More agents you can add (32):</b> security, tester, docs, accessibility, researcher, release. Each is one more Add member in the same folder, with its line and the no-install line. For after today.</li>
+  <li><b>More agents you can add (33):</b> security, tester, docs, accessibility, researcher, release. Each is one more Add member in the same folder, with its line and the no-install line. For after today.</li>
 </ol>
 </section>
 
 <section>
-<h2>05 · Multiplayer: Accord and Concord <span class="slide">slides 33 to 37 · videos</span></h2>
+<h2>05 · Multiplayer: Accord and Concord <span class="slide">slides 34 to 38 · videos</span></h2>
 <ol>
-  <li><b>Now it's multiplayer (33):</b> hands off laptops; this one they watch.</li>
-  <li><b>Different laptops (34), video:</b> your agent and Jodee's, each on its own laptop. You ask Jodee's agent something and it answers from her machine. Nobody shares a screen or a login.</li>
-  <li><b>The scenario (35):</b> when does offline mode ship? <code>eng</code> is yours, <code>product</code> Jodee's, <code>design</code> Marc's. Accord first, then Concord.</li>
-  <li><b>Accord (36), video:</b> <span class="point">Pause on:</span> the flow at the top stepping through, each agent's points arriving, and what's flagged as not lining up. End on the shared summary.</li>
-  <li><b>Concord (37), video:</b> <span class="point">Pause on:</span> the options with each agent's rating and reason, then the pick and each agent's bar.</li>
+  <li><b>Now it's multiplayer (34):</b> hands off laptops; this one they watch.</li>
+  <li><b>Different laptops (35), video:</b> your agent and Jodee's, each on its own laptop. You ask Jodee's agent something and it answers from her machine. Nobody shares a screen or a login.</li>
+  <li><b>The scenario (36):</b> when does offline mode ship? <code>eng</code> is yours, <code>product</code> Jodee's, <code>design</code> Marc's. Accord first, then Concord.</li>
+  <li><b>Accord (37), video:</b> <span class="point">Pause on:</span> the flow at the top stepping through, each agent's points arriving, and what's flagged as not lining up. End on the shared summary.</li>
+  <li><b>Concord (38), video:</b> <span class="point">Pause on:</span> the options with each agent's rating and reason, then the pick and each agent's bar.</li>
 </ol>
 <p class="note"><b>The player:</b> click the video or <b>K</b> to play and pause. <b>J</b> / <b>L</b> back and forward 5s (with Shift, one frame). <b>Z</b> zooms where you point, <b>+ − 0</b> to adjust or fit. <b>D</b> draws on it. Arrows still change slides.</p>
 <p><span class="stall">If a video won't play:</span> the deck PDF has the key moments as stills.</p>
 </section>
 
 <section>
-<h2>Close <span class="slide">slides 38 and 39</span></h2>
+<h2>Close <span class="slide">slides 39 and 40</span></h2>
 <p>The room remembers; your agents stay yours. Leave <b>Questions</b> up. If there's time, show the live room: the team has kept building in the background.</p>
 </section>
 
