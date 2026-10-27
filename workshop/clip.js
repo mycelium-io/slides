@@ -111,3 +111,16 @@
     },
   };
 })();
+
+// A presenter's copy button: <button class="copy" data-copy="text">. Copies the
+// text, says so for a moment, and keeps the click from changing slides.
+document.addEventListener('click', e => {
+  const b = e.target.closest?.('button.copy[data-copy]');
+  if (!b) return;
+  e.stopPropagation();
+  const label = b.textContent;
+  navigator.clipboard.writeText(b.dataset.copy).then(
+    () => { b.textContent = 'Copied'; b.classList.add('done'); },
+    () => { b.textContent = 'Copy failed'; },
+  ).finally(() => setTimeout(() => { b.textContent = label; b.classList.remove('done'); }, 1500));
+}, true);

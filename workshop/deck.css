@@ -761,3 +761,9 @@ body.black .blackout { opacity: 1; }
 .setup:has(li.s2.current) .screens img.s2,
 .setup:has(li.s3.current) .screens img.s3 { opacity: 1; }
 .setup .screens img { border-radius: 20px; }
+
+/* Small copy buttons for the presenter: the text is copied, never shown. */
+.copies { position: absolute; right: 150px; bottom: 100px; display: flex; gap: 14px; }
+.copy { font: 400 18px var(--mono); color: var(--faint); background: transparent; border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+.copy:hover { color: var(--text); border-color: var(--mid-line); }
+.copy.done { color: var(--accent); border-color: var(--accent-line); }
